@@ -146,15 +146,15 @@ void loop(){
 void sendtoESP(const char* message){
   int flag = 0;
   int send[2] = {0,0};
-  if(message == "START"){
+  if(strcmp(message,"START") == 0){
     flag = 1;
   }
-  else if(message == "BALL"){
+  else if(strcmp(message,"BALL") == 0){
     flag = 2;
     send[0] = ball.vec.getX();
     send[1] = ball.vec.getY();
   }
-  else if(message == "LINE"){
+  else if(strcmp(message,"LINE") == 0){
     flag = 3;
     if(line.LINE_on){
       send[0] = line.vec.getX() * 100;
@@ -168,16 +168,16 @@ void sendtoESP(const char* message){
     // line.print();
     line.vec.print();
   }
-  else if(message == "CAM"){
+  else if(strcmp(message,"CAM") == 0){
     flag = 4;
     send[0] = cam_front.ang;
     send[1] = cam_front.Size;
   }
-  else if(message == "AC_DIR"){
+  else if(strcmp(message,"AC_DIR") == 0){
     flag = 5;
     send[0] = ac.getnowdir();
   }
-  else if(message == "CHECK"){
+  else if(strcmp(message,"CHECK") == 0){
     flag = 6;
     send[0] = attack.send_val[0];
     send[1] = attack.send_val[1];
