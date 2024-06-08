@@ -381,7 +381,6 @@ void serialEvent4(){
 void serialEvent8(){
   // Serial.println(" sawa3 ");
   uint8_t read[6];
-  int n = 1;
   if(Serial8.available() < 6){
     return;
   }
@@ -389,26 +388,17 @@ void serialEvent8(){
   if(read[0] != 38){
     return;
   } 
-  while(0 < Serial8.available()){
-    if(n < 6){
-      read[n] = Serial8.read();
-    }
-    else{
-      Serial8.read();
-    }
-    n++;
+
+  for(int i = 1; i < 6; i++){
+    read[i] = Serial8.read();
   }
 
   if(read[0] == 38 && read[5] == 37){
-    line.data_byte[0] = read[1];
-    line.data_byte[1] = read[2];
-    line.data_byte[2] = read[3];
-    line.data_byte[3] = read[4];
-    // Serial.print("sawa3");
+    for(int i = 0; i < 4; i++){
+      line.data_byte[i] = read[i+1];
+    }
   }
-  else{
-    // Serial.print(" Error!! ");
-  }
+
   // for(int i = 0; i < 6; i++){
   //   Serial.print(read[i]);
   //   Serial.print(" ");
@@ -431,9 +421,6 @@ void serialEvent6(){
   }
   for(int i = 1; i < 8; i++){
     read[i] = Serial6.read();
-  }
-  while(Serial6.available()){
-    Serial6.read();
   }
 
   if(read[0] == 0xFF && read[7] == 0xAA){
