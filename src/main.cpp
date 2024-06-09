@@ -424,9 +424,7 @@ void serialEvent6(){
   }
 
   if(read[0] == 0xFF && read[11] == 0xAA){
-    for(int i = 0; i < 10; i++){
-      ball.data_byte[i] = read[i+1];
-    }
+    ball.get_data(read);
   }
 
   // for(int i = 0; i < 8; i++){
