@@ -412,29 +412,21 @@ void serialEvent6(){
   uint8_t read[8];
   unsigned int contain[4];
   int x,y;
-  if(Serial6.available() < 8){
+  if(Serial6.available() < 12){
     return;
   }
   read[0] = Serial6.read();
   if(read[0] != 0xFF){
     return;
   }
-  for(int i = 1; i < 8; i++){
+  for(int i = 1; i < 12; i++){
     read[i] = Serial6.read();
   }
 
-  if(read[0] == 0xFF && read[7] == 0xAA){
-    contain[0] = (uint16_t(read[1]) << 8);
-    contain[1] = (uint16_t(read[2]));
-    x = int16_t(contain[0] | contain[1]);
-    contain[2] = (uint16_t(read[3]) << 8);
-    contain[3] = (uint16_t(read[4]));
-    y = int16_t(contain[2] | contain[3]);
-    ball.ball_x.demandAve(x);
-    ball.ball_y.demandAve(y);
-    ball.get_resister_1(read[5]);
-    ball.get_resister_2(read[6]);
-    // Serial.print("sawa4");
+  if(read[0] == 0xFF && read[11] == 0xAA){
+    for(int i = 0; i < 10; i++){
+      ball.data_byte[i] = read[i+1];
+    }
   }
 
   // for(int i = 0; i < 8; i++){

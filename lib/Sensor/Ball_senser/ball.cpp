@@ -1,8 +1,6 @@
 #include<Ball_senser\ball.h>
 
 BALL::BALL(){
-    ball_x.setLenth(10);
-    ball_y.setLenth(10);
     ball_get_val_1.setLenth(50);
     ball_get_val_2.setLenth(50);
     B_dif_.setLenth(40);
@@ -16,9 +14,23 @@ void BALL::begin(){
 
 
 int BALL::getBallposition(){
-    float x = ball_x.returnAve();
-    float y = ball_y.returnAve();
+    unsigned int contain[4];
+
+    contain[0] = (uint16_t(data_byte[0]) << 8);
+    contain[1] = (uint16_t(data_byte[1]));
+    float x = int16_t(contain[0] | contain[1]);
+
+    contain[2] = (uint16_t(data_byte[2]) << 8);
+    contain[3] = (uint16_t(data_byte[3]));
+    float y = int16_t(contain[2] | contain[3]);
+
+    get_1 = data_byte[4];
+    get_2 = data_byte[5];
     get_val = get_1 + get_2;
+
+    for(int i = 0; i < 4; i++){
+        down_val[i] = data_byte[i+6];
+    }
 
     if(x == 0 && y == 0){
         flag = 0;
@@ -34,7 +46,6 @@ int BALL::getBallposition(){
     else{
         ball_get = 0;
     }
-    far_old = far;
     vec.set(x,y);
     ang = degrees(vec.getAngle());
     far = vec.getMagnitude();
@@ -50,21 +61,13 @@ int BALL::getBallposition(){
 }
 
 
-void BALL::get_resister_1(int n){
-    get_1 = ball_get_val_1.demandAve(n);
-}
-
-
-void BALL::get_resister_2(int n){
-    get_2 = ball_get_val_2.demandAve(n);
-}
 
 
 void BALL::print(){
     Serial.print(" ang : ");
     Serial.print(ang);
     Serial.print(" far : ");
-    Serial.print(far_);
+    Serial.print(far);
     // Serial.print(" x : ");
     // Serial.print(x_pos);
     // Serial.print(" y : ");
