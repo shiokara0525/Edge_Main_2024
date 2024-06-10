@@ -13,7 +13,7 @@ class BALL{
         void begin();
         void get_data(byte *data){
             for(int i = 0; i < 10; i++){
-                data_byte[i] = data[i];
+                data_byte[i] = data[i + 1];
             }
         }
         MA Bang_dif_;
