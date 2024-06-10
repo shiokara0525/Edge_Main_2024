@@ -26,6 +26,8 @@ Kicker kicker;
 timer Ball_period;
 timer Line_period;
 
+timer Main_timer;
+
 motor_attack MOTOR;
 
 int Mode = 0;
@@ -71,6 +73,9 @@ void loop(){
   }
   if(2500 < Ball_period.read_us()){
     ball.getBallposition();
+    // Serial.print(" Ball ");
+    // Serial.print(Ball_period.read_ms());
+    // Serial.println();
     Ball_period.reset();
   }
   cam_front.getCamdata();
@@ -135,11 +140,14 @@ void loop(){
       kicker.stop();
     }
   }
-  // ball.print();
+  ball.print();
   // Serial.print(" | ");
   // line.print();
-  cam_front.print();
+  // cam_front.print();
+  // Serial.print(" Timer : ");
+  // Serial.print(Main_timer.read_us());
   Serial.println();
+  // Main_timer.reset();
 }
 
 
@@ -410,13 +418,20 @@ void serialEvent8(){
 
 void serialEvent6(){
   uint8_t read[12];
-  if(Serial6.available() < 12){
+  int flag_break = 0;
+  while(12 <= Serial6.available()){
+    read[0] = Serial6.read();
+    if(read[0] == 0xFF){
+      flag_break = 1;
+      break;
+    }
+  }
+
+  if(flag_break == 0){
     return;
   }
-  read[0] = Serial6.read();
-  if(read[0] != 0xFF){
-    return;
-  }
+
+
   for(int i = 1; i < 12; i++){
     read[i] = Serial6.read();
   }
@@ -425,7 +440,7 @@ void serialEvent6(){
     ball.get_data(read);
   }
 
-  // for(int i = 0; i < 8; i++){
+  // for(int i = 0; i < 12; i++){
   //   Serial.print(" ");
   //   Serial.print(read[i]);
   // }

@@ -31,6 +31,7 @@ class BALL{
         Vector2D world_vec_old;
 
         Vector2D vec;
+        Vector2D vec_down;
         Vector2D vec_old;
         Vector2D vec_dif;
         Vector2D vec_velocity;

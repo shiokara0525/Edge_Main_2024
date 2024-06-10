@@ -3,6 +3,9 @@
 BALL::BALL(){
     ball_get_val_1.setLenth(50);
     ball_get_val_2.setLenth(50);
+    for(int i = 0; i < 4; i++){
+        ball_down[i].setLenth(10);
+    }
     B_dif_.setLenth(40);
     Bang_dif_.setLenth(40);
 }
@@ -28,9 +31,20 @@ int BALL::getBallposition(){
     get_2 = data_byte[5];
     get_val = get_1 + get_2;
 
+    float x_down = 0;
+    float y_down = 0;
     for(int i = 0; i < 4; i++){
-        down_val[i] = data_byte[i+6];
+        down_val[i] = ball_down[i].demandAve(data_byte[i+6]);
+        x_down += cos(radians(45 + 90 * i)) * down_val[i];
+        y_down += sin(radians(45 + 90 * i)) * down_val[i];
+        // Serial.print(45 + 90 * i);
+        // Serial.print(" ");
     }
+    vec_down.set(x_down,y_down);
+    // Serial.print(" x : ");
+    // Serial.print(x_down);
+    // Serial.print(" y : ");
+    // Serial.print(y_down);
 
     if(x == 0 && y == 0){
         flag = 0;
@@ -74,14 +88,21 @@ void BALL::print(){
     // Serial.print(y_pos);
     // Serial.print(" dx : ");
     // Serial.print(dx);
-    Serial.print(" get_val : ");
-    Serial.print(get_val);
-    Serial.print(" get : ");
-    Serial.print(ball_get);
-    Serial.print(" get_1 : ");
-    Serial.print(get_1);
-    Serial.print(" get_2 : ");
-    Serial.print(get_2);
+    // Serial.print(" get_val : ");
+    // Serial.print(get_val);
+    // Serial.print(" get : ");
+    // Serial.print(ball_get);
+    // Serial.print(" get_1 : ");
+    // Serial.print(get_1);
+    // Serial.print(" get_2 : ");
+    // Serial.print(get_2);
+    // for(int i = 0; i < 4; i++){
+    //     Serial.print(" ");
+    //     Serial.print(i);
+    //     Serial.print(" : ");
+    //     Serial.print(down_val[i]);
+    // }
+    vec_down.print();
     Serial.print(" flag : ");
     Serial.print(flag);
 }
