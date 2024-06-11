@@ -103,30 +103,10 @@ void loop(){
   else if(Mode == 2){
     if(Mode != Mode_old){
       Mode_old = Mode;
-      ac.setup();
-      kicker.stop();
+      defence.available_set();
     }
 
-    angle goang(PS4_theta,true);
-    float AC_val = ac.getAC_val() / 2;
-
-    if(100 < PS4_r){
-      MOTOR.moveMotor_0(goang,PS4_r,AC_val,0);
-    }
-    else{
-      MOTOR.motor_ac(AC_val);
-    }
-
-    if(Rotate_flag){
-      // Serial.print(" !!!!! ");
-      ac.dir_target = ac.dir_n + PS4R_theta;
-    }
-
-    kicker.run(Kick);
-    Kick = 0; 
-
-    ac.print();
-    Serial.println();
+    defence.defence();
   }
   else if(Mode == 3){
     if(Mode != Mode_old){

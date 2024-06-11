@@ -185,9 +185,9 @@ void Attack::attack(){
       B = A;
       Timer.reset();
     }
-    int ang_180_ = ang_180;
-    int ang_90_ = ang_90;
-    int ang_45_ = ang_45;
+    // int ang_180_ = ang_180;
+    // int ang_90_ = ang_90;
+    // int ang_45_ = ang_45;
     int ang_10_ = ang_10;
 
     // if(40 < cam_front.Size && 45 < abs(cam_front.ang)){
@@ -208,20 +208,45 @@ void Attack::attack(){
       AC_flag = 1;
     }
     else{
-      float go_dif = (25 + ball.Bang_dif) * go_conf;
-      // Serial.print(" go_dif : ");
-      // Serial.print((25 + ball.Bang_dif));
-      if(abs(ball.ang) < 45){
-        go_ang = ((ang_45_ - ang_10_) / 35.0 * (abs(ball.ang) - 10) + ang_10_);
-      }
-      else if(abs(ball.ang) < 90){
-        go_ang = ((ang_90_ - ang_45_) / 45.0 * (abs(ball.ang) - 45) + ang_45_);
-      }
-      else{
-        go_ang = ((ang_180_ - ang_90) / 90.0 * (abs(ball.ang) - 90) + ang_90_);
-      }
+      // float go_dif = (25 + ball.Bang_dif) * go_conf;
+      // // Serial.print(" go_dif : ");
+      // // Serial.print((25 + ball.Bang_dif));
+      // if(abs(ball.ang) < 45){
+      //   go_ang = ((ang_45_ - ang_10_) / 35.0 * (abs(ball.ang) - 10) + ang_10_);
+      // }
+      // else if(abs(ball.ang) < 90){
+      //   go_ang = ((ang_90_ - ang_45_) / 45.0 * (abs(ball.ang) - 45) + ang_45_);
+      // }
+      // else{
+      //   go_ang = ((ang_180_ - ang_90) / 90.0 * (abs(ball.ang) - 90) + ang_90_);
+      // }
 
-      go_ang += go_dif;
+      // go_ang += go_dif;
+      go_ang = abs(ball.ang) + 45;
+      if(55 < ball.vec_down.getMagnitude()){
+        if(abs(ball.ang) < 90){
+          go_ang = abs(ball.ang) * 2.0;
+        }
+        else{
+          go_ang = 180 + abs(ball.ang);
+        }
+      }
+      else if(50 < ball.vec_down.getMagnitude()){
+        if(abs(ball.ang) < 90){
+          go_ang = abs(ball.ang) * 1.2;
+        }
+        else{
+          go_ang = 108 + abs(ball.ang);
+        }
+      }
+      // else if(45 < ball.vec_down.getMagnitude()){
+      //   if(abs(ball.ang) < 90){
+      //     go_ang = abs(ball.ang) * 1.2;
+      //   }
+      //   else{
+      //     go_ang = 108 + abs(ball.ang);
+      //   }
+      // }
     }
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
