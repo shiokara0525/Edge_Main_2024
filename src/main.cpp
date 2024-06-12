@@ -121,6 +121,7 @@ void loop(){
     }
   }
   ball.print();
+  ball.vec_dif.print();
   // Serial.print(" | ");
   // line.print();
   // cam_front.print();
