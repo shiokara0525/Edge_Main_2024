@@ -185,68 +185,33 @@ void Attack::attack(){
       B = A;
       Timer.reset();
     }
-    // int ang_180_ = ang_180;
-    // int ang_90_ = ang_90;
-    // int ang_45_ = ang_45;
-    int ang_10_ = ang_10;
-
-    // if(40 < cam_front.Size && 45 < abs(cam_front.ang)){
-    //   N_flag = 1;
-    //   max_val -= 30;
-    //   ang_10_ = 30;
-    //   ang_45_ = 45;
-    //   ang_90_ = 160;
-    // }
 
     if(90 < abs(ball.ang)){
       go_flag = 0;
     }
 
+    float confidencial_num = (ball.vec_down.getMagnitude() - 50) * 0.066;
+
     if(abs(ball.ang) < 10){
-      go_ang = ang_10_ / 10.0 * ball.ang;
+      go_ang = abs(ball.ang);
       kick_ = 1;
-      AC_flag = 1;
+    }
+    else if(abs(ball.ang) < 45){
+      go_ang = abs(ball.ang) * 2.2;
+    }
+    else if(abs(ball.ang) < 90){
+      go_ang = abs(ball.ang) * 2.2;
     }
     else{
-      // float go_dif = (25 + ball.Bang_dif) * go_conf;
-      // // Serial.print(" go_dif : ");
-      // // Serial.print((25 + ball.Bang_dif));
-      // if(abs(ball.ang) < 45){
-      //   go_ang = ((ang_45_ - ang_10_) / 35.0 * (abs(ball.ang) - 10) + ang_10_);
-      // }
-      // else if(abs(ball.ang) < 90){
-      //   go_ang = ((ang_90_ - ang_45_) / 45.0 * (abs(ball.ang) - 45) + ang_45_);
-      // }
-      // else{
-      //   go_ang = ((ang_180_ - ang_90) / 90.0 * (abs(ball.ang) - 90) + ang_90_);
-      // }
-
-      // go_ang += go_dif;
-      go_ang = abs(ball.ang) + 45;
-      if(55 < ball.vec_down.getMagnitude()){
-        if(abs(ball.ang) < 90){
-          go_ang = abs(ball.ang) * 2.0;
-        }
-        else{
-          go_ang = 180 + abs(ball.ang);
-        }
+      if(50 < ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
+        go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
       }
-      else if(50 < ball.vec_down.getMagnitude()){
-        if(abs(ball.ang) < 90){
-          go_ang = abs(ball.ang) * 1.2;
-        }
-        else{
-          go_ang = 108 + abs(ball.ang);
-        }
+      else if(ball.vec_down.getMagnitude() < 50){
+        go_ang = abs(ball.ang) + 45;
       }
-      // else if(45 < ball.vec_down.getMagnitude()){
-      //   if(abs(ball.ang) < 90){
-      //     go_ang = abs(ball.ang) * 1.2;
-      //   }
-      //   else{
-      //     go_ang = 108 + abs(ball.ang);
-      //   }
-      // }
+      else{
+        go_ang = abs(ball.ang) * 2;
+      }
     }
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
