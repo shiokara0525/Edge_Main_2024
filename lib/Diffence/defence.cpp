@@ -96,7 +96,7 @@ void Diffence::defence(){
       sentor_B = sentor_A;
       sentor_t.reset();
     }
-    if(300 < sentor_t.read_ms() && 2000 < A_12_t.read_ms() && ball.ball_get == 0){
+    if(300 < sentor_t.read_ms() && 2000 < A_12_t.read_ms()){
       A = 12;
       Timer.reset();
       sentor_t.reset();
@@ -262,7 +262,7 @@ void Diffence::defence(){
       }
     }
 
-    if(ball.far < 176 && abs(ball.ang) < 45){
+    if(160 < abs(ball.far) && abs(ball.ang) < 45){
       sentor_A = 3;
     }
 

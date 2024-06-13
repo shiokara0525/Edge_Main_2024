@@ -21,6 +21,7 @@ class BALL{
         MA ball_get_val_1;
         MA ball_get_val_2;
         MA ball_down[4];
+        MA Far;
         float ang;
         float ang_old;
         float far;

@@ -8,6 +8,7 @@ BALL::BALL(){
     }
     B_dif_.setLenth(40);
     Bang_dif_.setLenth(40);
+    Far.setLenth(10);
 }
 
 
@@ -62,7 +63,7 @@ int BALL::getBallposition(){
     }
     vec.set(x,y);
     ang = degrees(vec.getAngle());
-    far = vec.getMagnitude();
+    far = Far.demandAve(vec.getMagnitude());
     Bang_dif = Bang_dif_.sum(abs(ang) - abs(ang_old));
     ang_old = ang;
 
