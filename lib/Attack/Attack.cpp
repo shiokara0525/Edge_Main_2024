@@ -131,6 +131,9 @@ void Attack::attack(){
     if(line.LINE_on == 1){
       A = 20;
     }
+    else if(line.side_flag){
+      A = 21;
+    }
     else{
       if(ball.flag == 1){
         if(0){
@@ -200,7 +203,7 @@ void Attack::attack(){
       go_ang = abs(ball.ang) * 3.0;
     }
     else if(abs(ball.ang) < 90){
-      if(50 < ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
+      if(50 <= ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
         go_ang = (confidencial_num + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
       }
       else if(ball.vec_down.getMagnitude() < 50){
@@ -211,7 +214,7 @@ void Attack::attack(){
       }
     }
     else{
-      if(50 < ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
+      if(50 <= ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
         go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
       }
       else if(ball.vec_down.getMagnitude() < 50){
