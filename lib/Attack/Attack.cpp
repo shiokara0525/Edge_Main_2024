@@ -197,10 +197,18 @@ void Attack::attack(){
       kick_ = 1;
     }
     else if(abs(ball.ang) < 45){
-      go_ang = abs(ball.ang) * 2.2;
+      go_ang = abs(ball.ang) * 3.0;
     }
     else if(abs(ball.ang) < 90){
-      go_ang = abs(ball.ang) * 2.2;
+      if(50 < ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
+        go_ang = (confidencial_num + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
+      }
+      else if(ball.vec_down.getMagnitude() < 50){
+        go_ang = abs(ball.ang) + 45;
+      }
+      else{
+        go_ang = abs(ball.ang) * 2;
+      }
     }
     else{
       if(50 < ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
