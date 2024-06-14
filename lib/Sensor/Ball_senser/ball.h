@@ -18,6 +18,7 @@ class BALL{
         }
         MA Bang_dif_;
         MA_vec B_dif_;
+        MA_vec B_v;
         MA ball_get_val_1;
         MA ball_get_val_2;
         MA ball_down[4];
@@ -34,8 +35,9 @@ class BALL{
         Vector2D vec;
         Vector2D vec_down;
         Vector2D vec_old;
-        Vector2D vec_dif;
         Vector2D vec_velocity;
+        Vector2D vec_velocity_old;
+        Vector2D vec_acc;
 
         int flag = 1;
         int get_val;

@@ -7,6 +7,7 @@ BALL::BALL(){
         ball_down[i].setLenth(10);
     }
     B_dif_.setLenth(40);
+    B_v.setLenth(10);
     Bang_dif_.setLenth(40);
     Far.setLenth(10);
 }
@@ -70,8 +71,10 @@ int BALL::getBallposition(){
     world_far = 220 - far;
     world_vec.setX(world_far * cos(radians(ang)));
     world_vec.setY(world_far * sin(radians(ang)));
-    vec_dif = B_dif_.sum(world_vec - world_vec_old);
+    vec_velocity = B_dif_.sum(world_vec - world_vec_old);
+    vec_acc = B_v.sum(vec_velocity - vec_velocity_old);
     world_vec_old = world_vec;
+    vec_velocity_old = vec_velocity;
     return flag;
 }
 
