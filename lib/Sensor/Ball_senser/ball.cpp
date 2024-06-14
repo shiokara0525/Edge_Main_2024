@@ -6,7 +6,7 @@ BALL::BALL(){
     for(int i = 0; i < 4; i++){
         ball_down[i].setLenth(10);
     }
-    B_dif_.setLenth(40);
+    B_dif_.setLenth(10);
     B_v.setLenth(10);
     Bang_dif_.setLenth(40);
     Far.setLenth(10);

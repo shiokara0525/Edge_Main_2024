@@ -120,7 +120,10 @@ void loop(){
       kicker.stop();
     }
   }
-  ball.print();
+  // ball.print();
+  Serial.print(" V : ");
+  ball.vec_velocity.print();
+  Serial.print(" | A : ");
   ball.vec_acc.print();
   // Serial.print(" | ");
   // line.print();

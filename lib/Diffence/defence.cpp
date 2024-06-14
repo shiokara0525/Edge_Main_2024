@@ -262,7 +262,7 @@ void Diffence::defence(){
       }
     }
 
-    if(160 < abs(ball.far) && abs(ball.ang) < 45){
+    if(160 < abs(ball.far) && abs(ball.ang) < 45 && ball.vec_velocity.getMagnitude() < 20){
       sentor_A = 3;
     }
 
