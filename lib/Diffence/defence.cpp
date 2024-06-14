@@ -255,9 +255,21 @@ void Diffence::defence(){
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0){  //正面方向にボールがあったら停止するよ
-        if(ball.vec_velocity.getMagnitude() < 20 && ball.vec_acc.getMagnitude() < 30){
+        if(ball.vec_velocity.getMagnitude() < 20 && ball.vec_acc.getMagnitude() < 20){
           M_flag = 0;
           max_val = 0;
+          Serial.print(" STOP ");
+          Serial.print(" V : ");
+          Serial.print(ball.vec_velocity.getMagnitude());
+          Serial.print(" A : ");
+          Serial.print(ball.vec_acc.getMagnitude());
+        }
+        else{
+          Serial.print(" STOP_NO ");
+          Serial.print(" V : ");
+          Serial.print(ball.vec_velocity.getMagnitude());
+          Serial.print(" A : ");
+          Serial.print(ball.vec_acc.getMagnitude());
         }
       }
     }

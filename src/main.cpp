@@ -121,10 +121,10 @@ void loop(){
     }
   }
   // ball.print();
-  Serial.print(" V : ");
-  ball.vec_velocity.print();
-  Serial.print(" | A : ");
-  ball.vec_acc.print();
+  // Serial.print(" V : ");
+  // ball.vec_velocity.print();
+  // Serial.print(" | A : ");
+  // ball.vec_acc.print();
   // Serial.print(" | ");
   // line.print();
   // cam_front.print();
