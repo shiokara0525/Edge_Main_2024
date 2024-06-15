@@ -15,7 +15,6 @@ void Diffence::available_set(){
 
 void Diffence::defence(){
   angle go_ang(ball.ang,true);         //進む角度のオブジェクト
-  GOD = 0;
 
   float AC_val = 100;                  //姿勢制御の出力
   int max_val = go_val;                //進む出力

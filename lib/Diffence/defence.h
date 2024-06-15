@@ -24,7 +24,6 @@ class Diffence{
     private:
         timer Timer;
         int M_time;
-        int GOD = 0;
 
         int Lside_A = 0;
         int Lside_B = 999;
@@ -50,7 +49,6 @@ class Diffence{
         int back_Flag = 0;
         int goang_old = 0;
         int push_flag = 0;
-        int M_F = 0;
 
         int CB_old = 999;
         timer CB_t;
