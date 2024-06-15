@@ -121,6 +121,7 @@ void loop(){
       Mode_old = Mode;
       kicker.stop();
     }
+    MOTOR.motor_0();
   }
   ball.print();
   Serial.print(" V : ");
