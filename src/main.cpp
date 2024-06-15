@@ -27,6 +27,8 @@ timer Ball_period;
 timer Line_period;
 
 timer Main_timer;
+timer ball_Get;
+timer line_Get;
 
 motor_attack MOTOR;
 
@@ -120,11 +122,16 @@ void loop(){
       kicker.stop();
     }
   }
-  // ball.print();
-  // Serial.print(" V : ");
-  // ball.vec_velocity.print();
-  // Serial.print(" | A : ");
-  // ball.vec_acc.print();
+  ball.print();
+  Serial.print(" V : ");
+  ball.vec_velocity.print();
+  Serial.print(" | A : ");
+  ball.vec_acc.print();
+  // Serial.println();
+  // Serial.print(">ball_V:");
+  // Serial.println(ball.vec_velocity.getMagnitude());
+  // Serial.print(">ball_A:");
+  // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
   // line.print();
   // cam_front.print();
@@ -422,7 +429,9 @@ void serialEvent6(){
 
   if(read[0] == 0xFF && read[11] == 0xAA){
     ball.get_data(read);
+    // Serial.println(ball_Get.read_us());
   }
+  // ball_Get.reset();
 
   // for(int i = 0; i < 12; i++){
   //   Serial.print(" ");

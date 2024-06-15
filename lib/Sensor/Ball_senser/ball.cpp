@@ -6,7 +6,9 @@ BALL::BALL(){
     for(int i = 0; i < 4; i++){
         ball_down[i].setLenth(10);
     }
-    B_dif_.setLenth(10);
+    x_MA.setLenth(10);
+    y_MA.setLenth(10);
+    B_dif_.setLenth(20);
     B_v.setLenth(10);
     Bang_dif_.setLenth(40);
     Far.setLenth(10);
@@ -23,11 +25,11 @@ int BALL::getBallposition(){
 
     contain[0] = (uint16_t(data_byte[0]) << 8);
     contain[1] = (uint16_t(data_byte[1]));
-    float x = int16_t(contain[0] | contain[1]);
+    float x = x_MA.demandAve(int16_t(contain[0] | contain[1]));
 
     contain[2] = (uint16_t(data_byte[2]) << 8);
     contain[3] = (uint16_t(data_byte[3]));
-    float y = int16_t(contain[2] | contain[3]);
+    float y = y_MA.demandAve(int16_t(contain[2] | contain[3]));
 
     get_1 = data_byte[4];
     get_2 = data_byte[5];

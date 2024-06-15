@@ -40,7 +40,7 @@ class Diffence{
         int A = 0;
         int B = 999;
         int c = 0;
-        int stop_range = 7.0;
+        int stop_range = 10;
         int P_range = 30;
         const int far_th = 130;
         int go_val = 220;
