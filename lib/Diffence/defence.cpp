@@ -273,7 +273,7 @@ void Diffence::defence(){
       }
     }
 
-    if(BALL_MAX_NUM * 1.6 < abs(ball.far) && abs(ball.ang) < 45 && ball.vec_velocity.getMagnitude() < BALL_MAX_NUM * 0.2){
+    if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){
       sentor_A = 3;
     }
 
