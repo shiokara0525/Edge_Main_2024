@@ -55,4 +55,6 @@ class Diffence{
     public:
         void defence();
         void available_set();
+        int get_A();
+        int get_flag();
 };

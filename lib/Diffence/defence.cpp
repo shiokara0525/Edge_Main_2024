@@ -13,6 +13,14 @@ void Diffence::available_set(){
   go_val = val_max;
 }
 
+int Diffence::get_A(){
+  return A;
+}
+
+int Diffence::get_flag(){
+  return;
+}
+
 void Diffence::defence(){
   angle go_ang(ball.ang,true);         //進む角度のオブジェクト
 

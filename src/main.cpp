@@ -182,6 +182,11 @@ void sendtoESP(const char* message){
     send[0] = attack.send_val[0];
     send[1] = attack.send_val[1];
   }
+  else if(strcmp(message,"NEOPIXEL_D") == 0){
+    flag = 7;
+    send[0] = defence.get_A();
+    send[1] = defence.get_flag();
+  }
 
   uint8_t send_byte[7] = {38,0,0,0,0,0,37};
   send_byte[1] = flag;
