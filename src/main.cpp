@@ -123,11 +123,11 @@ void loop(){
     }
     MOTOR.motor_0();
   }
-  ball.print();
+  // ball.print();
   Serial.print(" V : ");
   ball.vec_velocity.print();
-  Serial.print(" | A : ");
-  ball.vec_acc.print();
+  // Serial.print(" | A : ");
+  // ball.vec_acc.print();
   // Serial.println();
   // Serial.print(">ball_V:");
   // Serial.println(ball.vec_velocity.getMagnitude());

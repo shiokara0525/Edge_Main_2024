@@ -224,11 +224,11 @@ void Diffence::defence(){
 
     int back_F = 0;
 
-    if(140 < abs(go_ang.degree)){       //進む角度が真後ろにあるとき
+    if(165 < abs(go_ang.degree)){       //進む角度が真後ろにあるとき
       go_ang += 180;
       back_F = 1;
     }
-    else if(130 < abs(go_ang.degree)){
+    else if(150 < abs(go_ang.degree)){
       M_flag = 0;
     }
     else if(115 < abs(go_ang.degree)){
@@ -263,15 +263,31 @@ void Diffence::defence(){
           Serial.print(" A : ");
           Serial.print(ball.vec_acc.getMagnitude());
         }
-        else{
-          Serial.print(" STOP_NO ");
-          Serial.print(" V : ");
-          Serial.print(ball.vec_velocity.getMagnitude());
-          Serial.print(" A : ");
-          Serial.print(ball.vec_acc.getMagnitude());
+      }
+    }
+
+
+    if(20 < ball.vec_velocity.getMagnitude()){
+      if(ball.vec_velocity.getAngle() < 0){
+        if(0 < ball.ang){
+          if(0 < go_ang.degree){
+            go_ang += 180;
+            M_flag = 1;
+            max_val = 200;
+          }
+        }
+      }
+      else{
+        if(ball.ang < 0){
+          if(go_ang.degree < 0){
+            go_ang += 180;
+            M_flag = 1;
+            max_val = 200;
+          }
         }
       }
     }
+
 
     if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){
       sentor_A = 3;
@@ -348,7 +364,10 @@ void Diffence::defence(){
     if(A != B){
       B = A;
       Timer.reset();
-      line_F = 1;
+      line_F = 2;
+      if(Lside_A == 1){
+        line_F = 1;
+      }
     }
     go_ang = -cam_back.ang + 180;
     M_flag = 2;
@@ -433,6 +452,9 @@ void Diffence::defence(){
 
 
   kicker.run(kick_);
+  Serial.print(" A : ");
+  Serial.print(A);
+  Serial.println();
   // M_flag = 3;
 
 
