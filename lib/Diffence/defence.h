@@ -50,6 +50,8 @@ class Diffence{
         int goang_old = 0;
         int push_flag = 0;
 
+        int Stop_flag;
+
         int CB_old = 999;
         timer CB_t;
     public:

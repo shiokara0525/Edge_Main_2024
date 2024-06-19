@@ -18,7 +18,7 @@ int Diffence::get_A(){
 }
 
 int Diffence::get_flag(){
-  return 1;
+  return Stop_flag;
 }
 
 void Diffence::defence(){
@@ -266,36 +266,35 @@ void Diffence::defence(){
         if(ball.vec_velocity.getMagnitude() < BALL_MAX_NUM * 0.2 && ball.vec_acc.getMagnitude() < BALL_MAX_NUM * 0.2){
           M_flag = 0;
           max_val = 0;
-          Serial.print(" STOP ");
-          Serial.print(" V : ");
-          Serial.print(ball.vec_velocity.getMagnitude());
-          Serial.print(" A : ");
-          Serial.print(ball.vec_acc.getMagnitude());
+          Stop_flag = 1;
+        }
+        else{
+          Stop_flag = 0;
         }
       }
     }
 
 
-    if(20 < ball.vec_velocity.getMagnitude()){
-      if(ball.vec_velocity.getAngle() < 0){
-        if(0 < ball.ang){
-          if(0 < go_ang.degree){
-            go_ang += 180;
-            M_flag = 1;
-            max_val = 200;
-          }
-        }
-      }
-      else{
-        if(ball.ang < 0){
-          if(go_ang.degree < 0){
-            go_ang += 180;
-            M_flag = 1;
-            max_val = 200;
-          }
-        }
-      }
-    }
+    // if(20 < ball.vec_velocity.getMagnitude()){
+    //   if(ball.vec_velocity.getAngle() < 0){
+    //     if(0 < ball.ang){
+    //       if(0 < go_ang.degree){
+    //         go_ang += 180;
+    //         M_flag = 1;
+    //         max_val = 200;
+    //       }
+    //     }
+    //   }
+    //   else{
+    //     if(ball.ang < 0){
+    //       if(go_ang.degree < 0){
+    //         go_ang += 180;
+    //         M_flag = 1;
+    //         max_val = 200;
+    //       }
+    //     }
+    //   }
+    // }
 
 
     if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){
