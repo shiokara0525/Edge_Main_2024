@@ -27,8 +27,10 @@ timer Ball_period;
 timer Line_period;
 
 timer Main_timer;
+timer Mode_timer;
 timer ball_Get;
 timer line_Get;
+timer ESP_send;
 
 motor_attack MOTOR;
 
@@ -69,6 +71,7 @@ void setup(){
 }
 
 void loop(){
+  Main_timer.reset();
   if(2500 < Line_period.read_us()){
     line.getLINE_Vec();
     Line_period.reset();
@@ -88,34 +91,54 @@ void loop(){
     if(Mode != Mode_old){
       Mode_old = Mode;
       MOTOR.motor_0();
+      Mode_timer.reset();
     }
 
     kicker.run(Kick);
     Kick = 0;
   }
+
   else if(Mode == 1){
     if(Mode != Mode_old){
       Mode_old = Mode;
       attack.available_set(Values);
+      Mode_timer.reset();
     }
 
     attack.attack();
-    sendtoESP("CHECK");
+    if(1000 < Mode_timer.read_ms()){
+      if(25 < ESP_send.read_ms()){
+        sendtoESP("CHECK");
+        ESP_send.reset();
+      }
+    }
   }
+
   else if(Mode == 2){
     if(Mode != Mode_old){
       Mode_old = Mode;
       defence.available_set();
+      Mode_timer.reset();
     }
 
+    if(1000 < Mode_timer.read_ms()){
+      if(25 < ESP_send.read_ms()){
+        sendtoESP("NEOPIXEL_D");
+        ESP_send.reset();
+        Serial.print(" D : ");
+        Serial.print(defence.get_A());
+      }
+    }
     defence.defence();
   }
+
   else if(Mode == 3){
     if(Mode != Mode_old){
       Mode_old = Mode;
       kicker.stop();
     }
   }
+
   else if(Mode == 99){
     if(Mode != Mode_old){
       Mode_old = Mode;
@@ -136,8 +159,8 @@ void loop(){
   // Serial.print(" | ");
   // line.print();
   // cam_front.print();
-  // Serial.print(" Timer : ");
-  // Serial.print(Main_timer.read_us());
+  Serial.print(" Timer : ");
+  Serial.print(Main_timer.read_us());
   Serial.println();
   // Main_timer.reset();
 }

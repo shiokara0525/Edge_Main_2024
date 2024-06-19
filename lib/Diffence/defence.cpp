@@ -18,7 +18,7 @@ int Diffence::get_A(){
 }
 
 int Diffence::get_flag(){
-  return;
+  return 1;
 }
 
 void Diffence::defence(){
@@ -36,12 +36,13 @@ void Diffence::defence(){
 
   c = 0;
 
-  if((45 < abs(line.ang) && abs(line.ang) < 135) && cam_back.on == 1 && cam_back.Size < 60){  //横向きにラインを踏んでるフラグ
-    Lside_A = 1;
-  }
-  else{
-    Lside_A = 0;
-  }
+  // if((45 < abs(line.ang) && abs(line.ang) < 135) && cam_back.on == 1 && cam_back.Size < 60){  //横向きにラインを踏んでるフラグ
+  //   Lside_A = 1;
+  // }
+  // else{
+  //   Lside_A = 0;
+  // }
+  Lside_A = 0;
 
   if(Lside_A == 1){          //(横向きにラインを踏み続けているか<=>コートの横向きのライン上にいるか)判定
     if(Lside_A != Lside_B){
