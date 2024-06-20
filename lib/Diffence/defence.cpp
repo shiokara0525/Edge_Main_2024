@@ -133,7 +133,7 @@ void Diffence::defence(){
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
-      if(ball.flag == 0 || (150 < abs(ball.ang) && cam_back.on && abs(abs(line.ang) - 90) < 30)){
+      if(ball.flag == 0 || (140 < abs(ball.ang) && cam_back.on && 30 < abs(abs(line.ang) - 90))){
         A = 5;
       }
       else{
