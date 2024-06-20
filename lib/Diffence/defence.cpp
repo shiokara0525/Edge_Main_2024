@@ -61,9 +61,8 @@ void Diffence::defence(){
     }
   }
 
-  if(back_Flag == 1 && line.LINE_on == 0){
+  if(back_Flag == 1 && line.LINE_on == 0){  //角度がある程度あるかつラインの外だからゴールのほうに戻るよ
     A = 15;
-    Serial.print(" 15_1 !!!!!!!!!!!!!!!!!!! ");
     c = 0;
     line_F = 1;
   }
@@ -78,23 +77,12 @@ void Diffence::defence(){
     }
     if(1000 < CB_t.read_ms()){
       if(line.LINE_on == 0 || (abs(line.ang) < 15 || 165 < abs(line.ang))){
-        A = 16;
+        A = 16;  //なんだこれ　自分にも分らん
       }
     }
   }
 
-  if(sentor_A == 1){          //前にボールがあり続けるか判定
-    if(sentor_A != sentor_B){
-      sentor_B = sentor_A;
-      sentor_t.reset();
-    }
-    if(3000 < sentor_t.read_ms()){
-      A = 11;
-      sentor_t.reset();
-      sentor_A = 0;
-    }
-  }
-  else if(sentor_A == 0){
+  if(sentor_A == 0){
     if(sentor_A != sentor_B){
       sentor_B = sentor_A;
     }
@@ -105,37 +93,15 @@ void Diffence::defence(){
       sentor_t.reset();
     }
     if(300 < sentor_t.read_ms() && 2000 < A_12_t.read_ms()){
-      A = 12;
+      A = 12;  //前に行くやつ
       Timer.reset();
       sentor_t.reset();
       sentor_A = 0;
     }
   }
 
-  if(A == 11){     //前進し続けるか判定
-    if(200 < sentor_t.read_ms() && kicker.kick_flag == 0){
-      A = 15;
-      c = 1;
-      sentor_t.reset();
-      if(line.LINE_on == 1){
-        line_F = 1;
-      }
-      else{
-        line_F = 2;
-      }
-    }
-    else{
-      c = 1;
-    }
 
-    if((300 < sentor_t.read_ms() && line.LINE_on == 1) || 75 < abs(ball.ang)){
-      A = 15;
-      c = 1;
-      line_F = 1;
-    }
-  }
-
-  if(A == 12){
+  if(A == 12){  //前に行き続けるか判定
     if(200 < Timer.read_ms() || 90 < abs(ball.ang)){
       if(line.LINE_on == 0){
         A = 15;
@@ -156,7 +122,7 @@ void Diffence::defence(){
     }
   }
 
-  if(A == 20){
+  if(A == 20){  //ちょっと押し出されたりしたときに戻るやつ
     if(500 < Timer.read_ms()){
       if(90 < abs(line.ang)){
         A = 15;
@@ -167,7 +133,7 @@ void Diffence::defence(){
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
-      if(140 < abs(ball.ang) && cam_back.on == 1){
+      if(ball.flag == 0 || (150 < abs(ball.ang) && cam_back.on && abs(abs(line.ang) - 90) < 30)){
         A = 5;
       }
       else{
@@ -241,7 +207,6 @@ void Diffence::defence(){
       M_flag = 0;
     }
     else if(115 < abs(go_ang.degree)){
-      max_val -= 60;
       MOTOR.line_val = 1.5;
     }
     else if(abs(go_ang.degree) < 60){  //前めに進むとき
