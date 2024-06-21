@@ -235,7 +235,7 @@ void Diffence::defence(){
           Stop_flag = 1;
         }
         else{
-          Stop_flag = 0;
+          Stop_flag = 2;
         }
       }
     }
