@@ -121,14 +121,6 @@ void loop(){
       Mode_timer.reset();
     }
 
-    if(1000 < Mode_timer.read_ms()){
-      if(25 < ESP_send.read_ms()){
-        sendtoESP("NEOPIXEL_D");
-        ESP_send.reset();
-        Serial.print(" D : ");
-        Serial.print(defence.get_A());
-      }
-    }
     defence.defence();
   }
 
@@ -324,6 +316,9 @@ void serialEvent7(){
       Rotate_flag = 0;
     }
     // Serial.print("111111");
+  }
+  else if(data[1] == 13){
+    sendtoESP("NEOPIXEL_D");
   }
   else{
     for(int i = 0; i < 6; i++){
