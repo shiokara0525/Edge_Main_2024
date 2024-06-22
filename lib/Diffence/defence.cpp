@@ -125,7 +125,7 @@ void Diffence::defence(){
 
   if(A == 20){  //ちょっと押し出されたりしたときに戻るやつ
     if(500 < Timer.read_ms()){
-      if(90 < abs(line.ang)){
+      if(90 < abs(line.ang_old) || back_Flag){
         A = 15;
         c = 1;
       }
@@ -400,7 +400,12 @@ void Diffence::defence(){
     AC_val = ac.getAC_val() * 1.5;
     if(line.LINE_on == 0){
       if(abs(line.ang_old) < 90){
-        back_Flag = 0;
+        if(90 < abs(ac.dir)){
+          back_Flag = 1;
+        }
+        else{
+          back_Flag = 0;
+        }
       }
       else{
         back_Flag = 1;
