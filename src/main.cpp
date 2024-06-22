@@ -159,8 +159,9 @@ void loop(){
 
 
 void sendtoESP(const char* message){
-  int flag = 0;
+  byte flag = 0;
   int send[2] = {0,0};
+  byte *send_num;
   if(strcmp(message,"START") == 0){
     flag = 1;
   }
@@ -199,16 +200,22 @@ void sendtoESP(const char* message){
   }
   else if(strcmp(message,"NEOPIXEL_D") == 0){
     flag = 7;
-    send[0] = defence.get_A();
-    send[1] = defence.get_flag();
+    send_num = defence.get_flag();
   }
 
-  uint8_t send_byte[7] = {38,0,0,0,0,0,37};
-  send_byte[1] = flag;
-  send_byte[2] = byte(send[0] >> 8);
-  send_byte[3] = byte(send[0] & 0xFF);
-  send_byte[4] = byte(send[1] >> 8);
-  send_byte[5] = byte(send[1] & 0xFF);
+  uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
+  if(flag != 7){
+    send_byte[2] = byte(send[0] >> 8);
+    send_byte[3] = byte(send[0] & 0xFF);
+    send_byte[4] = byte(send[1] >> 8);
+    send_byte[5] = byte(send[1] & 0xFF);
+  }
+  else{
+    for(int i = 0; i < 4; i++){
+      send_byte[i + 2] = send_num[i];
+    }
+  }
+
   Serial7.write(send_byte,7);
   for(int i = 0; i < 7; i++){
     Serial.print(" ");

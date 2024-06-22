@@ -39,7 +39,7 @@ class Diffence{
         int A = 0;
         int B = 999;
         int c = 0;
-        int stop_range = 10;
+        int stop_range = 20;
         int P_range = 30;
         const int far_th = 130;
         int go_val = 220;
@@ -54,9 +54,10 @@ class Diffence{
 
         int CB_old = 999;
         timer CB_t;
+        byte return_num[4];
     public:
         void defence();
         void available_set();
         int get_A();
-        int get_flag();
+        byte* get_flag();
 };

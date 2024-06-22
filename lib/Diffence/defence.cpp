@@ -17,8 +17,12 @@ int Diffence::get_A(){
   return A;
 }
 
-int Diffence::get_flag(){
-  return Stop_flag;
+byte* Diffence::get_flag(){
+  return_num[0] = ball.vec_velocity.getMagnitude();
+  return_num[1] = Stop_flag;
+  return_num[2] = A;
+  return_num[3] = 99; 
+  return return_num;
 }
 
 void Diffence::defence(){
@@ -229,13 +233,13 @@ void Diffence::defence(){
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0){  //正面方向にボールがあったら停止するよ
-        if(ball.vec_velocity.getMagnitude() < BALL_MAX_NUM * 0.2 && ball.vec_acc.getMagnitude() < BALL_MAX_NUM * 0.2){
+        if(20 < ball.vec_velocity.getMagnitude()){
+          Stop_flag = 2;
+        }
+        else{
           M_flag = 0;
           max_val = 0;
           Stop_flag = 1;
-        }
-        else{
-          Stop_flag = 2;
         }
       }
     }
