@@ -78,17 +78,17 @@ void Attack::attack(){
 
   if(A == 22){
     if((line.LINE_on == 0 || (-0.5 < line.dis_X && (abs(line.ang) < 30 || 150 < abs(line.ang)))) && Timer.read_ms() < 5000 && abs(ball.ang) < 30){
-      c = 1;
+      c = 1;  //ボールを押し込み続けるやつ
     }
     else{
-      A = 23;
+      A = 23; //押し込む状態から戻るやつ
     }
   }
 
 
   if(A == 23){
     if(line.LINE_on){
-      c = 1;
+      c = 1;  //戻ってるけどラインを踏んでる限りこのステートから出ない
     }
   }
   
@@ -96,14 +96,14 @@ void Attack::attack(){
 
   if(A == 24){
     if(abs(ball.ang) < 45 && Timer.read_ms() < 7000 && line.LINE_on == 0){
-      c = 1;
+      c = 1;  //中立点付近で止まってLOP誘発
     }
   }
 
 
   if(A == 25){
     if(30 < abs(ball.ang) && abs(ball.ang) < 100){
-      c = 1;
+      c = 1;  //横に行くやつ
     }
     else{
       c = 1;

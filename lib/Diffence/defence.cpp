@@ -234,12 +234,12 @@ void Diffence::defence(){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0){  //正面方向にボールがあったら停止するよ
         if(20 < ball.vec_velocity.getMagnitude()){
-          Stop_flag = 2;
+          Stop_flag = 2;  //ボールの速度を原因にストップしてないフラグ
         }
         else{
           M_flag = 0;
           max_val = 0;
-          Stop_flag = 1;
+          Stop_flag = 1;  //普通に止まるフラグ
         }
       }
     }
