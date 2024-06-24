@@ -103,11 +103,11 @@ void Attack::attack(){
 
   if(A == 25){
     if(30 < abs(ball.ang) && abs(ball.ang) < 100){
-      c = 1;  //横に行くやつ
+      c = 1;  //前に行くやつ
     }
     else{
       c = 1;
-      A = 26;
+      A = 26;  //横に行くやつ
     }
     if(line.LINE_on == 1){
       c = 0;
@@ -176,12 +176,12 @@ void Attack::attack(){
       if(B == 20 || B == 21){
         if(line.ang_old < 0){
           if(-90 < ball.ang && ball.ang < 30){
-            go_flag = 1;
+            go_flag = 1;  //ライン際でボールにあてに行く
           }
         }
         else{
           if(-30 < ball.ang && ball.ang < 90){
-            go_flag = 1;
+            go_flag = 1;  //ライン際でボールにあてに行く
           }
         }
       }
@@ -190,7 +190,7 @@ void Attack::attack(){
     }
 
     if(90 < abs(ball.ang)){
-      go_flag = 0;
+      go_flag = 0;  //後ろにある時はあえてあてにはいかない
     }
 
     float confidencial_num = (ball.vec_down.getMagnitude() - 50) * 0.066;
@@ -242,9 +242,9 @@ void Attack::attack(){
     }
     cam_front_on = 0;
 
-    if(cam_front.on == 1){
-      if(abs(cam_front.ang) < 20 && 15 < cam_front.Size){
-        cam_front_on = 1;
+    if(cam_front.on == 1){  //カメラ見てるとき
+      if(abs(cam_front.ang) < 20 && 15 < cam_front.Size){  //正面にゴールあってゴールもある程度近くにある時
+        cam_front_on = 1;  //打っていいよ
         go_ang = 0;
         AC_flag = 1;
         // dribbler_flag = 0;
@@ -261,18 +261,18 @@ void Attack::attack(){
       go_ang = 0;
     }
 
-    if(cam_front_on == 1){
+    if(cam_front_on == 1){  //打っていいよフラグ
       max_val -= 15;
       if(cam_front_on != CFO_B){
         CFO_B = cam_front_on;
-        CFO_t.reset();
+        CFO_t.reset();  //RIZINGでタイマーリセット
       }
 
       if(200 < CFO_t.read_ms()){
-        kick_ = 1;
+        kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
       }
       if(40 < cam_front.Size){
-        kick_ = 1;
+        kick_ = 1;  //ゴールが近い時は問答無用で打つ
       }
     }
     else if(cam_front_on == 0){
@@ -326,7 +326,7 @@ void Attack::attack(){
 
 
 
-  if(A == 22){
+  if(A == 22){  //ボール押し込む
     Serial.print("!!!!!!!!!!!!!!!");
     if(A != B){
       B = A;
@@ -338,7 +338,7 @@ void Attack::attack(){
 
 
 
-  if(A == 23){
+  if(A == 23){  //ボール押し込んだ後下がる
     if(A != B){
       B = A;
     }
@@ -347,7 +347,7 @@ void Attack::attack(){
 
 
 
-  if(A == 24){
+  if(A == 24){  //後ろに下がるやつ(LOP誘発)
     if(A != B){
       B = A;
       Timer.reset();
@@ -383,21 +383,6 @@ void Attack::attack(){
     }
     else{
       go_ang = 90;
-    }
-  }
-
-
-
-  if(A == 27){
-    if(A != B){
-      B = A;
-      Timer.reset();
-    }
-    if(Timer.read_ms() < 100){
-      go_ang = 180;
-    }
-    else{
-      M_flag = 0;
     }
   }
 
