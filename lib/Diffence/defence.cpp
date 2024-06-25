@@ -267,16 +267,16 @@ void Diffence::defence(){
     // }
 
 
-    if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){
+    if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){  //ぼーるが近くにあったら小突くやつ
       sentor_A = 3;
     }
 
-    if(push_flag){
+    if(push_flag){  //ロボットが押し込まれてたら
       if(ac.dir < 0){
         if(go_ang.degree < 0){
         }
         else{
-          go_ang += 180;
+          go_ang += 180;  //ロボットの動きを受け流す(意図はわからん)
         }
       }
       else{
@@ -293,7 +293,7 @@ void Diffence::defence(){
 
 
 
-  if(A == 11){  //ボールが前にあるから前進
+  if(A == 11){  //ボールが前にあるから前進(今ほとんど使ってない)
     if(A != B){
       B = A;
       goang_old = ball.ang;
@@ -326,7 +326,7 @@ void Diffence::defence(){
   }
 
 
-   if(A == 12){
+  if(A == 12){  //ボールを小突くやつ
     if(A != B){
       B = A;
       Timer.reset();
@@ -372,7 +372,7 @@ void Diffence::defence(){
   }
 
 
-  if(A == 16){
+  if(A == 16){  //ラインがないときにゴールのほうに向く
     if(A != B){
       B = A;
     }
@@ -400,28 +400,28 @@ void Diffence::defence(){
   ac.dir_target = target;
   push_flag = 0;
 
-  if(30 < abs(ac.dir)){
+  if(30 < abs(ac.dir)){  //ロボットが傾いてたら
     AC_val = ac.getAC_val() * 1.5;
     if(line.LINE_on == 0){
       if(abs(line.ang_old) < 90){
         if(90 < abs(ac.dir)){
-          back_Flag = 1;
+          back_Flag = 1;  //ラインの外で傾いてたらゴールのほうに戻る
         }
         else{
-          back_Flag = 0;
+          back_Flag = 0;  //ラインの外で傾いてなかったらラインのほうに戻る
         }
       }
       else{
-        back_Flag = 1;
+        back_Flag = 1;  //ラインの上で傾いてたらゴールのほうに戻る
         M_flag = 0;
       }
     }
     else{
-      if(ball.ball_get){
+      if(ball.ball_get){  //ボールを持ってたら
         if(abs(line.ang_old) < 90){
-          back_Flag = 0;
+          back_Flag = 0;  //ラインの外で傾いてたらラインのほうに戻る
         }
-        push_flag = 1;
+        push_flag = 1;  //ボールを持ってたら押し込まれたときの処理
         M_flag = 1;
       }
     }
