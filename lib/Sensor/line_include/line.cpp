@@ -38,9 +38,9 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
 
 
   for(int i = 0; i < 24; i++){
-    // if(i == 19 || i == 20 || i == 21){
-    //   continue;
-    // }
+    if(i == 15){
+      continue;
+    }
     if(flag == 0){
       if(data_on[i] == 1){
         block_num++;

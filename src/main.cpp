@@ -140,8 +140,8 @@ void loop(){
     MOTOR.motor_0();
   }
   // ball.print();
-  Serial.print(" V : ");
-  ball.vec_velocity.print();
+  // Serial.print(" V : ");
+  // ball.vec_velocity.print();
   // Serial.print(" | A : ");
   // ball.vec_acc.print();
   // Serial.println();
@@ -152,8 +152,9 @@ void loop(){
   // Serial.print(" | ");
   // line.print();
   // cam_front.print();
-  Serial.print(" Timer : ");
-  Serial.print(Main_timer.read_us());
+  // Serial.print(" Timer : ");
+  // Serial.print(Main_timer.read_us());
+  line.print_2();
   Serial.println();
   // Main_timer.reset();
 }
