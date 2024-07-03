@@ -273,6 +273,14 @@ void serialEvent7(){
   }
   else if(data[1] == 4){
     color = data_int;
+    if(color == YELLOW){
+      cam_front.color = YELLOW;
+      cam_back.color = BLUE;
+    }
+    else{
+      cam_front.color = BLUE;
+      cam_back.color = YELLOW;
+    }
   }
   else if(data[1] == 5){
     ball.get_th = data_int;
