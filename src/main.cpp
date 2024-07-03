@@ -38,6 +38,7 @@ int Mode = 0;
 int Mode_old = 999;
 float go_ang = 0;
 int go_flag = 0;
+int goal_send_count = 0;
 
 int Kick = 0;
 
@@ -184,10 +185,16 @@ void sendtoESP(const char* message){
     // line.print();
     line.vec.print();
   }
-  else if(strcmp(message,"CAM") == 0){
+  else if(strcmp(message,"CAM_FRONT") == 0){
     flag = 4;
-    send[0] = cam_front.ang;
-    send[1] = cam_front.Size;
+    if(cam_front.on){
+      send[0] = cam_front.ang;
+      send[1] = cam_front.Size;
+    }
+    else{
+      send[0] = 0;
+      send[1] = 0;
+    }
   }
   else if(strcmp(message,"AC_DIR") == 0){
     flag = 5;
@@ -201,6 +208,17 @@ void sendtoESP(const char* message){
   else if(strcmp(message,"NEOPIXEL_D") == 0){
     flag = 7;
     send_num = defence.get_flag();
+  }
+  else if(strcmp(message,"CAM_BACK") == 0){
+    flag = 8;
+    if(cam_back.on){
+      send[0] = cam_back.ang;
+      send[1] = cam_back.Size;
+    }
+    else{
+      send[0] = 0;
+      send[1] = 0;
+    }
   }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
@@ -265,7 +283,16 @@ void serialEvent7(){
       sendtoESP("BALL");
     }
     else if(data_int == 80){
-      sendtoESP("CAM");
+      if(goal_send_count == 0){
+        sendtoESP("CAM_FRONT");
+        goal_send_count = 1;
+      }
+      else{
+        sendtoESP("CAM_BACK");
+        goal_send_count = 0;
+      }
+      
+      // sendtoESP("CAM_BACK");
     }
   }
   else if(data[1] == 3){
