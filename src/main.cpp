@@ -50,6 +50,8 @@ int PS4_r,PS4_theta;
 int PS4R_r,PS4R_theta;
 int Rotate_flag = 0;
 
+int line_on = 0;
+
 int CHECK[2];
 
 int Values[6];
@@ -93,6 +95,11 @@ void loop(){
       Mode_old = Mode;
       MOTOR.motor_0();
       Mode_timer.reset();
+      line_on = 0;
+      Serial8.write(38);
+      Serial8.write(10);
+      Serial8.write(0);
+      Serial8.write(37);
     }
 
     kicker.run(Kick);
@@ -276,6 +283,11 @@ void serialEvent7(){
   else if(data[1] == 2){
     if(data_int == 15){
       sendtoESP("AC_DIR");
+      line_on = 1;
+      Serial8.write(38);
+      Serial8.write(10);
+      Serial8.write(1);
+      Serial8.write(37);
     }
     else if(data_int == 30){
       sendtoESP("LINE");
