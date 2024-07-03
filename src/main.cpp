@@ -38,7 +38,9 @@ int Mode = 0;
 int Mode_old = 999;
 float go_ang = 0;
 int go_flag = 0;
+
 int goal_send_count = 0;
+int line_send_count = 0;
 
 int Kick = 0;
 
@@ -161,8 +163,8 @@ void loop(){
   // cam_front.print();
   // Serial.print(" Timer : ");
   // Serial.print(Main_timer.read_us());
-  line.print_2();
-  Serial.println();
+  // line.print_2();
+  // Serial.println();
   // Main_timer.reset();
 }
 
@@ -228,6 +230,14 @@ void sendtoESP(const char* message){
       send[1] = 0;
     }
   }
+  else if(strcmp(message,"LINE_ALL") == 0){
+    flag = 9;
+    send_num = line.data_byte;
+    for(int i = 0; i < 4; i++){
+      Serial.print(" ");
+      Serial.print(send_num[i]);
+    }
+  }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
   if(flag != 7){
@@ -243,10 +253,10 @@ void sendtoESP(const char* message){
   }
 
   Serial7.write(send_byte,7);
-  for(int i = 0; i < 7; i++){
-    Serial.print(" ");
-    Serial.print(send_byte[i]);
-  }
+  // for(int i = 0; i < 7; i++){
+  //   Serial.print(" ");
+  //   Serial.print(send_byte[i]);
+  // }
   Serial.println();
 }
 
@@ -290,7 +300,19 @@ void serialEvent7(){
       Serial8.write(37);
     }
     else if(data_int == 30){
-      sendtoESP("LINE");
+      line_on = 1;
+      Serial8.write(38);
+      Serial8.write(10);
+      Serial8.write(1);
+      Serial8.write(37);
+      if(line_send_count == 0){
+        sendtoESP("LINE");
+        line_send_count = 1;
+      }
+      else{
+        sendtoESP("LINE_ALL");
+        line_send_count = 0;
+      }
     }
     else if(data_int == 50){
       sendtoESP("BALL");
