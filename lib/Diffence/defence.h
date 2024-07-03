@@ -7,6 +7,7 @@
 #include<Ball_senser\ball.h>
 #include<AC\ac.h>
 #include<Cam\Cam.h>
+#include<state\state.h>
 
 extern AC ac;
 extern Cam cam_front;
@@ -26,12 +27,13 @@ class Diffence{
         int M_time;
 
         int Lside_A = 0;
-        int Lside_B = 999;
-        timer L_;
-        timer sentor_t;
+        State Lside;
+        
+        int Center_A = 0;
+        State Center;
+        State Camback_on;
+
         timer A_12_t;
-        int sentor_A = 0;
-        int sentor_B = 999;
         int go_flag = 0;
 
         int Bget_B = 999;
@@ -40,7 +42,6 @@ class Diffence{
         int B = 999;
         int c = 0;
         int stop_range = 20;
-        int P_range = 30;
         const int far_th = 130;
         int go_val = 220;
         int goal_color;
@@ -52,8 +53,6 @@ class Diffence{
 
         int Stop_flag;
 
-        int CB_old = 999;
-        timer CB_t;
         byte return_num[4];
     public:
         void defence();

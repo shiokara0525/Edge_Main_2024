@@ -39,32 +39,6 @@ void Diffence::defence(){
 
   /*---------------------------------------------------------状況判断ステート--------------------------------------------------------*/
 
-  c = 0;
-
-  // if((45 < abs(line.ang) && abs(line.ang) < 135) && cam_back.on == 1 && cam_back.Size < 60){  //横向きにラインを踏んでるフラグ
-  //   Lside_A = 1;
-  // }
-  // else{
-  //   Lside_A = 0;
-  // }
-  Lside_A = 0;
-
-  if(Lside_A == 1){          //(横向きにラインを踏み続けているか<=>コートの横向きのライン上にいるか)判定
-    if(Lside_A != Lside_B){
-      Lside_B = Lside_A;
-      L_.reset();
-    }
-    if(1500 < L_.read_ms()){
-      A = 15;
-      c = 1;
-      line_F = 1;
-    }
-  }
-  else{
-    if(Lside_A != Lside_B){
-      Lside_B = Lside_A;
-    }
-  }
 
   if(back_Flag == 1 && line.LINE_on == 0){  //角度がある程度あるかつラインの外だからゴールのほうに戻るよ
     A = 15;
@@ -72,73 +46,20 @@ void Diffence::defence(){
     line_F = 1;
   }
 
-  if(cam_back.on == 1){
-    CB_old = 1;
-  }
-  else{
-    if(cam_back.on != CB_old){
-      CB_old = cam_back.on;
-      CB_t.reset();
-    }
-    if(1000 < CB_t.read_ms()){
+  Camback_on.enterState(cam_back.on);
+
+  if(Camback_on.getCurrentState() == 0){
+    if(1000 < Camback_on.readStateTimer()){
       if(line.LINE_on == 0 || (abs(line.ang) < 15 || 165 < abs(line.ang))){
         A = 16;  //なんだこれ　自分にも分らん
       }
     }
   }
 
-  if(sentor_A == 0){
-    if(sentor_A != sentor_B){
-      sentor_B = sentor_A;
-    }
-  }
-  else if(sentor_A == 3){
-    if(sentor_A != sentor_B){
-      sentor_B = sentor_A;
-      sentor_t.reset();
-    }
-    if(300 < sentor_t.read_ms() && 2000 < A_12_t.read_ms()){
-      A = 12;  //前に行くやつ
-      Timer.reset();
-      sentor_t.reset();
-      sentor_A = 0;
-    }
-  }
-
-
-  if(A == 12){  //前に行き続けるか判定
-    if(200 < Timer.read_ms() || 90 < abs(ball.ang)){
-      if(line.LINE_on == 0){
-        A = 15;
-        c = 1;
-      }
-    }
-    else{
-      c = 1;
-    }
-  }
-
-  if(A == 15){      //戻るとき後ろに下がり続けるか判定
-    if(line_F != 4){
-      c = 1;
-    }
-    else{
-      line_F = 0;
-    }
-  }
-
-  if(A == 20){  //ちょっと押し出されたりしたときに戻るやつ
-    if(500 < Timer.read_ms()){
-      if(90 < abs(line.ang_old) || back_Flag){
-        A = 15;
-        c = 1;
-      }
-    }
-  }
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
-      if(ball.flag == 0 || (140 < abs(ball.ang) && cam_back.on && 30 < abs(abs(line.ang) - 90))){
+      if(ball.flag == 0 || (140 < abs(ball.ang) && cam_back.on && 30 < abs(abs(line.ang) - 90))){  //ボールがないまたはゴールの端にいるときとまる
         A = 5;
       }
       else{
@@ -148,17 +69,11 @@ void Diffence::defence(){
     else{
       A = 20;
     }
-
-    // if(cam_back.on == 0){
-    //   if(!(15 < abs(line.ang) && abs(line.ang) < 165)){
-    //     A = 16;
-    //   }
-    // }
   }
 
 
   /*---------------------------------------------------------動作ステート--------------------------------------------------------*/
-  sentor_A = 0;
+  Center_A = 0;
 
 
   if(A == 5){  //ボールがない時止まる
@@ -229,7 +144,7 @@ void Diffence::defence(){
       }
     }
 
-    sentor_A = 0;
+    Center_A = 0;
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0){  //正面方向にボールがあったら停止するよ
@@ -245,30 +160,8 @@ void Diffence::defence(){
     }
 
 
-    // if(20 < ball.vec_velocity.getMagnitude()){
-    //   if(ball.vec_velocity.getAngle() < 0){
-    //     if(0 < ball.ang){
-    //       if(0 < go_ang.degree){
-    //         go_ang += 180;
-    //         M_flag = 1;
-    //         max_val = 200;
-    //       }
-    //     }
-    //   }
-    //   else{
-    //     if(ball.ang < 0){
-    //       if(go_ang.degree < 0){
-    //         go_ang += 180;
-    //         M_flag = 1;
-    //         max_val = 200;
-    //       }
-    //     }
-    //   }
-    // }
-
-
     if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){  //ぼーるが近くにあったら小突くやつ
-      sentor_A = 3;
+      Center_A = 3;
     }
 
     if(push_flag){  //ロボットが押し込まれてたら
@@ -288,42 +181,20 @@ void Diffence::defence(){
       }
       M_flag = 1;
     }
+
+    Center.enterState(Center_A);
+
+    if(Center.getCurrentState() == 3){
+      if(300 < Center.readStateTimer() && 2000 < A_12_t.read_ms()){
+        A = 12;
+        c = 1;
+        Center.enterState(0);
+      }
+    }
     go_ang.to_range(180,true);  //進む角度を-180 ~ 180の範囲に収める
   }
 
 
-
-  if(A == 11){  //ボールが前にあるから前進(今ほとんど使ってない)
-    if(A != B){
-      B = A;
-      goang_old = ball.ang;
-    }
-    max_val += 30; 
-    if(abs(ball.ang) < 10){
-      go_ang = 0;
-    }
-    else{
-      go_ang = ball.ang * 3;
-    }
-    if(ball.ball_get){
-      if(ball.ball_get != Bget_B){
-        Bget_B = ball.ball_get;
-        Timer.reset();
-      }
-      if(300 < Timer.read_ms()){
-        kick_ = 1;
-        AC_flag = 1;
-      }
-    }
-    else{
-      Bget_B = 0;
-    }
-
-    if(30 < abs(ball.ang - goang_old)){
-      A = 15;
-    }
-    M_flag = 2;
-  }
 
 
   if(A == 12){  //ボールを小突くやつ
@@ -334,6 +205,9 @@ void Diffence::defence(){
     }
     go_ang = ball.ang;
     M_flag = 2;
+    if(300 < Timer.read_ms()){
+      c = 0;
+    }
   }
 
 
@@ -369,6 +243,10 @@ void Diffence::defence(){
       go_ang = 0;
       // digitalWrite(LED,LOW);
     }
+
+    if(line_F == 4){
+      c = 0;
+    }
   }
 
 
@@ -389,6 +267,13 @@ void Diffence::defence(){
     }
     go_ang = line.ang_old;
     M_flag = 2;
+
+    if(500 < Timer.read_ms()){
+      if(90 < abs(line.ang_old) || back_Flag){
+        A = 15;
+        c = 1;
+      }
+    }
   }
 
 
