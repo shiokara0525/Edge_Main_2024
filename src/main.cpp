@@ -44,6 +44,8 @@ int line_send_count = 0;
 
 int Kick = 0;
 
+int testMode = 0;
+
 int color;
 int ac_tirget;
 int val_max = 200;
@@ -138,6 +140,25 @@ void loop(){
     if(Mode != Mode_old){
       Mode_old = Mode;
       kicker.stop();
+    }
+    if(testMode == 0){
+      angle ang(ball.ang,true);
+      MOTOR.moveMotor_0(ang,200,0,0);
+    }
+    else if(testMode == 1){
+      for(int i = 0; i < 4; i++){
+        MOTOR.Moutput(i,200);
+        delay(500);
+        MOTOR.Moutput(i,0);
+        delay(50);
+      }
+
+      for(int i = 0; i < 4; i++){
+        MOTOR.Moutput(i,-200);
+        delay(500);
+        MOTOR.Moutput(i,0);
+        delay(50);
+      }
     }
   }
 
@@ -396,6 +417,9 @@ void serialEvent7(){
   }
   else if(data[1] == 13){
     sendtoESP("NEOPIXEL_D");
+  }
+  else if(data[1] == 14){
+    testMode = data_int;
   }
   else{
     for(int i = 0; i < 6; i++){
