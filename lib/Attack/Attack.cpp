@@ -40,87 +40,7 @@ void Attack::attack(){
   int kick_ = 0;                       //0だったらキックしない 1だったらキック
   int M_flag = 1;                      //1だったら動き続ける 0だったら止まる
   back_flag = 0;
-  
-  c = 0;
 
-  if(line.LINE_change == -1){  //踏んでない状態から踏んでる状態になった時
-    if(5 <= line.firstDir_flag && line.firstDir_flag <= 7){  //後ろにラインがあったら
-      if(30 < abs(ball.ang) && abs(ball.ang) <= 85){
-        c = 1;
-        A = 25;  //前に行く
-      }
-      else if(85 < abs(ball.ang) && abs(ball.ang) < 120){
-        c = 1;
-        A = 26;  //横に行く
-      }
-    }
-    else if(line.firstDir_flag == 11 || line.firstDir_flag <= 1){  //前にラインがあったら
-      if(cam_front.on){  //ゴール前だったら
-        back_count++;
-        if(back_count % 4 == 0){
-          Timer.reset();
-          A = 22;  //ボールを押し込むやつ 
-          c = 1;
-        }
-      }
-      else{  //notゴール前だったら
-        back_count++;
-        if(back_count % 4 == 0){
-          Timer.reset();
-          A = 24;  //後ろに下がるやつ
-          c = 1;
-        }
-      }
-    }
-  }
-
-
-
-  if(A == 22){
-    if((line.LINE_on == 0 || (-0.5 < line.dis_X && (abs(line.ang) < 30 || 150 < abs(line.ang)))) && Timer.read_ms() < 5000 && abs(ball.ang) < 30){
-      c = 1;  //ボールを押し込み続けるやつ
-    }
-    else{
-      A = 23; //押し込む状態から戻るやつ
-    }
-  }
-
-
-  if(A == 23){
-    if(line.LINE_on){
-      c = 1;  //戻ってるけどラインを踏んでる限りこのステートから出ない
-    }
-  }
-  
-
-
-  if(A == 24){
-    if(abs(ball.ang) < 45 && Timer.read_ms() < 7000 && line.LINE_on == 0){
-      c = 1;  //中立点付近で止まってLOP誘発
-    }
-  }
-
-
-  if(A == 25){
-    if(30 < abs(ball.ang) && abs(ball.ang) < 100){
-      c = 1;  //前に行くやつ
-    }
-    else{
-      c = 1;
-      A = 26;  //横に行くやつ
-    }
-    if(line.LINE_on == 1){
-      c = 0;
-    }
-  }
-  if(A == 26){
-    if(60 < abs(ball.ang) && abs(ball.ang) < 120){
-      c = 1;
-    }
-    if(line.LINE_on == 1){
-      c = 0;
-    }
-  }
 
   if(ball.flag == 0){
     c = 0;
@@ -128,7 +48,7 @@ void Attack::attack(){
 
 
   if(c == 0){
-    if(line.LINE_on == 1){
+    if(line.LINE_on == 1 || line.LINE_change == -1){
       A = 20;
     }
     else if(line.side_flag){
@@ -301,6 +221,36 @@ void Attack::attack(){
     back_flag = 1;
     // target = Line_target_dir;
     go_ang = line.decideGoang(line_ang,line.firstDir_flag);
+
+
+    if(line.LINE_change == -1){  //踏んでない状態から踏んでる状態になった時
+      if(5 <= line.firstDir_flag && line.firstDir_flag <= 7){  //後ろにラインがあったら
+        if(30 < abs(ball.ang) && abs(ball.ang) <= 85){
+          c = 1;
+          A = 25;  //前に行く
+        }
+        else if(85 < abs(ball.ang) && abs(ball.ang) < 120){
+          c = 1;
+          A = 26;  //横に行く
+        }
+      }
+      else if(line.firstDir_flag == 11 || line.firstDir_flag <= 1){  //前にラインがあったら
+        if(cam_front.on){  //ゴール前だったら
+          back_count++;
+          if(back_count % 4 == 0){
+            A = 22;  //ボールを押し込むやつ 
+            c = 1;
+          }
+        }
+        else{  //notゴール前だったら
+          back_count++;
+          if(back_count % 4 == 0){
+            A = 24;  //後ろに下がるやつ
+            c = 1;
+          }
+        }
+      }
+    }
   }
 
 
@@ -334,6 +284,13 @@ void Attack::attack(){
     }
     max_val = 180;
     go_ang = 0;
+  
+    if((line.LINE_on == 0 || (-0.5 < line.dis_X && (abs(line.ang) < 30 || 150 < abs(line.ang)))) && Timer.read_ms() < 5000 && abs(ball.ang) < 30){
+      c = 1;  //ボールを押し込み続けるやつ
+    }
+    else{
+      A = 23; //押し込む状態から戻るやつ
+    }
   }
 
 
@@ -343,6 +300,10 @@ void Attack::attack(){
       B = A;
     }
     go_ang = 180;
+
+    if(!line.LINE_on){
+      c = 0;  //戻ってるけどラインを踏んでる限りこのステートから出ない
+    }
   }
 
 
@@ -360,6 +321,11 @@ void Attack::attack(){
     else{
       M_flag = 0;
     }
+
+
+    if(45 < abs(ball.ang) || 7000 < Timer.read_ms() || line.LINE_on){
+      c = 0;
+    }
   }
 
 
@@ -370,6 +336,13 @@ void Attack::attack(){
       Timer.reset();
     }
     go_ang = 0;
+
+    if(line.LINE_on == 1){
+      c = 0;
+    }
+    else if(abs(ball.ang) <= 30 || 100 <= abs(ball.ang)){
+      A = 26;
+    }
   }
 
 
@@ -383,6 +356,13 @@ void Attack::attack(){
     }
     else{
       go_ang = 90;
+    }
+
+    if(line.LINE_on == 1){
+      c = 0;
+    }
+    else if(abs(ball.ang) <= 60 || 120 <= abs(ball.ang)){
+      c = 0;
     }
   }
 
