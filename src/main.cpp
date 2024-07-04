@@ -160,6 +160,10 @@ void loop(){
         delay(50);
       }
     }
+    else if(testMode == 3){
+      float AC_val = ac.getAC_val();
+      MOTOR.motor_ac(AC_val);
+    }
   }
 
   else if(Mode == 99){
