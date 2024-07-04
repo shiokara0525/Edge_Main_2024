@@ -285,11 +285,8 @@ void Attack::attack(){
     max_val = 180;
     go_ang = 0;
   
-    if((line.LINE_on == 0 || (-0.5 < line.dis_X && (abs(line.ang) < 30 || 150 < abs(line.ang)))) && Timer.read_ms() < 5000 && abs(ball.ang) < 30){
-      c = 1;  //ボールを押し込み続けるやつ
-    }
-    else{
-      A = 23; //押し込む状態から戻るやつ
+    if((line.LINE_on == 1 && line.dis_X < -0.5 || (30 <= abs(line.ang) && abs(line.ang) <= 150)) || 5000 < Timer.read_ms() || 30 < abs(ball.ang)){
+      A = 23;
     }
   }
 
