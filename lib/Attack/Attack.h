@@ -25,15 +25,16 @@ class Attack{
         int A = 0;
         int B = 999;
         int c = 0;
-        int ang_180 = 160;
-        int ang_90 = 80;
-        int ang_45 = 60;
-        int ang_10 = 20;
+
+        float RA_a = 1.8;  //45~90°の時の回り込みの係数
+
         int cam_front_on = 0;
         int CFO_B = 999;
         int back_count = 0;
         int go_flag = 0;
         int back_flag = 0;
+
+        int rake_flag = 0;
 
         int go_conf;
 

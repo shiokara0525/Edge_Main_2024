@@ -2,12 +2,6 @@
 
 
 void Attack::available_set(int *check_val){
-  ang_10 = check_val[0];
-  ang_45 = check_val[1];
-  ang_90 = check_val[2];
-  ang_180 = check_val[3];
-  go_conf = check_val[4] / 100.0;
-
   goal_color = color;
   if(goal_color == 0){
     cam_front.color = 0;  //青が0 黄色が1
@@ -30,7 +24,6 @@ int* Attack::getCheckval(){
 void Attack::attack(){
   angle go_ang(ball.ang,true);         //進む角度のオブジェクト
 
-
   float AC_val = 100;                  //姿勢制御の出力
   int max_val = go_val;                //進む出力
   float target = ac_tirget;           //目標角度
@@ -51,20 +44,22 @@ void Attack::attack(){
     if(line.LINE_on == 1 || line.LINE_change == -1){
       A = 20;
     }
-    else if(line.side_flag){
-      A = 21;
-    }
     else{
-      if(ball.flag == 1){
-        if(0){
-          A = 11;
-        }
-        else{
-          A = 10;
-        }
+      if(line.side_flag != 0){
+        A = 21;
       }
       else{
-        A = 5;
+        if(ball.flag == 1){
+          if(1 <= ball.ball_get){
+            A = 11;
+          }
+          else{
+            A = 10;
+          }
+        }
+        else{
+          A = 5;
+        }
       }
     }
   }
@@ -110,34 +105,33 @@ void Attack::attack(){
     }
 
     if(90 < abs(ball.ang)){
-      go_flag = 0;  //後ろにある時はあえてあてにはいかない
+      go_flag = 0;
     }
 
-    float confidencial_num = (ball.vec_down.getMagnitude() - 50) * 0.066;
+    float confidencial_num = (ball.vec.getMagnitude() - 130) * 0.02;
 
-    if(abs(ball.ang) < 10){
+    if(abs(ball.ang) < 15){
       go_ang = abs(ball.ang);
-      kick_ = 1;
     }
     else if(abs(ball.ang) < 45){
-      go_ang = abs(ball.ang) * 3.0;
+      go_ang = abs(ball.ang) * 2.0;
     }
     else if(abs(ball.ang) < 90){
-      if(50 <= ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
-        go_ang = (confidencial_num + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
+      if(130 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < 180){
+        go_ang = (confidencial_num * (RA_a - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
       }
-      else if(ball.vec_down.getMagnitude() < 50){
+      else if(ball.vec.getMagnitude() < 130){
         go_ang = abs(ball.ang) + 45;
       }
       else{
-        go_ang = abs(ball.ang) * 2;
+        go_ang = abs(ball.ang) * RA_a;
       }
     }
     else{
-      if(50 <= ball.vec_down.getMagnitude() && ball.vec_down.getMagnitude() < 65){
+      if(130 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < 180){
         go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
       }
-      else if(ball.vec_down.getMagnitude() < 50){
+      else if(ball.vec.getMagnitude() < 130){
         go_ang = abs(ball.ang) + 45;
       }
       else{
@@ -169,16 +163,14 @@ void Attack::attack(){
         AC_flag = 1;
         // dribbler_flag = 0;
       }
-      else if(abs(cam_front.ang) < 60){
+      else{
         go_ang = 0;
         AC_flag = 1;
-      }
-      else{
-        go_ang = cam_front.ang * 1.0;
       }
     }
     else{
       go_ang = 0;
+      kick_ = 1;
     }
 
     if(cam_front_on == 1){  //打っていいよフラグ
@@ -197,6 +189,16 @@ void Attack::attack(){
     }
     else if(cam_front_on == 0){
       CFO_B = 0;
+    }
+
+    if(1750 < Timer.read_ms()){
+      rake_flag = 0;
+      Timer.reset();
+    }
+    else if(1500 < Timer.read_ms()){
+      rake_flag = 1;
+      target += 90;
+      AC_flag = 0;
     }
   }
 
@@ -354,12 +356,20 @@ void Attack::attack(){
     else{
       go_ang = 90;
     }
+  }
 
-    if(line.LINE_on == 1){
-      c = 0;
+
+
+  if(A == 27){
+    if(A != B){
+      B = A;
+      Timer.reset();
     }
-    else if(abs(ball.ang) <= 60 || 120 <= abs(ball.ang)){
-      c = 0;
+    if(Timer.read_ms() < 100){
+      go_ang = 180;
+    }
+    else{
+      M_flag = 0;
     }
   }
 
@@ -367,39 +377,41 @@ void Attack::attack(){
   //----------------------------------------------------------出力(ここで行ってるのはフラグの回収のみ)----------------------------------------------------------//
 
   ac.dir_target = target;
-  if(AC_flag == 0){
+  if(AC_flag == 0 || rake_flag){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    if(40 < cam_front.Size && 500 < A_24_t.read_ms()){
-      AC_val = ac.getCam_val(-cam_front.ang) * 1.5;
-    }
-    else{
-      AC_val = ac.getCam_val(-cam_front.ang);
-    }
+    AC_val = ac.getCam_val(-cam_front.ang) * 1.5;
   }
 
   kicker.run(kick_);
+  Serial.print(" A : ");
+  Serial.print(A);
+  Serial.print(" AC_flag : ");
+  Serial.print(AC_flag);
+  Serial.print(" AC_val : ");
+  Serial.print(AC_val);
+  Serial.print(" | ");
+  Serial.print(" rake : ");
+  Serial.print(rake_flag);
+  Serial.print(" max_val : ");
+  Serial.print(max_val);
 
   if(back_flag == 1){
     max_val = go_val_back;
   }
 
   if(M_flag == 1){
-    MOTOR.moveMotor_0(go_ang,max_val,AC_val,0);
+    if(AC_flag){
+      MOTOR.moveMotor_0(go_ang,max_val,AC_val,1);
+    }
+    else{
+      MOTOR.moveMotor_0(go_ang,max_val,AC_val,0);
+    }
   }
   else if(M_flag == 0){
     MOTOR.motor_0();
   }
-
-  Serial.print(" goang : ");
-  Serial.print(go_ang.degree);
-  Serial.println();
-  send_val[0] = go_ang.degree;
-  send_val[1] = cam_front.ang;
-  // ball.print();
-  // Serial.print(" A : ");
-  // Serial.print(A);
 
   if(MOTOR.NoneM_flag){
     // OLED_moving();
