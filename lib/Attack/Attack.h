@@ -19,6 +19,7 @@ extern Kicker kicker;
 extern int ac_tirget;
 extern int color;
 extern int val_max;
+extern int Values[];
 
 class Attack{
     private:
@@ -27,6 +28,7 @@ class Attack{
         int c = 0;
 
         float RA_a = 1.8;  //45~90°の時の回り込みの係数
+        float RA_b = 2.5;
 
         int cam_front_on = 0;
         int CFO_B = 999;

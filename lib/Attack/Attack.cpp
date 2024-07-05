@@ -2,6 +2,8 @@
 
 
 void Attack::available_set(int *check_val){
+  RA_a = Values[0] / 100.0;
+  RA_b = Values[1] / 100.0;
   goal_color = color;
   if(goal_color == 0){
     cam_front.color = 0;  //青が0 黄色が1
@@ -114,7 +116,7 @@ void Attack::attack(){
       go_ang = abs(ball.ang);
     }
     else if(abs(ball.ang) < 45){
-      go_ang = abs(ball.ang) * 2.0;
+      go_ang = abs(ball.ang) * RA_b;
     }
     else if(abs(ball.ang) < 90){
       if(130 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < 180){
