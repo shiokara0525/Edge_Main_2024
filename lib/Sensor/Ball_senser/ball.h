@@ -43,7 +43,7 @@ class BALL{
         Vector2D vec_acc;
 
         int flag = 1;
-        int get_val;
+        int catch_val; //補足センサのアナログの値
         int ball_get;
         int get_th = 80;
 
@@ -53,4 +53,5 @@ class BALL{
         int down_val[4];
     private:
         byte data_byte[10];
+        const int CATCH_PIN = A9;
 };

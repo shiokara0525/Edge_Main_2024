@@ -263,6 +263,10 @@ void sendtoESP(const char* message){
       Serial.print(send_num[i]);
     }
   }
+  else if(strcmp(message,"BALL_CATCH") == 0){
+    flag = 10;
+    send[0] = ball.catch_val;
+  }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
   if(flag != 7){
@@ -282,7 +286,7 @@ void sendtoESP(const char* message){
   //   Serial.print(" ");
   //   Serial.print(send_byte[i]);
   // }
-  Serial.println();
+  // Serial.println();
 }
 
 
@@ -351,8 +355,10 @@ void serialEvent7(){
         sendtoESP("CAM_BACK");
         goal_send_count = 0;
       }
-      
       // sendtoESP("CAM_BACK");
+    }
+    else if(data_int == 90){
+      sendtoESP("BALL_CATCH");
     }
   }
   else if(data[1] == 3){
@@ -436,9 +442,9 @@ void serialEvent7(){
       }
     }
   }
-  // Serial.print(" ");
+  // Serial.print(" sort : ");
   // Serial.print(data[1]);
-  // Serial.print(" ");
+  // Serial.print(" content : ");
   // Serial.print(data_int);
   
   // Serial.println();

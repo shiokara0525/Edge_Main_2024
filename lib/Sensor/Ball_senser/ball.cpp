@@ -12,6 +12,7 @@ BALL::BALL(){
     B_v.setLenth(10);
     Bang_dif_.setLenth(40);
     Far.setLenth(10);
+    pinMode(CATCH_PIN,INPUT);
 }
 
 
@@ -31,9 +32,10 @@ int BALL::getBallposition(){
     contain[3] = (uint16_t(data_byte[3]));
     float y = y_MA.demandAve(int16_t(contain[2] | contain[3]));
 
-    get_1 = data_byte[4];
-    get_2 = data_byte[5];
-    get_val = get_1 + get_2;
+
+    catch_val = analogRead(CATCH_PIN);
+    Serial.print(" catch_val : ");
+    Serial.println(catch_val);
 
     float x_down = 0;
     float y_down = 0;
@@ -58,7 +60,7 @@ int BALL::getBallposition(){
         flag = 1;
     }
 
-    if(45 < get_1 && 45 < get_2 && (51 < get_1 || 51 < get_2) && get_th < get_val){
+    if(catch_val < get_th){
         ball_get = 1;
     }
     else{
