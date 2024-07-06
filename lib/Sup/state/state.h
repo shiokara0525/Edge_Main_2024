@@ -4,9 +4,9 @@
 
 class State {
 private:
-    int currentState;
-    int change;
-    timer stateTimer;
+    int currentState;  //ステートの番号
+    int change;        //1だったらそのときステートが変わった 
+    timer stateTimer;  //ステートに居続けているタイマー
 
 public:
     State() {
@@ -34,5 +34,14 @@ public:
 
     unsigned long readStateTimer() {
         return stateTimer.read_ms();
+    }
+
+    unsigned long readStateTimer(int a){
+        if(a == currentState){
+            return stateTimer.read_ms();
+        }
+        else{
+            return 0;
+        }
     }
 };

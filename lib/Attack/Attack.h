@@ -7,6 +7,7 @@
 #include<Ball_senser\ball.h>
 #include<AC\ac.h>
 #include<Cam\Cam.h>
+#include<state\state.h>
 
 extern AC ac;
 extern Cam cam_front;
@@ -48,6 +49,8 @@ class Attack{
         timer A_24_t;
         timer Timer;
         timer CFO_t;
+
+        State ball_front;
     public:
         void attack();
         void available_set(int*);

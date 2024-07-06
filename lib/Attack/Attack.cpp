@@ -112,12 +112,19 @@ void Attack::attack(){
     }
 
     float confidencial_num = (ball.vec.getMagnitude() - 130) * 0.02;
+    int front_flag = 0;
 
     if(abs(ball.ang) < 15){
-      go_ang = abs(ball.ang);
+      go_ang = ball.ang;
+      if(ball_front.readStateTimer(1) < 500){
+        max_val = 205;
+      }
+      AC_flag = 1;
+      front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
       go_ang = abs(ball.ang) * RA_b;
+      max_val = 230;
     }
     else if(abs(ball.ang) < 90){
       if(130 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < 180){
@@ -141,6 +148,8 @@ void Attack::attack(){
         go_ang = abs(ball.ang) * 2;
       }
     }
+
+    ball_front.enterState(front_flag);
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
 

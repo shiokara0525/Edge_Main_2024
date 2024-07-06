@@ -48,14 +48,11 @@ void Diffence::defence(){
 
   Camback_on.enterState(cam_back.on);
 
-  if(Camback_on.getCurrentState() == 0){
-    if(1000 < Camback_on.readStateTimer()){
-      if(line.LINE_on == 0 || (abs(line.ang) < 15 || 165 < abs(line.ang))){
-        A = 16;  //なんだこれ　自分にも分らん
-      }
+  if(1000 < Camback_on.readStateTimer(0)){
+    if(line.LINE_on == 0 || (abs(line.ang) < 15 || 165 < abs(line.ang))){
+      A = 16;  //なんだこれ　自分にも分らん
     }
   }
-
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
@@ -184,13 +181,12 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    if(Center.getCurrentState() == 3){
-      if(300 < Center.readStateTimer() && 2000 < A_12_t.read_ms()){
-        A = 12;
-        c = 1;
-        Center.enterState(0);
-      }
+    if(300 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+      A = 12;
+      c = 1;
+      Center.enterState(0);
     }
+
     go_ang.to_range(180,true);  //進む角度を-180 ~ 180の範囲に収める
   }
 
