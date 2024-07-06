@@ -299,14 +299,19 @@ void serialEvent7(){
     return;
   }
 
-  data[0] = Serial7.read();
+  while(5 <= Serial7.available()){
+    data[0] = Serial7.read();
+    if(data[0] == 38){
+      break;
+    }
+  }
   if(data[0] != 38){
     return;
   }
   for(int i = 1; i < 5; i++){
     data[i] = Serial7.read();
-    // Serial.print(data[i]);
-    // Serial.print(" ");
+    Serial.print(data[i]);
+    Serial.print(" ");
   }
 
   contain[0] = uint16_t(data[2]) << 8;
@@ -316,8 +321,8 @@ void serialEvent7(){
 
   if(data[1] == 1){
     Mode = data_int;
-    Serial.print(" Mode : ");
-    Serial.print(Mode);
+    // Serial.print(" Mode : ");
+    // Serial.print(Mode);
   }
   else if(data[1] == 2){
     if(data_int == 15){
@@ -433,11 +438,11 @@ void serialEvent7(){
   }
   else{
     for(int i = 0; i < 6; i++){
-      if(12 + i == data[1]){
+      if(100 + i == data[1]){
         Values[i] = data_int;
         Serial.print(" num : ");
-        Serial.print(11 + i);
-        Serial.print(" send : ");
+        Serial.print(i);
+        Serial.print(" recieve : ");
         Serial.print(data_int);
       }
     }
@@ -447,7 +452,7 @@ void serialEvent7(){
   // Serial.print(" content : ");
   // Serial.print(data_int);
   
-  // Serial.println();
+  Serial.println();
 }
 
 void serialEvent3(){

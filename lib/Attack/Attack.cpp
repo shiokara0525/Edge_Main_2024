@@ -4,6 +4,7 @@
 void Attack::available_set(int *check_val){
   RA_a = Values[0] / 100.0;
   RA_b = Values[1] / 100.0;
+  Serial.printf(" RA_a : %f RA_b : %f\n",RA_a,RA_b);
   goal_color = color;
   if(goal_color == 0){
     cam_front.color = 0;  //青が0 黄色が1
@@ -387,17 +388,17 @@ void Attack::attack(){
   }
 
   kicker.run(kick_);
-  Serial.print(" A : ");
-  Serial.print(A);
-  Serial.print(" AC_flag : ");
-  Serial.print(AC_flag);
-  Serial.print(" AC_val : ");
-  Serial.print(AC_val);
-  Serial.print(" | ");
-  Serial.print(" rake : ");
-  Serial.print(rake_flag);
-  Serial.print(" max_val : ");
-  Serial.print(max_val);
+  // Serial.print(" A : ");
+  // Serial.print(A);
+  // Serial.print(" AC_flag : ");
+  // Serial.print(AC_flag);
+  // Serial.print(" AC_val : ");
+  // Serial.print(AC_val);
+  // Serial.print(" | ");
+  // Serial.print(" rake : ");
+  // Serial.print(rake_flag);
+  // Serial.print(" max_val : ");
+  // Serial.print(max_val);
 
   if(back_flag == 1){
     max_val = go_val_back;

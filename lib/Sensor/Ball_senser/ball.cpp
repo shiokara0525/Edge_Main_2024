@@ -34,8 +34,6 @@ int BALL::getBallposition(){
 
 
     catch_val = analogRead(CATCH_PIN);
-    Serial.print(" catch_val : ");
-    Serial.println(catch_val);
 
     float x_down = 0;
     float y_down = 0;
