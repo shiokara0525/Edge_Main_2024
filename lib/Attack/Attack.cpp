@@ -123,7 +123,7 @@ void Attack::attack(){
       front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
-      go_ang = 0.57 * (pow(ball.ang - 10,2)) + 20;
+      go_ang = 1.81 * (0.01 * ball.ang * ball.ang  + 10);
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
@@ -396,7 +396,7 @@ void Attack::attack(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(-cam_front.ang) * 1.3;
+    AC_val = ac.getCam_val(-cam_front.ang) * 1.0;
   }
 
   kicker.run(kick_);
