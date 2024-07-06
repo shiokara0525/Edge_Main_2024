@@ -41,7 +41,7 @@ class Attack{
         int go_conf;
 
         int go_val;
-        int go_val_back = 255;
+        int go_val_back = 200;
         int goal_color;
 
 
