@@ -190,6 +190,8 @@ void loop(){
   // Serial.print(Main_timer.read_us());
   // line.print_2();
   // Serial.println();
+  ball.vec_down.print();
+  Serial.println();
   // Main_timer.reset();
 }
 
@@ -310,8 +312,8 @@ void serialEvent7(){
   }
   for(int i = 1; i < 5; i++){
     data[i] = Serial7.read();
-    Serial.print(data[i]);
-    Serial.print(" ");
+    // Serial.print(data[i]);
+    // Serial.print(" ");
   }
 
   contain[0] = uint16_t(data[2]) << 8;
@@ -440,10 +442,10 @@ void serialEvent7(){
     for(int i = 0; i < 6; i++){
       if(100 + i == data[1]){
         Values[i] = data_int;
-        Serial.print(" num : ");
-        Serial.print(i);
-        Serial.print(" recieve : ");
-        Serial.print(data_int);
+        // Serial.print(" num : ");
+        // Serial.print(i);
+        // Serial.print(" recieve : ");
+        // Serial.print(data_int);
       }
     }
   }
