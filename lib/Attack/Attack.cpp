@@ -287,7 +287,7 @@ void Attack::attack(){
       B = A;
       Timer.reset();
     }
-    max_val = 180;
+    max_val = 150;
     go_ang = 0;
   
     if((line.LINE_on == 1 && (line.dis_X < -1.65 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
