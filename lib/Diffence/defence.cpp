@@ -201,8 +201,30 @@ void Diffence::defence(){
     }
     go_ang = ball.ang;
     M_flag = 2;
+
+    if(ball.ball_get){
+      A = 13;
+    }
     if(300 < Timer.read_ms()){
       c = 0;
+    }
+  }
+
+
+  if(A == 13){
+    if(A != B){
+      B = A;
+      Timer.reset();
+    }
+    go_ang = 0;
+    M_flag = 2;
+    AC_flag = 1;
+
+    if(200 < Timer.read_ms()){
+      kick_ = 1;
+    }
+    if(300 < Timer.read_ms()){
+      A = 15;
     }
   }
 
@@ -311,7 +333,7 @@ void Diffence::defence(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(cam_front.ang);
+    AC_val = ac.getCam_val(-cam_front.ang);
   }
 
 
