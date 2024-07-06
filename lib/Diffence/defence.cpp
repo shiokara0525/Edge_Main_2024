@@ -59,7 +59,7 @@ void Diffence::defence(){
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
-      if(ball.flag == 0 || (140 < abs(ball.ang) && cam_back.on && 30 < abs(abs(line.ang) - 90))){  //ボールがないまたはゴールの端にいるときとまる
+      if(ball.flag == 0 || (120 < abs(ball.ang) && abs(ball.ang) < 172 && cam_back.senter && cam_back.on)){  //ボールがないまたはゴールの端にいるときとまる
         A = 5;
       }
       else{
