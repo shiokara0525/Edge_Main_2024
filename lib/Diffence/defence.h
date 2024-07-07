@@ -36,7 +36,6 @@ class Diffence{
         timer A_12_t;
         int go_flag = 0;
 
-        int Bget_B = 999;
 
         int A = 0;
         int B = 999;
@@ -44,12 +43,10 @@ class Diffence{
         int stop_range = 20;
         const int far_th = 130;
         int go_val = 220;
-        int goal_color;
-        int print_flag = 1;// 1だったらシリアルプリントする
-        int line_F = 0;
-        int back_Flag = 0;
-        int goang_old = 0;
-        int push_flag = 0;
+        int print_flag = 1; // 1だったらシリアルプリントする
+        int line_F = 0;     //A=15のとき、ステート抜けるか判定するフラグ
+        int back_Flag = 0;  //A=15に行くフラグ
+        int push_flag = 0;  //押し込まれてるフラグ
 
         int Stop_flag;
 

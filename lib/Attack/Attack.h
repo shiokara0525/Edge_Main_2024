@@ -32,23 +32,20 @@ class Attack{
         float RA_b = 2.5;
 
         int cam_front_on = 0;
-        int CFO_B = 999;
         int back_count = 0;
         int go_flag = 0;
         int back_flag = 0;
 
         int rake_flag = 0;
 
-        int go_conf;
 
         int go_val;
         int go_val_back = 200;
-        int goal_color;
 
 
         timer A_24_t;
         timer Timer;
-        timer CFO_t;
+        State CFO;
 
         State ball_front;
     public:

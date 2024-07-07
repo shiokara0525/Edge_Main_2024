@@ -1,15 +1,6 @@
 #include<defence.h>
 
 void Diffence::available_set(){
-  goal_color = color;
-  if(goal_color == 0){
-    cam_front.color = 0;  //青が0 黄色が1
-    cam_back.color = 1;  //青が0 黄色が1
-  }
-  else if(goal_color == 1){
-    cam_front.color = 1;  //青が0 黄色が1
-    cam_back.color = 0;  //青が0 黄色が1
-  }
   go_val = val_max;
 }
 

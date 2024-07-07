@@ -4,16 +4,6 @@
 void Attack::available_set(int *check_val){
   RA_a = Values[0] / 100.0;
   RA_b = Values[1] / 100.0;
-  Serial.printf(" RA_a : %f RA_b : %f\n",RA_a,RA_b);
-  goal_color = color;
-  if(goal_color == 0){
-    cam_front.color = 0;  //青が0 黄色が1
-    cam_back.color = 1;  //青が0 黄色が1
-  }
-  else if(goal_color == 1){
-    cam_front.color = 1;  //青が0 黄色が1
-    cam_back.color = 0;  //青が0 黄色が1
-  }
   go_val = val_max;
 }
 
@@ -164,7 +154,6 @@ void Attack::attack(){
     if(A != B){
       B = A;
       Timer.reset();
-      CFO_t.reset();
     }
     cam_front_on = 0;
 
@@ -185,22 +174,16 @@ void Attack::attack(){
       kick_ = 1;
     }
 
+    CFO.enterState(cam_front_on);
     if(cam_front_on == 1){  //打っていいよフラグ
       max_val -= 15;
-      if(cam_front_on != CFO_B){
-        CFO_B = cam_front_on;
-        CFO_t.reset();  //RIZINGでタイマーリセット
-      }
 
-      if(200 < CFO_t.read_ms()){
+      if(200 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
       }
       if(40 < cam_front.Size){
         kick_ = 1;  //ゴールが近い時は問答無用で打つ
       }
-    }
-    else if(cam_front_on == 0){
-      CFO_B = 0;
     }
 
     if(1750 < Timer.read_ms()){
