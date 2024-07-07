@@ -10,7 +10,12 @@ private:
 
 public:
     State() {
-        currentState = 0;
+        currentState = 999;
+        change = 0;
+    }
+
+    void reset(){
+        currentState = 999;
         change = 0;
     }
 

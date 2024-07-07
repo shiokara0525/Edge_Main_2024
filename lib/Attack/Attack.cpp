@@ -154,6 +154,7 @@ void Attack::attack(){
     if(A != B){
       B = A;
       Timer.reset();
+      CFO.reset();
     }
     cam_front_on = 0;
 
