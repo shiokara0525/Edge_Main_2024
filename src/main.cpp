@@ -190,8 +190,8 @@ void loop(){
   // Serial.print(Main_timer.read_us());
   // line.print_2();
   // Serial.println();
-  ball.vec_down.print();
-  Serial.println();
+  // ball.vec_down.print();
+  // Serial.println();
   // Main_timer.reset();
 }
 

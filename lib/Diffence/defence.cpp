@@ -27,6 +27,7 @@ void Diffence::defence(){
   int kick_ = 0;                       //0だったらキックしない 1だったらキック
   int M_flag = 1;                      //1だったら動き続ける 0だったら止まる
   Stop_flag = 0;
+  Lside_A = 0;
 
   /*---------------------------------------------------------状況判断ステート--------------------------------------------------------*/
 
@@ -190,14 +191,14 @@ void Diffence::defence(){
       Timer.reset();
       A_12_t.reset();
     }
-    go_ang = ball.ang;
+    go_ang = ball.ang * 2;
     M_flag = 2;
 
     if(ball.ball_get){
       A = 13;
     }
-    if(300 < Timer.read_ms()){
-      c = 0;
+    if(500 < Timer.read_ms()){
+      A = 15;
     }
   }
 
@@ -214,8 +215,10 @@ void Diffence::defence(){
     if(200 < Timer.read_ms()){
       kick_ = 1;
     }
-    if(300 < Timer.read_ms()){
+    if(450 < Timer.read_ms() || line.LINE_on){
       A = 15;
+      Lside_A = 1;
+      c = 1;
     }
   }
 
@@ -324,7 +327,7 @@ void Diffence::defence(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(-cam_front.ang);
+    AC_val = ac.getCam_val(-cam_front.ang) * 1.2;
   }
 
 
