@@ -332,9 +332,9 @@ void Diffence::defence(){
 
 
   kicker.run(kick_);
-  Serial.print(" A : ");
-  Serial.print(A);
-  Serial.println();
+  // Serial.print(" A : ");
+  // Serial.print(A);
+  // Serial.println();
   // M_flag = 3;
 
 
@@ -345,7 +345,12 @@ void Diffence::defence(){
     MOTOR.motor_ac(AC_val);
   }
   else if(M_flag == 2){
-    MOTOR.moveMotor_0(go_ang,max_val,AC_val,0);
+    if(AC_flag){
+      MOTOR.moveMotor_0(go_ang,max_val,AC_val,1);
+    }
+    else{
+      MOTOR.moveMotor_0(go_ang,max_val,AC_val,0);
+    }
   }
   else if(M_flag == 3){
     MOTOR.motor_0();

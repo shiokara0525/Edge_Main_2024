@@ -49,8 +49,10 @@ int Cam::getCamdata(){
 
 
 void Cam::print(){
+    Serial.print(" color : ");
+    Serial.print(color);
     if(on == 0){
-        Serial.print("No block detected");
+        Serial.print(" No block detected");
     }
     else{
         Serial.print("  ang : ");
