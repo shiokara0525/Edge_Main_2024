@@ -191,7 +191,16 @@ void Diffence::defence(){
       Timer.reset();
       A_12_t.reset();
     }
-    go_ang = ball.ang * 2;
+
+    if(abs(ball.ang) < 10){
+      go_ang = abs(ball.ang);
+    }
+    else{
+      go_ang = 1.81 * (0.01 * ball.ang * ball.ang  + 10);
+      max_val = 230;
+    }
+
+    go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);
     M_flag = 2;
 
     if(ball.ball_get){
@@ -212,13 +221,20 @@ void Diffence::defence(){
     M_flag = 2;
     AC_flag = 1;
 
-    if(200 < Timer.read_ms()){
+    if(350 < Timer.read_ms()){
       kick_ = 1;
     }
-    if(450 < Timer.read_ms() || line.LINE_on){
+
+  
+    if(450 < Timer.read_ms()){
       A = 15;
-      Lside_A = 1;
+      Lside_A = 0;
       c = 1;
+    }
+    if(line.LINE_on){
+      A = 15;
+      c = 1;
+      Lside_A = 1;
     }
   }
 
@@ -327,7 +343,7 @@ void Diffence::defence(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(-cam_front.ang) * 1.2;
+    AC_val = ac.getCam_val(-cam_front.ang) * 1.5;
   }
 
 
