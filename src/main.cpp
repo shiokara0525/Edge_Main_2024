@@ -454,7 +454,7 @@ void serialEvent7(){
   // Serial.print(" content : ");
   // Serial.print(data_int);
   
-  Serial.println();
+  // Serial.println();
 }
 
 void serialEvent3(){

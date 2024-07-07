@@ -203,7 +203,8 @@ void Diffence::defence(){
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);
     M_flag = 2;
 
-    if(ball.ball_get){
+
+    if(300 < Timer.read_ms() && ball.ball_get){
       A = 13;
     }
     if(500 < Timer.read_ms()){
