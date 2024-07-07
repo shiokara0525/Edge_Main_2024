@@ -75,6 +75,8 @@ void Diffence::defence(){
     int go_flag = 0;
     double go_border[2];  //ボールの角度によって進む方向を変えるためのボーダーの変数(ラインに対して垂直な直線で進む角度の区分を分けるイメージ)
     angle balldir(ball.ang,true);  //ボールの角度を入れるオブジェクト
+    Lside_A = 0;
+
     if(2 < line.num){
       line.ang = 90;
     }
@@ -114,6 +116,12 @@ void Diffence::defence(){
     }
     else if(abs(go_ang.degree) < 60){  //前めに進むとき
       MOTOR.line_val = 2;
+      if(cam_back.on && cam_back.Size < 20){
+        Lside_A = 1;
+      }
+      else{
+        Lside_A = 0;
+      }
     }
     else{                              //横に進むとき
       MOTOR.line_val = 1.0;
@@ -142,6 +150,11 @@ void Diffence::defence(){
       }
     }
 
+    Lside.enterState(Lside_A);
+    if(1000 < Lside.readStateTimer(1)){
+      A = 15;
+      c = 1;
+    }
 
     if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
@@ -167,7 +180,7 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    if(300 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+    if(Center_A == 3 && 300 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
       A = 12;
       c = 1;
       Center.enterState(0);
@@ -200,11 +213,11 @@ void Diffence::defence(){
       A = 13;
     }
     
-    // if(450 < Timer.read_ms() && line.LINE_on && line_none_flag){
-    //   A = 15;
-    //   c = 1;
-    //   Lside_A = 1;
-    // }
+    if(350 < Timer.read_ms() && line.LINE_on && line_none_flag && cam_back.Size < 40){
+      A = 15;
+      c = 1;
+      Lside_A = 1;
+    }
     if(400 < Timer.read_ms()){
       A = 15;
     }
@@ -220,17 +233,21 @@ void Diffence::defence(){
     M_flag = 2;
     AC_flag = 1;
 
+    if(!line.LINE_on){
+      line_none_flag = 1;
+    }
+
     if(350 < Timer.read_ms()){
       kick_ = 1;
     }
 
   
-    if(450 < Timer.read_ms()){
+    if(450 < Timer.read_ms() && line_none_flag){
       A = 15;
       Lside_A = 0;
       c = 1;
     }
-    if(line.LINE_on){
+    if(100 < Timer.read_ms() && line.LINE_on && line_none_flag){
       A = 15;
       c = 1;
       Lside_A = 1;
@@ -312,7 +329,7 @@ void Diffence::defence(){
   ac.dir_target = target;
   push_flag = 0;
 
-  if(30 < abs(ac.dir)){  //ロボットが傾いてたら
+  if(30 < abs(ac.dir) && A != 13){  //ロボットが傾いてたら
     AC_val = ac.getAC_val() * 1.5;
     if(line.LINE_on == 0){
       if(abs(line.ang_old) < 90){
