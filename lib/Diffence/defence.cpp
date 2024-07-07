@@ -34,17 +34,11 @@ void Diffence::defence(){
 
   if(back_Flag == 1 && line.LINE_on == 0){  //角度がある程度あるかつラインの外だからゴールのほうに戻るよ
     A = 15;
-    c = 0;
-    line_F = 1;
+    c = 1;
   }
 
   Camback_on.enterState(cam_back.on);
 
-  if(1000 < Camback_on.readStateTimer(0)){
-    if(line.LINE_on == 0 || (abs(line.ang) < 15 || 165 < abs(line.ang))){
-      A = 16;  //なんだこれ　自分にも分らん
-    }
-  }
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
@@ -192,13 +186,7 @@ void Diffence::defence(){
       A_12_t.reset();
     }
 
-    if(abs(ball.ang) < 10){
-      go_ang = abs(ball.ang);
-    }
-    else{
-      go_ang = 1.81 * (0.01 * ball.ang * ball.ang  + 10);
-      max_val = 230;
-    }
+    go_ang = 0.0750 * ball.ang * ball.ang + 3.5;
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);
     M_flag = 2;
@@ -206,6 +194,12 @@ void Diffence::defence(){
 
     if(300 < Timer.read_ms() && ball.ball_get){
       A = 13;
+    }
+    
+    if(300 < Timer.read_ms() && line.LINE_on){
+      A = 15;
+      c = 1;
+      Lside_A = 1;
     }
     if(500 < Timer.read_ms()){
       A = 15;
