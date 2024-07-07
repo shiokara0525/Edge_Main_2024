@@ -143,7 +143,7 @@ void Diffence::defence(){
     }
 
 
-    if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 60){  //ぼーるが近くにあったら小突くやつ
+    if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
     }
 
@@ -184,6 +184,7 @@ void Diffence::defence(){
       B = A;
       Timer.reset();
       A_12_t.reset();
+      line_none_flag = 0;
     }
 
     go_ang = 0.0750 * ball.ang * ball.ang + 3.5;
@@ -191,17 +192,20 @@ void Diffence::defence(){
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);
     M_flag = 2;
 
+    if(!line.LINE_on){
+      line_none_flag = 1;
+    }
 
     if(300 < Timer.read_ms() && ball.ball_get){
       A = 13;
     }
     
-    if(300 < Timer.read_ms() && line.LINE_on){
-      A = 15;
-      c = 1;
-      Lside_A = 1;
-    }
-    if(500 < Timer.read_ms()){
+    // if(450 < Timer.read_ms() && line.LINE_on && line_none_flag){
+    //   A = 15;
+    //   c = 1;
+    //   Lside_A = 1;
+    // }
+    if(400 < Timer.read_ms()){
       A = 15;
     }
   }

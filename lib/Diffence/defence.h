@@ -48,6 +48,8 @@ class Diffence{
         int back_Flag = 0;  //A=15に行くフラグ
         int push_flag = 0;  //押し込まれてるフラグ
 
+        int line_none_flag = 0;
+
         int Stop_flag;
 
         byte return_num[4];
