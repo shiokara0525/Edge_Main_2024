@@ -45,7 +45,7 @@ void Attack::attack(){
       }
       else{
         if(ball.flag == 1){
-          if(1 <= ball.ball_get){
+          if(1 <= ball.ball_get && abs(ball.ang) < 45){
             A = 11;
           }
           else{
