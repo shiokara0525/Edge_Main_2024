@@ -124,8 +124,13 @@ void Attack::attack(){
       front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
+      if(23 < cam_front.Size){
+        go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
+      }
+      else{
+        go_ang = 0.9 * (-0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang));
+      }
       Serial.print(" SEC : 2 ");
-      go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
