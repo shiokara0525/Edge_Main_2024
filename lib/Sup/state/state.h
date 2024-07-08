@@ -15,6 +15,7 @@ public:
     }
 
     void reset(){
+        stateTimer.reset();
         currentState = 999;
         change = 0;
     }

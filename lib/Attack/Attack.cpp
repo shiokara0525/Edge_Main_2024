@@ -4,6 +4,7 @@
 void Attack::available_set(int *check_val){
   RA_a = Values[0] / 100.0;
   RA_b = Values[1] / 100.0;
+  RA_c = Values[2] / 100.0;
   go_val = val_max;
 }
 
@@ -101,7 +102,7 @@ void Attack::attack(){
       go_flag = 0;
     }
 
-    float confidencial_num = (ball.vec.getMagnitude() - 130) * 0.02;
+    float confidencial_num = (ball.vec.getMagnitude() - 1.375 * BALL_MAX_NUM) * 0.02;
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
@@ -113,11 +114,11 @@ void Attack::attack(){
       front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
-      go_ang = 1.81 * (0.01 * ball.ang * ball.ang  + 10);
+      go_ang = RA_c * (0.01 * ball.ang * ball.ang  + 10);
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
-      if(130 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < 180){
+      if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
         go_ang = (confidencial_num * (RA_a - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
       }
       else if(ball.vec.getMagnitude() < 130){
@@ -128,10 +129,10 @@ void Attack::attack(){
       }
     }
     else{
-      if(130 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < 180){
+      if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
         go_ang = abs(ball.ang) + (confidencial_num + 1) * 60.0;
       }
-      else if(ball.vec.getMagnitude() < 130){
+      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
         go_ang = abs(ball.ang) + 45;
       }
       else{
@@ -380,7 +381,7 @@ void Attack::attack(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(-cam_front.ang) * 1.0;
+    AC_val = ac.getCam_val(-cam_front.ang) * 0.8;
   }
 
   kicker.run(kick_);
