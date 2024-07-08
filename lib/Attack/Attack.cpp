@@ -106,37 +106,46 @@ void Attack::attack(){
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
-      go_ang = 0.3 * (ball.ang * ball.ang);
-      if(ball_front.readStateTimer(1) < 400){
-        max_val = 220;
+      if(23 < cam_front.Size){
+        go_ang = 0.3 * (ball.ang * ball.ang);
+        if(ball_front.readStateTimer(1) < 400){
+          max_val = 220;
+        }
+        AC_flag = 1;
+        Serial.print(" NO ");
       }
-      AC_flag = 1;
+      else{
+        go_ang = abs(ball.ang);
+        Serial.print(" YES ");
+      }
+      cam_front.print();
+      Serial.println();
       front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
-      go_ang = RA_c * (0.01 * ball.ang * ball.ang  + 10);
+      go_ang = RA_a * (0.01 * ball.ang * ball.ang  + 10);
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
       if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = (confidencial_num * (RA_a - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
+        go_ang = (confidencial_num * (RA_b - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
       }
       else if(ball.vec.getMagnitude() < 130){
         go_ang = abs(ball.ang) + 45;
       }
       else{
-        go_ang = abs(ball.ang) * RA_a;
+        go_ang = abs(ball.ang) * RA_b;
       }
     }
     else{
       if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = abs(ball.ang) + (confidencial_num + 1) * 60.0;
+        go_ang = abs(ball.ang) + (confidencial_num * (RA_b - 1) + 1) * 60.0;
       }
       else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
-        go_ang = abs(ball.ang) + 45;
+        go_ang = abs(ball.ang) + 60;
       }
       else{
-        go_ang = abs(ball.ang) * 2;
+        go_ang = abs(ball.ang) * RA_c;
       }
     }
 
@@ -381,7 +390,7 @@ void Attack::attack(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(-cam_front.ang) * 0.8;
+    AC_val = ac.getCam_val(-cam_front.ang) * 0.9;
   }
 
   kicker.run(kick_);
