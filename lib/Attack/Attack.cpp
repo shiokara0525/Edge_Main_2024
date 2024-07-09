@@ -40,7 +40,7 @@ void Attack::attack(){
       A = 20;
     }
     else{
-      if(line.side_flag != 0){
+      if(0){
         A = 21;
       }
       else{
@@ -108,19 +108,13 @@ void Attack::attack(){
 
     if(abs(ball.ang) < 10){
       Serial.print(" SEC : 1 ");
+      go_ang = 0.3 * (ball.ang * ball.ang);
       if(23 < cam_front.Size){
-        go_ang = 0.3 * (ball.ang * ball.ang);
         if(ball_front.readStateTimer(1) < 400){
           max_val = 220;
         }
         AC_flag = 1;
-        Serial.print(" NO ");
       }
-      else{
-        go_ang = abs(ball.ang);
-        Serial.print(" YES ");
-      }
-      cam_front.print();
       front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
@@ -154,7 +148,7 @@ void Attack::attack(){
     else{
       Serial.print(" SEC : 4");
       if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = abs(ball.ang) + (confidencial_num * (RA_b - 1) + 1) * 60.0;
+        go_ang = abs(ball.ang) + (confidencial_num * (RA_c - 1) + 1) * 60.0;
         Serial.print(" M : 1 ");
       }
       else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
