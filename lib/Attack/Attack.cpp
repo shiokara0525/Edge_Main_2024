@@ -128,7 +128,7 @@ void Attack::attack(){
         go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
       }
       else{
-        go_ang = 0.9 * (-0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang));
+        go_ang = RA_a * (-0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang));
       }
       Serial.print(" SEC : 2 ");
       max_val = 230;
@@ -145,7 +145,10 @@ void Attack::attack(){
       }
       else{
         go_ang = abs(ball.ang) * RA_b;
-        Serial.print(" M : 2 ");
+      }
+
+      if(23 < cam_front.Size){
+        go_ang = go_ang.degree * RA_a;
       }
     }
     else{
@@ -163,14 +166,15 @@ void Attack::attack(){
         Serial.print(" M : 3 ");
       }
     }
-    Serial.print(" ball_ang : ");
-    Serial.print(ball.ang);
-    Serial.print(" ang : ");
-    Serial.println(go_ang.degree);
 
     ball_front.enterState(front_flag);
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
+
+    // Serial.print(" ball_ang : ");
+    // Serial.print(ball.ang);
+    // Serial.print(" ang : ");
+    // Serial.println(go_ang.degree);
 
     if(go_flag == 1){
       go_ang = ball.ang;
