@@ -264,6 +264,7 @@ void sendtoESP(const char* message){
       Serial.print(" ");
       Serial.print(send_num[i]);
     }
+    Serial.println();
   }
   else if(strcmp(message,"BALL_CATCH") == 0){
     flag = 10;
@@ -271,7 +272,7 @@ void sendtoESP(const char* message){
   }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
-  if(flag != 7){
+  if(flag != 9){
     send_byte[2] = byte(send[0] >> 8);
     send_byte[3] = byte(send[0] & 0xFF);
     send_byte[4] = byte(send[1] >> 8);

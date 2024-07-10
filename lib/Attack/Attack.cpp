@@ -132,8 +132,12 @@ void Attack::attack(){
     }
     else if(abs(ball.ang) < 45){
       Serial.print(" SEC : 2 ");
-      go_ang = -0.000634 * pow(abs(ball.ang),3) - 0.0253 *pow(abs(ball.ang),2) + 2.81 * abs(ball.ang);
+      go_ang = -0.000634 * pow(abs(ball.ang),3) + 0.0253 * pow(abs(ball.ang),2) + 2.81 * abs(ball.ang);
       max_val = 230;
+      Serial.print(" ball_ang : ");
+      Serial.print(ball.ang);
+      Serial.print(" ang : ");
+      Serial.print(go_ang.degree);
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
@@ -141,7 +145,7 @@ void Attack::attack(){
         go_ang = (confidencial_num * (RA_b - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
         Serial.print(" M : 1 ");
       }
-      else if(ball.vec.getMagnitude() < 130){
+      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
         go_ang = abs(ball.ang) + 45;
         Serial.print(" M : 2 ");
       }
@@ -170,11 +174,7 @@ void Attack::attack(){
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
 
-    Serial.print(" ball_ang : ");
-    Serial.print(ball.ang);
-    Serial.print(" ang : ");
-    Serial.println(go_ang.degree);
-
+    Serial.println();
     if(go_flag == 1){
       go_ang = ball.ang;
     }
