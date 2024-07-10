@@ -1,7 +1,7 @@
 #pragma once
 
 #define DELTA_T 0.025
-#define BALL_MAX_NUM 80
+#define BALL_MAX_NUM 120
 #include <Arduino.h>
 #include<move_ave\MA.h>
 #include<Vector\myVector.h>

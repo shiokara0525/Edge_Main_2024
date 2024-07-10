@@ -6,6 +6,13 @@ void Attack::available_set(int *check_val){
   RA_b = Values[1] / 100.0;
   RA_c = Values[2] / 100.0;
   AC_D = Values[3] / 100.0;
+  Serial.print(" RA_a : ");
+  Serial.print(RA_a);
+  Serial.print(" RA_b : ");
+  Serial.print(RA_b);
+  Serial.print(" RA_c : ");
+  Serial.print(RA_c);
+  Serial.println();
   go_val = val_max;
 }
 
@@ -40,7 +47,7 @@ void Attack::attack(){
       A = 20;
     }
     else{
-      if(0){
+      if(line.side_flag != 0){
         A = 21;
       }
       else{
@@ -108,23 +115,24 @@ void Attack::attack(){
 
     if(abs(ball.ang) < 10){
       Serial.print(" SEC : 1 ");
-      go_ang = 0.3 * (ball.ang * ball.ang);
       if(23 < cam_front.Size){
+        go_ang = 0.3 * (ball.ang * ball.ang);
         if(ball_front.readStateTimer(1) < 400){
           max_val = 220;
         }
         AC_flag = 1;
+        Serial.print(" NO ");
       }
+      else{
+        go_ang = abs(ball.ang);
+        Serial.print(" YES ");
+      }
+      cam_front.print();
       front_flag = 1;
     }
     else if(abs(ball.ang) < 45){
-      if(23 < cam_front.Size){
-        go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
-      }
-      else{
-        go_ang = RA_a * (-0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang));
-      }
       Serial.print(" SEC : 2 ");
+      go_ang = -0.000634 * pow(abs(ball.ang),3) - 0.0253 *pow(abs(ball.ang),2) + 2.81 * abs(ball.ang);
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
@@ -139,24 +147,21 @@ void Attack::attack(){
       }
       else{
         go_ang = abs(ball.ang) * RA_b;
-      }
-
-      if(23 < cam_front.Size){
-        go_ang = go_ang.degree * RA_a;
+        Serial.print(" M : 2 ");
       }
     }
     else{
       Serial.print(" SEC : 4");
       if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = abs(ball.ang) + (confidencial_num * (RA_c - 1) + 1) * 60.0;
+        go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
         Serial.print(" M : 1 ");
       }
       else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
-        go_ang = abs(ball.ang) + 60;
+        go_ang = abs(ball.ang) + 45;
         Serial.print(" M : 2 ");
       }
       else{
-        go_ang = abs(ball.ang) * RA_c;
+        go_ang = abs(ball.ang) + 90;
         Serial.print(" M : 3 ");
       }
     }
@@ -165,10 +170,10 @@ void Attack::attack(){
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
 
-    // Serial.print(" ball_ang : ");
-    // Serial.print(ball.ang);
-    // Serial.print(" ang : ");
-    // Serial.println(go_ang.degree);
+    Serial.print(" ball_ang : ");
+    Serial.print(ball.ang);
+    Serial.print(" ang : ");
+    Serial.println(go_ang.degree);
 
     if(go_flag == 1){
       go_ang = ball.ang;
@@ -420,6 +425,9 @@ void Attack::attack(){
   }
   else if(AC_flag == 1){
     AC_val = ac.getCam_val(-cam_front.ang) * AC_D;
+    Serial.print(" AC_val : ");
+    Serial.print(AC_val);
+    Serial.println();
   }
 
   kicker.run(kick_);
