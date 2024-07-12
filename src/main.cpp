@@ -260,11 +260,11 @@ void sendtoESP(const char* message){
   else if(strcmp(message,"LINE_ALL") == 0){
     flag = 9;
     send_num = line.data_byte;
-    for(int i = 0; i < 4; i++){
-      Serial.print(" ");
-      Serial.print(send_num[i]);
-    }
-    Serial.println();
+    // for(int i = 0; i < 4; i++){
+    //   Serial.print(" ");
+    //   Serial.print(send_num[i]);
+    // }
+    // Serial.println();
   }
   else if(strcmp(message,"BALL_CATCH") == 0){
     flag = 10;

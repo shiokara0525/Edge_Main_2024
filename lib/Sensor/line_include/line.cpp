@@ -118,12 +118,17 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
     }
   }
   else if(LINE_on == 1){
+    vec.set(dis_X,dis_Y);
     if(LINE_on != LINE_on_old){
       LINE_on_old = LINE_on;
       LINE_change = 1;
       firstDir_flag = switchLineflag(ang);
+      vec_first = vec;
     }
-    vec.set(dis_X,dis_Y);
+    vec_go = -1 * vec;
+    if(vec * vec_first < 0){
+      vec_go = vec;
+    }
   }
   return LINE_on;
 }
@@ -186,10 +191,12 @@ double LINE::line_switch(int i,double ang,int line_flag){  //ラインを踏み�
 void LINE::print(){
   Serial.print(" 個数 : ");
   Serial.print(num);
-  Serial.print(" 角度 : ");
-  Serial.print(ang); //ラインのベクトルを表示
-  Serial.print(" 距離 : ");
-  Serial.print(dis); //ラインのベクトルを表示
+  // Serial.print(" 角度 : ");
+  // Serial.print(ang); //ラインのベクトルを表示
+  // Serial.print(" 距離 : ");
+  // Serial.print(dis); //ラインのベクトルを表示
+  vec.print();
+  vec_go.print();
   // Serial.print("  X : ");
   // Serial.print(dis_X); //ラインのベクトルを表示
   // Serial.print("  Y : ");

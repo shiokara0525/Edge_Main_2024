@@ -110,10 +110,10 @@ void Attack::attack(){
       go_flag = 0;
     }
 
-    float confidencial_num = (ball.vec.getMagnitude() - 1.375 * BALL_MAX_NUM) * 0.02;
+    float confidencial_num = (ball.vec.getMagnitude() - 1.2 * BALL_MAX_NUM) * 0.02;
     int front_flag = 0;
 
-    if(abs(ball.ang) < 10){
+    if(abs(ball.ang) < 15){
       Serial.print(" SEC : 1 ");
       if(23 < cam_front.Size){
         go_ang = 0.3 * (ball.ang * ball.ang);
@@ -141,7 +141,7 @@ void Attack::attack(){
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
-      if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
+      if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
         go_ang = (confidencial_num * (RA_b - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
         Serial.print(" M : 1 ");
       }
@@ -156,7 +156,7 @@ void Attack::attack(){
     }
     else{
       Serial.print(" SEC : 4");
-      if(BALL_MAX_NUM * 1.375 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
+      if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
         go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
         Serial.print(" M : 1 ");
       }
@@ -174,7 +174,7 @@ void Attack::attack(){
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);  //角度の正負を元に戻す
 
-    Serial.println();
+    // Serial.println();
     if(go_flag == 1){
       go_ang = ball.ang;
     }
@@ -250,7 +250,7 @@ void Attack::attack(){
     }
     back_flag = 1;
     // target = Line_target_dir;
-    go_ang = line.decideGoang(line_ang,line.firstDir_flag);
+    go_ang = degrees(line.vec_go.getAngle());
 
 
     if(line.LINE_change == -1){  //踏んでない状態から踏んでる状態になった時
@@ -326,7 +326,7 @@ void Attack::attack(){
     max_val = 150;
     go_ang = 0;
   
-    if((line.LINE_on == 1 && (line.dis_X < -1.65 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
+    if((line.LINE_on == 1 && (line.dis_X < -1.25 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
       A = 23;
     }
   }
