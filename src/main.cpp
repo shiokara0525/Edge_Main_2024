@@ -118,12 +118,6 @@ void loop(){
     }
 
     attack.attack();
-    if(1000 < Mode_timer.read_ms()){
-      if(25 < ESP_send.read_ms()){
-        sendtoESP("CHECK");
-        ESP_send.reset();
-      }
-    }
   }
 
   else if(Mode == 2){
@@ -270,9 +264,13 @@ void sendtoESP(const char* message){
     flag = 10;
     send[0] = ball.catch_val;
   }
+  else if(strcmp(message,"NEOPIXEL_A") == 0){
+    flag = 11;
+    send_num = attack.getCheckval();
+  }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
-  if(flag != 9){
+  if(flag != 9 && flag != 7 && flag != 11){
     send_byte[2] = byte(send[0] >> 8);
     send_byte[3] = byte(send[0] & 0xFF);
     send_byte[4] = byte(send[1] >> 8);
@@ -438,6 +436,9 @@ void serialEvent7(){
   }
   else if(data[1] == 14){
     testMode = data_int;
+  }
+  else if(data[1] == 16){
+    sendtoESP("NEOPIXEL_A");
   }
   else{
     for(int i = 0; i < 6; i++){

@@ -49,11 +49,13 @@ class Attack{
         timer Timer;
         State CFO;
 
+        byte return_byte[4];
+
         State ball_front;
     public:
         void attack();
         void available_set(int*);
-        int* getCheckval();
+        byte* getCheckval();
         int check_val[6];
         int send_val[2];
 };

@@ -17,8 +17,18 @@ void Attack::available_set(int *check_val){
 }
 
 
-int* Attack::getCheckval(){
-  return check_val;
+byte* Attack::getCheckval(){
+  return_byte[0] = A;
+  return_byte[1] = cam_front.ang + 60;
+  if(!cam_front.on){
+    return_byte[1] = 240;
+  }
+  return_byte[2] = cam_back.ang + 60;
+  if(!cam_back.on){
+    return_byte[2] = 240;
+  }
+  return_byte[3] = 99;
+  return return_byte;
 }
 
 
@@ -134,10 +144,6 @@ void Attack::attack(){
       Serial.print(" SEC : 2 ");
       go_ang = -0.000634 * pow(abs(ball.ang),3) + 0.0253 * pow(abs(ball.ang),2) + 2.81 * abs(ball.ang);
       max_val = 230;
-      Serial.print(" ball_ang : ");
-      Serial.print(ball.ang);
-      Serial.print(" ang : ");
-      Serial.print(go_ang.degree);
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
@@ -169,6 +175,11 @@ void Attack::attack(){
         Serial.print(" M : 3 ");
       }
     }
+
+    Serial.print(" ball_ang : ");
+    Serial.print(ball.ang);
+    Serial.print(" ang : ");
+    Serial.println(go_ang.degree);
 
     ball_front.enterState(front_flag);
 
