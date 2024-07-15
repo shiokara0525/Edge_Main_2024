@@ -102,22 +102,22 @@ void Vector2D::print() {
 
 
 
-double operator*(const Vector2D& v1, const Vector2D& v2) {
+double operator*(const Vector2D& v1, const Vector2D& v2) {  // Dot product
     return v1.dotProduct(v2);
 }
 
-Vector2D operator*(const Vector2D& v1, double scalar) {
+Vector2D operator*(const Vector2D& v1, double scalar) {  // Scalar multiplication
     return Vector2D(v1.getX() * scalar, v1.getY() * scalar);
 }
 
-Vector2D operator*(double scalar, const Vector2D& v1) {
+Vector2D operator*(double scalar, const Vector2D& v1) {  // Scalar multiplication
     return Vector2D(v1.getX() * scalar, v1.getY() * scalar);
 }
 
-Vector2D operator+(const Vector2D& v1, const Vector2D& v2) {
+Vector2D operator+(const Vector2D& v1, const Vector2D& v2) {  // Vector addition
     return v1.add(v2);
 }
 
-Vector2D operator-(const Vector2D& v1, const Vector2D& v2) {
+Vector2D operator-(const Vector2D& v1, const Vector2D& v2) {  // Vector subtraction
     return v1.subtract(v2);
 }

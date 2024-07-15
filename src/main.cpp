@@ -18,10 +18,10 @@ Cam cam_back(4);
 BALL ball;
 LINE line;
 
-Attack attack;
-Diffence defence;
+Attack attack;     //アタッカー動作時の状態判断のクラス
+Diffence defence;  //ディフェンス動作時の状態判断のクラス
 
-Kicker kicker;
+Kicker kicker;     //キッカー動作のクラス
 
 timer Ball_period;
 timer Line_period;
@@ -32,7 +32,7 @@ timer ball_Get;
 timer line_Get;
 timer ESP_send;
 
-motor_attack MOTOR;
+motor_attack MOTOR; //モーター動作のクラス
 
 int Mode = 0;
 int Mode_old = 999;
