@@ -2,10 +2,10 @@
 
 
 void Kicker::setup(){
-    pinMode(K,OUTPUT);
-    pinMode(C,OUTPUT);
-    digitalWrite(C,HIGH);
-    digitalWrite(K,LOW);
+  pinMode(K,OUTPUT);
+  pinMode(C,OUTPUT);
+  digitalWrite(C,HIGH);
+  digitalWrite(K,LOW);
 }
 
 
@@ -42,6 +42,12 @@ int Kicker::run(int kick_){
 
   }
   return kick_flag;
+}
+
+
+void Kicker::TEST_(){
+  digitalWrite(C,HIGH);
+  digitalWrite(K,HIGH);
 }
 
 

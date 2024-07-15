@@ -9,6 +9,7 @@ class Kicker{
         void setup();
         int run(int);
         int stop();
+        void TEST_();
         int kick_flag = 0;
 
     private:

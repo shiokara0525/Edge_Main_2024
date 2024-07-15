@@ -100,6 +100,7 @@ void loop(){
       MOTOR.motor_0();
       Mode_timer.reset();
       line_on = 0;
+      kicker.stop();
       Serial8.write(38);
       Serial8.write(10);
       Serial8.write(0);
@@ -115,6 +116,7 @@ void loop(){
       Mode_old = Mode;
       attack.available_set(Values);
       Mode_timer.reset();
+      kicker.stop();
     }
 
     attack.attack();
@@ -125,6 +127,7 @@ void loop(){
       Mode_old = Mode;
       defence.available_set();
       Mode_timer.reset();
+      kicker.stop();
     }
 
     defence.defence();
@@ -140,6 +143,7 @@ void loop(){
       MOTOR.moveMotor_0(ang,200,0,0);
     }
     else if(testMode == 1){
+      MOTOR.motor_0();
       for(int i = 0; i < 4; i++){
         MOTOR.Moutput(i,200);
         delay(500);
@@ -157,6 +161,10 @@ void loop(){
     else if(testMode == 3){
       float AC_val = ac.getAC_val();
       MOTOR.motor_ac(AC_val);
+    }
+    else if(testMode == 4){
+      MOTOR.motor_0();
+      kicker.TEST_();
     }
   }
 
