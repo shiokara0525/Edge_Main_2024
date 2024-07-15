@@ -13,7 +13,7 @@ byte* Diffence::get_flag(){
   return_num[0] = ball.vec_velocity.getMagnitude();
   return_num[1] = Stop_flag;
   return_num[2] = A;
-  return_num[3] = 99; 
+  return_num[3] = A_15_flag; 
   return return_num;
 }
 
@@ -35,6 +35,7 @@ void Diffence::defence(){
 
   if(back_Flag == 1 && line.LINE_on == 0){  //角度がある程度あるかつラインの外だからゴールのほうに戻るよ
     A = 15;
+    A_15_flag = 1;
     c = 1;
   }
 
@@ -154,6 +155,7 @@ void Diffence::defence(){
     Lside.enterState(Lside_A);
     if(1000 < Lside.readStateTimer(1)){
       A = 15;
+      A_15_flag = 2;
       c = 1;
     }
 
@@ -217,11 +219,13 @@ void Diffence::defence(){
     if(!ball.ball_get){
       if(350 < Timer.read_ms() && line.LINE_on && line_none_flag && cam_back.Size < 40){
         A = 15;
+        A_15_flag = 3;
         c = 1;
         Lside_A = 1;
       }
       if(400 < Timer.read_ms()){
         A = 15;
+        A_15_flag = 4;
       }
     }
 
@@ -248,11 +252,13 @@ void Diffence::defence(){
     if(!ball.ball_get){
       if(450 < Timer.read_ms() && line_none_flag){
         A = 15;
+        A_15_flag = 5;
         Lside_A = 0;
         c = 1;
       }
       if(100 < Timer.read_ms() && line.LINE_on && line_none_flag){
         A = 15;
+        A_15_flag = 6;
         c = 1;
         Lside_A = 1;
       }
@@ -320,6 +326,7 @@ void Diffence::defence(){
     if(500 < Timer.read_ms()){
       if(90 < abs(line.ang_old) || back_Flag){
         A = 15;
+        A_15_flag = 7;
         c = 1;
       }
     }

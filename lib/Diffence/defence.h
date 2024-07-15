@@ -50,6 +50,8 @@ class Diffence{
 
         int line_none_flag = 0;
 
+        int A_15_flag;
+
         int Stop_flag;
 
         byte return_num[4];

@@ -7,6 +7,7 @@ void Attack::available_set(int *check_val){
   RA_c = Values[2] / 100.0;
   AC_D = Values[3] / 100.0;
   A = 0;
+  c = 0;
   Serial.print(" RA_a : ");
   Serial.print(RA_a);
   Serial.print(" RA_b : ");
@@ -474,8 +475,8 @@ void Attack::attack(){
   }
 
   kicker.run(kick_);
-  // Serial.print(" A : ");
-  // Serial.print(A);
+  Serial.print(" A : ");
+  Serial.print(A);
   // Serial.print(" AC_flag : ");
   // Serial.print(AC_flag);
   // Serial.print(" AC_val : ");
@@ -485,6 +486,7 @@ void Attack::attack(){
   // Serial.print(rake_flag);
   // Serial.print(" max_val : ");
   // Serial.print(max_val);
+  Serial.println();
 
   if(back_flag == 1){
     max_val = go_val_back;
