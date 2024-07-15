@@ -38,6 +38,8 @@ class Attack{
         int go_flag = 0;
         int back_flag = 0;
 
+        int ballang_first;
+
         int rake_flag = 0;
 
 

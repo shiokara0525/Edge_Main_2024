@@ -70,18 +70,23 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
 
   if(data_on[24] == 1 && data_on[25] == 0){
     side_flag = 1;
+    ang_side = 90;
   }
   else if(data_on[24] == 0 && data_on[25] == 1){
     side_flag = 2;
+    ang_side = -90;
   }
   else if(data_on[24] == 1 && data_on[25] == 1 && data_on[26] == 0){
     side_flag = 3;
+    ang_side = 0;
   }
   else if(data_on[26] == 1 && data_on[25] == 0 && data_on[24] == 0){
     side_flag = 4;
+    ang_side = 180;
   }
   else if(data_on[24] == 1 && data_on[25] == 1 && data_on[26] == 1){
     side_flag = 4;
+    ang_side = 180;
   }
   else{
     side_flag = 0;
