@@ -2,6 +2,7 @@
 
 void Diffence::available_set(){
   go_val = val_max;
+  A = 0;
 }
 
 int Diffence::get_A(){

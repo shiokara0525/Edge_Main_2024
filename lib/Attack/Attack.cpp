@@ -6,6 +6,7 @@ void Attack::available_set(int *check_val){
   RA_b = Values[1] / 100.0;
   RA_c = Values[2] / 100.0;
   AC_D = Values[3] / 100.0;
+  A = 0;
   Serial.print(" RA_a : ");
   Serial.print(RA_a);
   Serial.print(" RA_b : ");
