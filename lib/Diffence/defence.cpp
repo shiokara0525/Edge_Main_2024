@@ -213,14 +213,17 @@ void Diffence::defence(){
       A = 13;
     }
     
-    if(350 < Timer.read_ms() && line.LINE_on && line_none_flag && cam_back.Size < 40){
-      A = 15;
-      c = 1;
-      Lside_A = 1;
+    if(!ball.ball_get){
+      if(350 < Timer.read_ms() && line.LINE_on && line_none_flag && cam_back.Size < 40){
+        A = 15;
+        c = 1;
+        Lside_A = 1;
+      }
+      if(400 < Timer.read_ms()){
+        A = 15;
+      }
     }
-    if(400 < Timer.read_ms()){
-      A = 15;
-    }
+
   }
 
 
@@ -241,16 +244,17 @@ void Diffence::defence(){
       kick_ = 1;
     }
 
-  
-    if(450 < Timer.read_ms() && line_none_flag){
-      A = 15;
-      Lside_A = 0;
-      c = 1;
-    }
-    if(100 < Timer.read_ms() && line.LINE_on && line_none_flag){
-      A = 15;
-      c = 1;
-      Lside_A = 1;
+    if(!ball.ball_get){
+      if(450 < Timer.read_ms() && line_none_flag){
+        A = 15;
+        Lside_A = 0;
+        c = 1;
+      }
+      if(100 < Timer.read_ms() && line.LINE_on && line_none_flag){
+        A = 15;
+        c = 1;
+        Lside_A = 1;
+      }
     }
   }
 
