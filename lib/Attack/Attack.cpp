@@ -275,7 +275,7 @@ void Attack::attack(){
       AC_flag = 0;
     }
 
-    if(setplay_flag == 1 || setplay_flag == 2){
+    if(setplay_flag && 100 < Timer.read_ms()){
       kick_ = 1;
     }
   }
@@ -470,7 +470,19 @@ void Attack::attack(){
   //----------------------------------------------------------出力(ここで行ってるのはフラグの回収のみ)----------------------------------------------------------//
 
 
-  if(setplay_flag == 1 || setplay_flag == 2){
+  if(setplay_flag == 1){
+    target += 45;
+    if(1000 < play_time.read_ms()){
+      setplay_flag = 0;
+    }
+  }
+  else if(setplay_flag == 2){
+    target -= 45;
+    if(1000 < play_time.read_ms()){
+      setplay_flag = 0;
+    }
+  }
+  else if(setplay_flag == 3){
     target = first_ang;
     Serial.print(" !!!! ");
     if(1000 < play_time.read_ms()){
