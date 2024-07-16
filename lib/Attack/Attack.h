@@ -42,6 +42,9 @@ class Attack{
 
         int rake_flag = 0;
 
+        int first_ang = 0;
+
+        timer play_time;
 
         int go_val;
         int go_val_back = 200;
@@ -60,4 +63,5 @@ class Attack{
         byte* getCheckval();
         int check_val[6];
         int send_val[2];
+        int setplay_flag = 0;
 };

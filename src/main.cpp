@@ -448,6 +448,9 @@ void serialEvent7(){
   else if(data[1] == 16){
     sendtoESP("NEOPIXEL_A");
   }
+  else if(data[1] == 17){
+    attack.setplay_flag = data_int;
+  }
   else{
     for(int i = 0; i < 6; i++){
       if(100 + i == data[1]){
@@ -459,12 +462,12 @@ void serialEvent7(){
       }
     }
   }
-  // Serial.print(" sort : ");
-  // Serial.print(data[1]);
-  // Serial.print(" content : ");
-  // Serial.print(data_int);
+  Serial.print(" sort : ");
+  Serial.print(data[1]);
+  Serial.print(" content : ");
+  Serial.print(data_int);
   
-  // Serial.println();
+  Serial.println();
 }
 
 void serialEvent3(){

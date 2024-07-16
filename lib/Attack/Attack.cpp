@@ -16,6 +16,8 @@ void Attack::available_set(int *check_val){
   Serial.print(RA_c);
   Serial.println();
   go_val = val_max;
+  play_time.reset();
+  first_ang = ac.dir_n;
 }
 
 
@@ -158,7 +160,7 @@ void Attack::attack(){
         go_ang = abs(ball_ang);
         // Serial.print(" YES ");
       }
-      cam_front.print();
+      // cam_front.print();
       front_flag = 1;
     }
     else if(abs(ball_ang) < 45){
@@ -216,12 +218,12 @@ void Attack::attack(){
       AC_flag = 1;
     }
 
-    Serial.print(" go_flag : ");
-    Serial.print(go_flag);
-    Serial.print(" ball_ang : ");
-    Serial.print(ball_ang);
-    Serial.print(" ang : ");
-    Serial.println(go_ang.degree);
+    // Serial.print(" go_flag : ");
+    // Serial.print(go_flag);
+    // Serial.print(" ball_ang : ");
+    // Serial.print(ball_ang);
+    // Serial.print(" ang : ");
+    // Serial.println(go_ang.degree);
   }
 
 
@@ -271,6 +273,10 @@ void Attack::attack(){
       rake_flag = 1;
       target += 90;
       AC_flag = 0;
+    }
+
+    if(setplay_flag == 1 || setplay_flag == 2){
+      kick_ = 1;
     }
   }
 
@@ -463,6 +469,14 @@ void Attack::attack(){
 
   //----------------------------------------------------------出力(ここで行ってるのはフラグの回収のみ)----------------------------------------------------------//
 
+
+  if(setplay_flag == 1 || setplay_flag == 2){
+    target = first_ang;
+    Serial.print(" !!!! ");
+    if(1000 < play_time.read_ms()){
+      setplay_flag = 0;
+    }
+  }
   ac.dir_target = target;
   if(AC_flag == 0 || rake_flag){
     AC_val = ac.getAC_val();
@@ -475,8 +489,8 @@ void Attack::attack(){
   }
 
   kicker.run(kick_);
-  Serial.print(" A : ");
-  Serial.print(A);
+  // Serial.print(" A : ");
+  // Serial.print(A);
   // Serial.print(" AC_flag : ");
   // Serial.print(AC_flag);
   // Serial.print(" AC_val : ");
@@ -486,6 +500,8 @@ void Attack::attack(){
   // Serial.print(rake_flag);
   // Serial.print(" max_val : ");
   // Serial.print(max_val);
+  Serial.print(" setplay : ");
+  Serial.print(setplay_flag);
   Serial.println();
 
   if(back_flag == 1){
