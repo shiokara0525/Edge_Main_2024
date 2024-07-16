@@ -3,6 +3,7 @@
 void Diffence::available_set(){
   go_val = val_max;
   A = 0;
+  c = 0;
 }
 
 int Diffence::get_A(){
@@ -72,7 +73,14 @@ void Diffence::defence(){
 
   if(A == 10){  //ライントレース(アルゴリズムブログで書きたいな)
     if(A != B){
+      if(B == 15){
+        A_15_back_flag = 1;
+      }
+      else{
+        A_15_back_flag = 0;
+      }
       B = A;
+      Timer.reset();
     }
     int go_flag = 0;
     double go_border[2];  //ボールの角度によって進む方向を変えるためのボーダーの変数(ラインに対して垂直な直線で進む角度の区分を分けるイメージ)
@@ -138,10 +146,11 @@ void Diffence::defence(){
     }
 
     Center_A = 0;
+    ball_fast.enterState(ball.vec_velocity.getMagnitude() > 29);
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0){  //正面方向にボールがあったら停止するよ
-        if(20 < ball.vec_velocity.getMagnitude()){
+        if(ball_fast.readStateTimer(0) < 100){
           Stop_flag = 2;  //ボールの速度を原因にストップしてないフラグ
         }
         else{
@@ -190,6 +199,10 @@ void Diffence::defence(){
     }
 
     go_ang.to_range(180,true);  //進む角度を-180 ~ 180の範囲に収める
+
+    if(Timer.read_ms() < 300 && A_15_back_flag){
+      M_flag = 3;
+    }
   }
 
 
@@ -376,9 +389,9 @@ void Diffence::defence(){
 
 
   kicker.run(kick_);
-  // Serial.print(" A : ");
-  // Serial.print(A);
-  // Serial.println();
+  Serial.print(" A : ");
+  Serial.print(A);
+  Serial.println();
   // M_flag = 3;
 
 

@@ -33,6 +33,8 @@ class Diffence{
         State Center;
         State Camback_on;
 
+        State ball_fast;
+
         timer A_12_t;
         int go_flag = 0;
 
@@ -51,6 +53,7 @@ class Diffence{
         int line_none_flag = 0;
 
         int A_15_flag;
+        int A_15_back_flag;
 
         int Stop_flag;
 
