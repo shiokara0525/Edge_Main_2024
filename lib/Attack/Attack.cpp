@@ -265,14 +265,14 @@ void Attack::attack(){
       }
     }
 
-    if(1750 < Timer.read_ms()){
-      rake_flag = 0;
-      Timer.reset();
-    }
-    else if(1500 < Timer.read_ms()){
+
+    if(1500 < Timer.read_ms() && 2000 < Timer.read_ms()){
       rake_flag = 1;
       target += 90;
       AC_flag = 0;
+    }
+    else if(2000 < Timer.read_ms()){
+      rake_flag = 0;
     }
 
     if(setplay_flag && 100 < Timer.read_ms()){
@@ -488,6 +488,11 @@ void Attack::attack(){
     if(1000 < play_time.read_ms()){
       setplay_flag = 0;
     }
+  }
+
+  rake.enterState(rake_flag);
+  if(rake.readStateTimer(0) < 500){
+    target += 60;
   }
   ac.dir_target = target;
   if(AC_flag == 0 || rake_flag){

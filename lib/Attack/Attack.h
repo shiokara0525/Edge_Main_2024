@@ -41,6 +41,7 @@ class Attack{
         int ballang_first;
 
         int rake_flag = 0;
+        State rake;
 
         int first_ang = 0;
 
