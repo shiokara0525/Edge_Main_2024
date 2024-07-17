@@ -197,7 +197,7 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    if(Center_A == 3 && 300 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+    if(Center_A == 3 && 1000 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
       A = 12;
       c = 1;
       Center.enterState(0);
@@ -267,18 +267,13 @@ void Diffence::defence(){
       kick_ = 1;
     }
 
-    if(!ball.ball_get){
-      if(450 < Timer.read_ms() && line_none_flag){
+    if(line.LINE_on){
+      if(cam_back.Size < 20 && abs(abs(degrees(line.vec_first.getAngle())) - 90) < 20){
         A = 15;
         A_15_flag = 5;
-        Lside_A = 0;
-        c = 1;
       }
-      if(100 < Timer.read_ms() && line.LINE_on && line_none_flag){
-        A = 15;
-        A_15_flag = 6;
-        c = 1;
-        Lside_A = 1;
+      else{
+        c = 0;
       }
     }
   }
@@ -359,28 +354,23 @@ void Diffence::defence(){
   ac.dir_target = target;
   push_flag = 0;
 
-  if(30 < abs(ac.dir) && A != 13){  //ロボットが傾いてたら
+  if(30 < abs(ac.dir) && A != 13){
     AC_val = ac.getAC_val() * 1.5;
     if(line.LINE_on == 0){
       if(abs(line.ang_old) < 90){
-        if(90 < abs(ac.dir)){
-          back_Flag = 1;  //ラインの外で傾いてたらゴールのほうに戻る
-        }
-        else{
-          back_Flag = 0;  //ラインの外で傾いてなかったらラインのほうに戻る
-        }
+        back_Flag = 0;
       }
       else{
-        back_Flag = 1;  //ラインの上で傾いてたらゴールのほうに戻る
+        back_Flag = 1;
         M_flag = 0;
       }
     }
     else{
-      if(ball.ball_get){  //ボールを持ってたら
+      if(ball.ball_get){
         if(abs(line.ang_old) < 90){
-          back_Flag = 0;  //ラインの外で傾いてたらラインのほうに戻る
+          back_Flag = 0;
         }
-        push_flag = 1;  //ボールを持ってたら押し込まれたときの処理
+        push_flag = 1;
         M_flag = 1;
       }
     }
@@ -389,7 +379,7 @@ void Diffence::defence(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(-cam_front.ang) * 1.5;
+    AC_val = ac.getCam_val(cam_front.ang);
   }
 
 
