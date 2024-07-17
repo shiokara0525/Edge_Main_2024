@@ -486,7 +486,7 @@ void Attack::attack(){
   }
 
   rake.enterState(rake_flag);
-  if(rake.readStateTimer(0) < 500){
+  if(rake.readStateTimer(0) < 500 && 1000 < play_time.read_ms()){
     target += 60;
   }
   ac.dir_target = target;
@@ -516,6 +516,8 @@ void Attack::attack(){
   // Serial.print(max_val);
   // Serial.print(" setplay : ");
   // Serial.print(setplay_flag);
+  // Serial.print(" first_dir : ");
+  // Serial.print(first_ang);
   // Serial.println();
 
   if(back_flag == 1){
