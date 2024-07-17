@@ -193,7 +193,8 @@ void loop(){
   // line.print_2();
   // Serial.println();
   // ball.vec_down.print();
-  // Serial.println();
+  ac.print();
+  Serial.println();
   // Main_timer.reset();
 }
 
@@ -462,12 +463,12 @@ void serialEvent7(){
       }
     }
   }
-  Serial.print(" sort : ");
-  Serial.print(data[1]);
-  Serial.print(" content : ");
-  Serial.print(data_int);
+  // Serial.print(" sort : ");
+  // Serial.print(data[1]);
+  // Serial.print(" content : ");
+  // Serial.print(data_int);
   
-  Serial.println();
+  // Serial.println();
 }
 
 void serialEvent3(){

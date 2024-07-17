@@ -104,25 +104,25 @@ void Attack::attack(){
   if(A == 10){  //回り込むやつ
     if(A != B){
       go_flag = 0;
-      if(B == 21){
-        if(ball.ang * line.ang_side > 0){
-          if(abs(ball.ang) < 90){
-            go_flag = 1;
-            Serial.print(" !!! ");
-          }
-        }
-        else{
-          if(abs(ball.ang) < 45 && cam_front.on){
-            go_flag = 2;
-          }
-          else if(90 < abs(ball.ang)){
-            go_flag = 3;
-            ballang_first = ball.ang;
-          }
-        }
-      }
-      Serial.print(" flag : ");
-      Serial.print(go_flag);
+      // if(B == 21){
+      //   if(ball.ang * line.ang_side > 0){
+      //     if(abs(ball.ang) < 90){
+      //       go_flag = 1;
+      //       Serial.print(" !!! ");
+      //     }
+      //   }
+      //   else{
+      //     if(abs(ball.ang) < 45 && cam_front.on){
+      //       go_flag = 2;
+      //     }
+      //     else if(90 < abs(ball.ang)){
+      //       go_flag = 3;
+      //       ballang_first = ball.ang;
+      //     }
+      //   }
+      // }
+      // Serial.print(" flag : ");
+      // Serial.print(go_flag);
       B = A;
       Timer.reset();
     }
@@ -143,7 +143,10 @@ void Attack::attack(){
       }
     }
 
-    float confidencial_num = (ball.vec.getMagnitude() - 1.2 * BALL_MAX_NUM) * 0.02;
+    float confidencial_num = (ball.vec.getMagnitude() - 80) * 0.015;
+    if(confidencial_num < 0){
+      confidencial_num = 0;
+    }
     int front_flag = 0;
 
     if(abs(ball_ang) < 15){
@@ -186,10 +189,10 @@ void Attack::attack(){
     else{
       // Serial.print(" SEC : 4");
       if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = abs(ball_ang) + (confidencial_num + 1) * 45.0;
+        go_ang = abs(ball_ang) + (confidencial_num + 1) * 45;
         // Serial.print(" M : 1 ");
       }
-      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
+      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.2){
         go_ang = abs(ball_ang) + 45;
         // Serial.print(" M : 2 ");
       }
@@ -218,12 +221,14 @@ void Attack::attack(){
       AC_flag = 1;
     }
 
-    // Serial.print(" go_flag : ");
-    // Serial.print(go_flag);
-    // Serial.print(" ball_ang : ");
-    // Serial.print(ball_ang);
-    // Serial.print(" ang : ");
-    // Serial.println(go_ang.degree);
+    Serial.print(" go_flag : ");
+    Serial.print(go_flag);
+    Serial.print(" ball_ang : ");
+    Serial.print(ball_ang);
+    Serial.print(" ang : ");
+    Serial.println(go_ang.degree);
+    // Serial.print(" conf : ");
+    // Serial.print(confidencial_num);
   }
 
 
@@ -278,6 +283,10 @@ void Attack::attack(){
     if(setplay_flag && 100 < Timer.read_ms()){
       kick_ = 1;
     }
+    // cam_front.print();
+    // Serial.print(" kick_ : ");
+    // Serial.print(kick_);
+    // Serial.println();
   }
 
 
@@ -330,7 +339,8 @@ void Attack::attack(){
         if(cam_front.on){  //ゴール前だったら
           back_count++;
           if(back_count % 4 == 0){
-            A = 22;  //ボールを押し込むやつ 
+            A = 22;  //ボールを押し込むやつ
+            Serial.println(" line_front "); 
             c = 1;
           }
         }
@@ -508,6 +518,7 @@ void Attack::attack(){
   kicker.run(kick_);
   // Serial.print(" A : ");
   // Serial.print(A);
+  // ac.print();
   // Serial.print(" AC_flag : ");
   // Serial.print(AC_flag);
   // Serial.print(" AC_val : ");
@@ -517,9 +528,9 @@ void Attack::attack(){
   // Serial.print(rake_flag);
   // Serial.print(" max_val : ");
   // Serial.print(max_val);
-  Serial.print(" setplay : ");
-  Serial.print(setplay_flag);
-  Serial.println();
+  // Serial.print(" setplay : ");
+  // Serial.print(setplay_flag);
+  // Serial.println();
 
   if(back_flag == 1){
     max_val = go_val_back;

@@ -173,7 +173,7 @@ void Diffence::defence(){
       c = 1;
     }
 
-    if(BALL_MAX_NUM * 1.75 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
+    if(BALL_MAX_NUM * 1.65 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
     }
 
@@ -241,7 +241,7 @@ void Diffence::defence(){
         c = 1;
         Lside_A = 1;
       }
-      if(400 < Timer.read_ms()){
+      if(500 < Timer.read_ms()){
         A = 15;
         A_15_flag = 4;
       }

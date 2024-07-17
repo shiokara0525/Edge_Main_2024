@@ -119,8 +119,11 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
   if(LINE_on == 0){
     if(LINE_on != LINE_on_old){
       LINE_on_old = LINE_on;
-      LINE_change = -1;
+      if(100 < line_state.readStateTimer(1)){
+        LINE_change = -1;
+      }
     }
+    line_state.enterState(0);
   }
   else if(LINE_on == 1){
     vec.set(dis_X,dis_Y);

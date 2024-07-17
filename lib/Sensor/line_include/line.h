@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <Angle\angle.h>
 #include <Vector\myVector.h>
+#include <state/state.h>
 #define Long 5
 
 class LINE{
@@ -34,6 +35,8 @@ public:
     Vector2D vec;
     Vector2D vec_first;
     Vector2D vec_go;
+
+    State line_state;
  
     int LINE_on; //ラインがロボットの下になかったら0,あったら1にする
     int LINE_on_old = 999;
