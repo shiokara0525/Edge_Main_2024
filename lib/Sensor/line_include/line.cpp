@@ -133,10 +133,13 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
       firstDir_flag = switchLineflag(ang);
       vec_first = vec;
     }
-    vec_go = -1 * vec;
-    if(vec * vec_first < 0){
-      vec_go = vec;
-    }
+    vec_go = -1 * vec_first;
+
+    Serial.print(" 内積 : ");
+    Serial.print(vec * vec_first);
+    Serial.print(" ang : ");
+    Serial.print(degrees(vec_go.getAngle()));
+    Serial.println();
   }
   return LINE_on;
 }

@@ -87,11 +87,15 @@ void motor_attack::moveMotor_0(angle ang,int val,double ac_val,int flag){
     }
   }
 
-  for(int i = 0; i < 4; i++){
-    Mval[i] = Mval[i] / h * val;
+  for(int i = 0; i < 4; i++){  //モーターの値を計算するところだよ
+    if(i == 0 || i == 3){
+      Mval[i] = Mval[i] / h * max_val;  //モーターの値を計算(進みたいベクトルの値と姿勢制御の値を合わせる)
+    }
+    else{
+      Mval[i] = Mval[i] / h * max_val + ac_val * 1.3;  //モーターの値を計算(進みたいベクトルの値と姿勢制御の値を合わせる)
+    }
     Moutput(i,Mval[i]);
   }
-
 }
 
 

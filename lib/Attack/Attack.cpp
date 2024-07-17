@@ -168,8 +168,8 @@ void Attack::attack(){
     }
     else if(abs(ball_ang) < 45){
       // Serial.print(" SEC : 2 ");
-      go_ang = -0.000634 * pow(abs(ball_ang),3) + 0.0253 * pow(abs(ball_ang),2) + 2.81 * abs(ball_ang);
-      max_val = 230;
+      // go_ang = -0.000238 * pow(abs(ball_ang),3) - 0.0154 * pow(abs(ball_ang),2) + 3.30 * abs(ball_ang);
+      go_ang = abs(ball_ang) * 2;
     }
     else if(abs(ball_ang) < 90){
       // Serial.print(" SEC : 3");
@@ -221,12 +221,12 @@ void Attack::attack(){
       AC_flag = 1;
     }
 
-    Serial.print(" go_flag : ");
-    Serial.print(go_flag);
-    Serial.print(" ball_ang : ");
-    Serial.print(ball_ang);
-    Serial.print(" ang : ");
-    Serial.println(go_ang.degree);
+    // Serial.print(" go_flag : ");
+    // Serial.print(go_flag);
+    // Serial.print(" ball_ang : ");
+    // Serial.print(ball_ang);
+    // Serial.print(" ang : ");
+    // Serial.println(go_ang.degree);
     // Serial.print(" conf : ");
     // Serial.print(confidencial_num);
   }
@@ -264,9 +264,11 @@ void Attack::attack(){
 
       if(200 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
+        Serial.print(" kick_1 ");
       }
       if(40 < cam_front.Size){
         kick_ = 1;  //ゴールが近い時は問答無用で打つ
+        Serial.print(" kick_2 ");
       }
     }
 
@@ -280,9 +282,9 @@ void Attack::attack(){
       rake_flag = 0;
     }
 
-    if(setplay_flag && 100 < Timer.read_ms()){
-      kick_ = 1;
-    }
+    // if(setplay_flag && 100 < Timer.read_ms()){
+    //   kick_ = 1;
+    // }
     // cam_front.print();
     // Serial.print(" kick_ : ");
     // Serial.print(kick_);
@@ -523,6 +525,7 @@ void Attack::attack(){
   // Serial.print(AC_flag);
   // Serial.print(" AC_val : ");
   // Serial.print(AC_val);
+  // cam_front.print();
   // Serial.print(" | ");
   // Serial.print(" rake : ");
   // Serial.print(rake_flag);
@@ -537,7 +540,7 @@ void Attack::attack(){
   }
 
   if(M_flag == 1){
-    if(AC_flag){
+    if(AC_flag == 1){
       MOTOR.moveMotor_0(go_ang,max_val,AC_val,1);
     }
     else{

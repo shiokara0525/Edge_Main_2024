@@ -193,8 +193,10 @@ void loop(){
   // line.print_2();
   // Serial.println();
   // ball.vec_down.print();
-  ac.print();
-  Serial.println();
+  // Serial.print(" setup : ");
+  // Serial.print(attack.setplay_flag);
+  // ac.print();
+  // Serial.println();
   // Main_timer.reset();
 }
 
