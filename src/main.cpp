@@ -13,8 +13,8 @@
 #include<defence.h>
 
 AC ac;
-Cam cam_front(3);
-Cam cam_back(4);
+Cam cam_front(3);  //前ゴール
+Cam cam_back(4);   //後ろゴール
 BALL ball;
 LINE line;
 

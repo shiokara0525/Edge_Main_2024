@@ -166,25 +166,8 @@ void Attack::attack(){
       // cam_front.print();
       front_flag = 1;
     }
-    else if(abs(ball_ang) < 45){
-      // Serial.print(" SEC : 2 ");
-      // go_ang = -0.000238 * pow(abs(ball_ang),3) - 0.0154 * pow(abs(ball_ang),2) + 3.30 * abs(ball_ang);
-      go_ang = abs(ball_ang) * 2;
-    }
     else if(abs(ball_ang) < 90){
-      // Serial.print(" SEC : 3");
-      if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = (confidencial_num * (RA_b - 1) + 1) * abs(ball_ang) + (1 - confidencial_num) * 45;
-        // Serial.print(" M : 1 ");
-      }
-      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
-        go_ang = abs(ball_ang) + 45;
-        // Serial.print(" M : 2 ");
-      }
-      else{
-        go_ang = abs(ball_ang) * RA_b;
-        // Serial.print(" M : 2 ");
-      }
+      go_ang = -0.000478 * pow(abs(ball_ang),3) + 0.0611 * pow(abs(ball_ang),2) - 0.0732 * abs(ball_ang) + 5.10;
     }
     else{
       // Serial.print(" SEC : 4");
