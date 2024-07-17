@@ -45,7 +45,7 @@ void Diffence::defence(){
 
   if(c == 0){  //平常時どうするか判定
     if(line.LINE_on == 1){
-      if(ball.flag == 0 || (120 < abs(ball.ang) && abs(ball.ang) < 172 && cam_back.senter && cam_back.on)){  //ボールがないまたはゴールの端にいるときとまる
+      if(ball.flag == 0){  //ボールがないまたはゴールの端にいるときとまる
         A = 5;
       }
       else{
@@ -117,8 +117,6 @@ void Diffence::defence(){
     if(165 < abs(go_ang.degree)){       //進む角度が真後ろにあるとき
       // go_ang += 180;
       back_F = 1;
-    }
-    else if(150 < abs(go_ang.degree)){
       M_flag = 0;
     }
     else if(115 < abs(go_ang.degree)){
@@ -134,7 +132,7 @@ void Diffence::defence(){
       }
     }
     else{                              //横に進むとき
-      MOTOR.line_val = 1.0;
+      MOTOR.line_val = 0.9;
       if(cam_back.on == 0){
         if(cam_back.ang < 0){
           go_ang = -90;
@@ -143,7 +141,14 @@ void Diffence::defence(){
           go_ang = 90;
         }
       }
+      else{
+        if(cam_back.senter && 135 < abs(ball.ang) && abs(ball.ang) < 172){
+          M_flag = 0;
+        }
+      }
     }
+    Serial.print(" godir : ");
+    Serial.println(go_ang.degree);
 
     Center_A = 0;
     ball_fast.enterState(ball.vec_velocity.getMagnitude() > 29);
@@ -168,7 +173,7 @@ void Diffence::defence(){
       c = 1;
     }
 
-    if(BALL_MAX_NUM * 1.5 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
+    if(BALL_MAX_NUM * 1.75 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
     }
 
