@@ -64,6 +64,7 @@ class Attack{
         byte return_byte[4];
 
         State ball_front;
+        State go_front;
     public:
         void attack();
         void available_set(int*);
