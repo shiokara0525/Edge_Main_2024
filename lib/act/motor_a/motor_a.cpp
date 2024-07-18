@@ -143,8 +143,8 @@ float motor_attack::Moutput(int i,int Mval){
     analogWrite(PWM_p[i][1],0);
   }
   else if(Mval == 0){
-    analogWrite(PWM_p[i][0],20);
-    analogWrite(PWM_p[i][1],20);
+    analogWrite(PWM_p[i][0],0);
+    analogWrite(PWM_p[i][1],0);
   }
   return Mval;
 }

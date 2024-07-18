@@ -143,19 +143,11 @@ void loop(){
       MOTOR.moveMotor_0(ang,200,0,0);
     }
     else if(testMode == 1){
-      MOTOR.motor_0();
       for(int i = 0; i < 4; i++){
-        MOTOR.Moutput(i,200);
+        MOTOR.Moutput(i,255);
         delay(500);
         MOTOR.Moutput(i,0);
-        delay(50);
-      }
-
-      for(int i = 0; i < 4; i++){
-        MOTOR.Moutput(i,-200);
-        delay(500);
-        MOTOR.Moutput(i,0);
-        delay(50);
+        delay(100);
       }
     }
     else if(testMode == 3){
@@ -187,7 +179,7 @@ void loop(){
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
   // line.print();
-  // cam_front.print();
+  cam_front.print();
   // Serial.print(" Timer : ");
   // Serial.print(Main_timer.read_us());
   // line.print_2();
@@ -196,7 +188,7 @@ void loop(){
   // Serial.print(" setup : ");
   // Serial.print(attack.setplay_flag);
   // ac.print();
-  // Serial.println();
+  Serial.println();
   // Main_timer.reset();
 }
 

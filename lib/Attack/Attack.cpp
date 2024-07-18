@@ -167,22 +167,11 @@ void Attack::attack(){
       front_flag = 1;
     }
     else if(abs(ball_ang) < 90){
-      go_ang = -0.000478 * pow(abs(ball_ang),3) + 0.0611 * pow(abs(ball_ang),2) - 0.0732 * abs(ball_ang) + 5.10;
+      // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
+      go_ang = -0.000513 * pow(abs(ball_ang),3) + 0.0698 * pow(abs(ball_ang),2) - 0.374 * abs(ball_ang) + 7.28;
     }
     else{
-      // Serial.print(" SEC : 4");
-      if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = abs(ball_ang) + (confidencial_num + 1) * 45;
-        // Serial.print(" M : 1 ");
-      }
-      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.2){
-        go_ang = abs(ball_ang) + 45;
-        // Serial.print(" M : 2 ");
-      }
-      else{
-        go_ang = abs(ball_ang) + 90;
-        // Serial.print(" M : 3 ");
-      }
+      go_ang = abs(ball_ang) + 75;
     }
 
 
@@ -256,7 +245,7 @@ void Attack::attack(){
     }
 
 
-    if(1500 < Timer.read_ms() && 2000 < Timer.read_ms()){
+    if(1500 < Timer.read_ms()){
       rake_flag = 1;
       target += 90;
       AC_flag = 0;
@@ -298,7 +287,7 @@ void Attack::attack(){
 
 
     if(line.LINE_change == -1){  //踏んでない状態から踏んでる状態になった時
-      if(5 <= line.firstDir_flag && line.firstDir_flag <= 7){  //後ろにラインがあったら
+      if(150 < abs(degrees(line.vec_first.getAngle()))){  //後ろにラインがあったら
         if(30 < abs(ball.ang) && abs(ball.ang) <= 85){
           c = 1;
           A = 25;  //前に行く
@@ -308,19 +297,19 @@ void Attack::attack(){
           A = 26;  //横に行く
         }
       }
-      else if(2 <= line.firstDir_flag && line.firstDir_flag <= 4){
+      else if(45 < (degrees(line.vec_first.getAngle())) && (degrees(line.vec_first.getAngle())) < 135){
         if(0 <= cam_back.ang){
           A = 25;
           c = 1;
         }
       }
-      else if(8 <= line.firstDir_flag && line.firstDir_flag <= 10){
+      else if(-135 < (degrees(line.vec_first.getAngle())) && (degrees(line.vec_first.getAngle())) < -45){
         if(cam_back.ang <= 0){
           A = 25;
           c = 1;
         }
       }
-      else if(line.firstDir_flag == 11 || line.firstDir_flag <= 1){  //前にラインがあったら
+      else if(abs(degrees(line.vec_first.getAngle())) < 45){  //前にラインがあったら
         if(cam_front.on){  //ゴール前だったら
           back_count++;
           if(back_count % 4 == 0){

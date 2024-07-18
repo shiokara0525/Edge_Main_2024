@@ -4,6 +4,7 @@ void Diffence::available_set(){
   go_val = val_max;
   A = 0;
   c = 0;
+  Mode_timer.reset();
 }
 
 int Diffence::get_A(){
@@ -167,13 +168,13 @@ void Diffence::defence(){
     }
 
     Lside.enterState(Lside_A);
-    if(1000 < Lside.readStateTimer(1)){
+    if(1000 < Lside.readStateTimer(1) && 2000 < Mode_timer.read_ms()){
       A = 15;
       A_15_flag = 2;
       c = 1;
     }
 
-    if(BALL_MAX_NUM * 1.65 < abs(ball.far) && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
+    if(BALL_MAX_NUM * 1.5 < ball.far && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
     }
 
@@ -197,7 +198,7 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    if(Center_A == 3 && 1000 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+    if(Center_A == 3 && 500 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
       A = 12;
       c = 1;
       Center.enterState(0);
@@ -241,7 +242,7 @@ void Diffence::defence(){
         c = 1;
         Lside_A = 1;
       }
-      if(500 < Timer.read_ms()){
+      if(400 < Timer.read_ms()){
         A = 15;
         A_15_flag = 4;
       }
@@ -336,11 +337,18 @@ void Diffence::defence(){
     go_ang = line.ang_old;
     M_flag = 2;
 
-    if(500 < Timer.read_ms()){
-      if(90 < abs(line.ang_old) || back_Flag){
+    if(300 < Timer.read_ms()){
+      if(90 < abs(line.ang_old)){
         A = 15;
         A_15_flag = 7;
         c = 1;
+      }
+      else{
+        if(1000 < Timer.read_ms()){
+          A = 15;
+          A_15_flag = 8;
+          c = 1;
+        }
       }
     }
   }

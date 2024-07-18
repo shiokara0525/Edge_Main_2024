@@ -58,6 +58,7 @@ class Diffence{
         int Stop_flag;
 
         byte return_num[4];
+        timer Mode_timer;
     public:
         void defence();
         void available_set();
