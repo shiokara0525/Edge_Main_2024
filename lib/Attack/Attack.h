@@ -31,7 +31,13 @@ class Attack{
         float RA_a = 1.8;  //45~90°の時の回り込みの係数
         float RA_b = 2.5;
         float RA_c = 1.8;
+        float RA_d;
         float AC_D = 1.0;
+
+        float ang_10 = 10;
+        float ang_30 = 45;
+        float ang_45 = 72;
+        float ang_90 = 135;
 
         int cam_front_on = 0;
         int back_count = 0;

@@ -2,18 +2,29 @@
 
 
 void Attack::available_set(int *check_val){
-  RA_a = Values[0] / 100.0;
-  RA_b = Values[1] / 100.0;
-  RA_c = Values[2] / 100.0;
-  AC_D = Values[3] / 100.0;
+  ang_10 = Values[0];
+  ang_30 = Values[1];
+  ang_45 = Values[2];
+  ang_90 = Values[3];
+  AC_D = Values[4] / 100.0;
   A = 0;
   c = 0;
+  float m1 = ang_10 / ((10 - 30) * (10 - 45) * (10 - 90));
+  float m2 = ang_30 / ((30 - 10) * (30 - 45) * (30 - 90));
+  float m3 = ang_45 / ((45 - 10) * (45 - 30) * (45 - 90));
+  float m4 = ang_90 / ((90 - 10) * (90 - 30) * (90 - 45));
+  RA_a = m1 + m2 + m3 + m4;
+  RA_b = -(m1 * (30 + 45 + 90) + m2 * (10 + 45 + 90) + m3 * (10 + 30 + 90) + m4 * (10 + 30 + 45));
+  RA_c = m1 * (30 * 45 + 30 * 90 + 45 * 90) + m2 * (10 * 45 + 10 * 90 + 45 * 90) + m3 * (10 * 30 + 10 * 90 + 30 * 90) + m4 * (10 * 30 + 10 * 45 + 30 * 45);
+  RA_d = -(m1 * 30 * 45 * 90 + m2 * 10 * 45 * 90 + m3 * 10 * 30 * 90 + m4 * 10 * 30 * 45);
   Serial.print(" RA_a : ");
   Serial.print(RA_a);
   Serial.print(" RA_b : ");
   Serial.print(RA_b);
   Serial.print(" RA_c : ");
   Serial.print(RA_c);
+  Serial.print(" RA_d : ");
+  Serial.print(RA_d);
   Serial.println();
   go_val = val_max;
   play_time.reset();
@@ -169,7 +180,7 @@ void Attack::attack(){
     }
     else if(abs(ball_ang) < 90){
       // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
-      go_ang = -0.000101 * pow(abs(ball_ang),3) + 0.0100 * pow(abs(ball_ang),2) + 1.48 * abs(ball_ang) - 5.71;
+      go_ang = RA_a * pow(abs(ball_ang),3) + RA_b * pow(abs(ball_ang),2) + RA_c * abs(ball_ang) + RA_d;
       if(30 < abs(ball_ang) && abs(ball_ang) < 60){
         max_val -= 70;
       }
