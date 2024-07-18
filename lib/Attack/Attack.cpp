@@ -49,6 +49,7 @@ void Attack::attack(){
   int kick_ = 0;                       //0だったらキックしない 1だったらキック
   int M_flag = 1;                      //1だったら動き続ける 0だったら止まる
   back_flag = 0;
+  rake_flag = 0;
 
 
   if(ball.flag == 0){
@@ -153,7 +154,7 @@ void Attack::attack(){
       // Serial.print(" SEC : 1 ");
       if(23 < cam_front.Size){
         go_ang = 0.3 * (ball_ang * ball_ang);
-        if(ball_front.readStateTimer(1) < 400){
+        if(ball_front.readStateTimer(1) < 700){
           max_val = 220;
         }
         AC_flag = 1;
@@ -168,7 +169,10 @@ void Attack::attack(){
     }
     else if(abs(ball_ang) < 90){
       // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
-      go_ang = -0.000513 * pow(abs(ball_ang),3) + 0.0698 * pow(abs(ball_ang),2) - 0.374 * abs(ball_ang) + 7.28;
+      go_ang = -0.000101 * pow(abs(ball_ang),3) + 0.0100 * pow(abs(ball_ang),2) + 1.48 * abs(ball_ang) - 5.71;
+      if(30 < abs(ball_ang) && abs(ball_ang) < 60){
+        max_val -= 70;
+      }
     }
     else{
       go_ang = abs(ball_ang) + 75;
@@ -214,7 +218,7 @@ void Attack::attack(){
     cam_front_on = 0;
 
     if(cam_front.on == 1){  //カメラ見てるとき
-      if((abs(cam_front.ang) < 20 || cam_front.senter) && 15 < cam_front.Size){  //正面にゴールあってゴールもある程度近くにある時
+      if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter) && 15 < cam_front.Size){  //正面にゴールあってゴールもある程度近くにある時
         cam_front_on = 1;  //打っていいよ
         go_ang = 0;
         AC_flag = 1;
@@ -310,13 +314,13 @@ void Attack::attack(){
         }
       }
       else if(abs(degrees(line.vec_first.getAngle())) < 45){  //前にラインがあったら
-        if(cam_front.on){  //ゴール前だったら
+        if(cam_front.on && cam_front.senter){  //ゴール前だったら
           back_count++;
-          if(back_count % 4 == 0){
-            A = 22;  //ボールを押し込むやつ
-            Serial.println(" line_front "); 
-            c = 1;
-          }
+          // if(back_count % 4 == 0){
+          //   A = 22;  //ボールを押し込むやつ
+          //   Serial.println(" line_front "); 
+          //   c = 1;
+          // }
         }
         else{  //notゴール前だったら
           back_count++;
@@ -360,7 +364,7 @@ void Attack::attack(){
     max_val = 150;
     go_ang = 0;
   
-    if((line.LINE_on == 1 && (line.dis_X < -1.25 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
+    if((line.LINE_on == 1 && (line.dis_X < -0.75 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
       A = 23;
     }
   }
@@ -474,10 +478,10 @@ void Attack::attack(){
     }
   }
 
-  rake.enterState(rake_flag);
-  if(rake.readStateTimer(0) < 500 && 1000 < play_time.read_ms()){
-    target += 60;
-  }
+  // rake.enterState(rake_flag);
+  // if(rake.readStateTimer(0) < 500 && 1000 < play_time.read_ms() && A == 11){
+  //   target += 60;
+  // }
   ac.dir_target = target;
   if(AC_flag == 0 || rake_flag){
     AC_val = ac.getAC_val();

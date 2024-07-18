@@ -38,9 +38,6 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
 
 
   for(int i = 0; i < 24; i++){
-    if(i == 15){
-      continue;
-    }
     if(flag == 0){
       if(data_on[i] == 1){
         block_num++;
@@ -119,9 +116,7 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
   if(LINE_on == 0){
     if(LINE_on != LINE_on_old){
       LINE_on_old = LINE_on;
-      if(100 < line_state.readStateTimer(1)){
-        LINE_change = -1;
-      }
+      LINE_change = -1;
     }
     line_state.enterState(0);
   }
@@ -141,11 +136,11 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
       vec_go = -1 * vec_first;
     }
 
-    Serial.print(" 内積 : ");
-    Serial.print(vec * vec_first);
-    Serial.print(" ang : ");
-    Serial.print(degrees(vec_go.getAngle()));
-    Serial.println();
+    // Serial.print(" 内積 : ");
+    // Serial.print(vec * vec_first);
+    // Serial.print(" ang : ");
+    // Serial.print(degrees(vec_go.getAngle()));
+    // Serial.println();
   }
   return LINE_on;
 }

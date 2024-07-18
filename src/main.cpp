@@ -179,7 +179,8 @@ void loop(){
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
   // line.print();
-  cam_front.print();
+  // cam_front.print();
+  // cam_back.print();
   // Serial.print(" Timer : ");
   // Serial.print(Main_timer.read_us());
   // line.print_2();
@@ -188,7 +189,7 @@ void loop(){
   // Serial.print(" setup : ");
   // Serial.print(attack.setplay_flag);
   // ac.print();
-  Serial.println();
+  // Serial.println();
   // Main_timer.reset();
 }
 

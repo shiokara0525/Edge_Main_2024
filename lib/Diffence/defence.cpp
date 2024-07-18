@@ -84,6 +84,7 @@ void Diffence::defence(){
       Timer.reset();
     }
     int go_flag = 0;
+    int side_stop_flag = 0; //ゴールが後ろにないから横に進むフラグ
     double go_border[2];  //ボールの角度によって進む方向を変えるためのボーダーの変数(ラインに対して垂直な直線で進む角度の区分を分けるイメージ)
     angle balldir(ball.ang,true);  //ボールの角度を入れるオブジェクト
     Lside_A = 0;
@@ -115,10 +116,10 @@ void Diffence::defence(){
 
     int back_F = 0;
 
-    if(165 < abs(go_ang.degree)){       //進む角度が真後ろにあるとき
+    if(150 < abs(go_ang.degree)){       //進む角度が真後ろにあるとき
       // go_ang += 180;
       back_F = 1;
-      M_flag = 0;
+      M_flag = 3;
     }
     else if(115 < abs(go_ang.degree)){
       MOTOR.line_val = 1.5;
@@ -141,6 +142,7 @@ void Diffence::defence(){
         else{
           go_ang = 90;
         }
+        side_stop_flag = 1;
       }
       else{
         if(cam_back.senter && 135 < abs(ball.ang) && abs(ball.ang) < 172){
@@ -148,14 +150,14 @@ void Diffence::defence(){
         }
       }
     }
-    Serial.print(" godir : ");
-    Serial.println(go_ang.degree);
+    // Serial.print(" godir : ");
+    // Serial.println(go_ang.degree);
 
     Center_A = 0;
     ball_fast.enterState(ball.vec_velocity.getMagnitude() > 29);
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
-      if(dif_val < stop_range && back_F == 0){  //正面方向にボールがあったら停止するよ
+      if(dif_val < stop_range && back_F == 0 && side_stop_flag == 0){  //正面方向にボールがあったら停止するよ
         if(ball_fast.readStateTimer(0) < 100){
           Stop_flag = 2;  //ボールの速度を原因にストップしてないフラグ
         }
@@ -167,14 +169,23 @@ void Diffence::defence(){
       }
     }
 
+    if(abs(abs(go_ang.degree) - 90) < 15){
+      if(cam_back.on && cam_back.Size < 20){
+        Lside_A = 1;
+      }
+      else{
+        Lside_A = 0;
+      }
+    }
+
     Lside.enterState(Lside_A);
-    if(1000 < Lside.readStateTimer(1) && 2000 < Mode_timer.read_ms()){
+    if(300 < Lside.readStateTimer(1) && 2000 < Mode_timer.read_ms()){
       A = 15;
       A_15_flag = 2;
       c = 1;
     }
 
-    if(BALL_MAX_NUM * 1.5 < ball.far && abs(ball.ang) < 45){  //ぼーるが近くにあったら小突くやつ
+    if(BALL_MAX_NUM * 1.375 < ball.far && abs(ball.ang) < 30){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
     }
 
@@ -209,6 +220,8 @@ void Diffence::defence(){
     if(Timer.read_ms() < 300 && A_15_back_flag){
       M_flag = 3;
     }
+    // Serial.print(" Lside : ");
+    // Serial.print(Lside_A);
   }
 
 
@@ -222,7 +235,7 @@ void Diffence::defence(){
       line_none_flag = 0;
     }
 
-    go_ang = 0.0750 * ball.ang * ball.ang + 3.5;
+    go_ang = abs(ball.ang);
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);
     M_flag = 2;
@@ -233,6 +246,7 @@ void Diffence::defence(){
 
     if(300 < Timer.read_ms() && ball.ball_get){
       A = 13;
+      c = 1;
     }
     
     if(!ball.ball_get){
@@ -241,11 +255,18 @@ void Diffence::defence(){
         A_15_flag = 3;
         c = 1;
         Lside_A = 1;
+        Serial.println(" !!! 4 !!! ");
       }
-      if(400 < Timer.read_ms()){
+      if(550 < Timer.read_ms()){
         A = 15;
         A_15_flag = 4;
+        Serial.println(" !!! 5 !!! ");
       }
+    }
+    if(45 < abs(ball.ang)){
+      A = 15;
+      A_15_flag = 7;
+      Serial.println(" !!! 6 !!! ");
     }
 
   }
@@ -272,10 +293,17 @@ void Diffence::defence(){
       if(cam_back.Size < 20 && abs(abs(degrees(line.vec_first.getAngle())) - 90) < 20){
         A = 15;
         A_15_flag = 5;
+        Serial.println(" !!! 1 !!! ");
       }
       else{
         c = 0;
+        Serial.println(" !!! 2 !!! ");
       }
+    }
+    else if((500 < Timer.read_ms()) && line.LINE_on == 0 && 90 < abs(line.ang_old)){
+      A = 15;
+      A_15_flag = 6;
+      Serial.println(" !!! 3 !!! ");
     }
   }
 
@@ -387,14 +415,14 @@ void Diffence::defence(){
     AC_val = ac.getAC_val();
   }
   else if(AC_flag == 1){
-    AC_val = ac.getCam_val(cam_front.ang);
+    AC_val = ac.getCam_val(-cam_front.ang);
   }
 
 
   kicker.run(kick_);
-  Serial.print(" A : ");
-  Serial.print(A);
-  Serial.println();
+  // Serial.print(" A : ");
+  // Serial.print(A);
+  // Serial.println();
   // M_flag = 3;
 
 
@@ -407,6 +435,7 @@ void Diffence::defence(){
   else if(M_flag == 2){
     if(AC_flag){
       MOTOR.moveMotor_0(go_ang,max_val,AC_val,1);
+      // cam_front.print();
     }
     else{
       MOTOR.moveMotor_0(go_ang,max_val,AC_val,0);
