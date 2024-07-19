@@ -169,6 +169,16 @@ void Diffence::defence(){
       }
     }
 
+    if(Stop_flag != 1){
+      last_goang = go_ang.degree;
+    }
+
+    ball_back.enterState(Stop_flag);
+
+    if(ball_back.readStateTimer(1) < 100){
+      go_ang = last_goang;
+    }
+
     if(abs(abs(go_ang.degree) - 90) < 15){
       if(cam_back.on && cam_back.Size < 20){
         Lside_A = 1;

@@ -182,7 +182,7 @@ void Attack::attack(){
       // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
       go_ang = RA_a * pow(abs(ball_ang),3) + RA_b * pow(abs(ball_ang),2) + RA_c * abs(ball_ang) + RA_d;
       if(30 < abs(ball_ang) && abs(ball_ang) < 60){
-        max_val -= 70;
+        max_val -= 40;
       }
     }
     else{

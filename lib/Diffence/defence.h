@@ -38,6 +38,8 @@ class Diffence{
         timer A_12_t;
         int go_flag = 0;
 
+        State ball_back;
+        float last_goang;
 
         int A = 0;
         int B = 999;
