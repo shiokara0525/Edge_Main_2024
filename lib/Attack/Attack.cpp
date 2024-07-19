@@ -164,9 +164,9 @@ void Attack::attack(){
     if(abs(ball_ang) < 15){
       // Serial.print(" SEC : 1 ");
       if(23 < cam_front.Size){
-        go_ang = 0.3 * (ball_ang * ball_ang);
+        go_ang = abs(ball_ang);
         if(ball_front.readStateTimer(1) < 700){
-          max_val = 220;
+          max_val = 190;
         }
         AC_flag = 1;
         // Serial.print(" NO ");
@@ -181,12 +181,12 @@ void Attack::attack(){
     else if(abs(ball_ang) < 90){
       // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
       go_ang = RA_a * pow(abs(ball_ang),3) + RA_b * pow(abs(ball_ang),2) + RA_c * abs(ball_ang) + RA_d;
-      if(30 < abs(ball_ang) && abs(ball_ang) < 60){
+      if(20 < abs(ball_ang) && abs(ball_ang) < 60){
         max_val -= 40;
       }
     }
     else{
-      go_ang = abs(ball_ang) + 75;
+      go_ang = abs(ball_ang) + 45;
     }
 
 
@@ -327,13 +327,13 @@ void Attack::attack(){
       else if(abs(degrees(line.vec_first.getAngle())) < 45){  //前にラインがあったら
         if(cam_front.on && cam_front.senter){  //ゴール前だったら
           back_count++;
-          if(back_count % 4 == 0){
+          if(back_count % 4 == 0 && abs(ball.ang) < 45 && !ball.ball_get){
             A = 22;  //ボールを押し込むやつ
             Serial.println(" line_front "); 
             c = 1;
           }
         }
-        else{  //notゴール前だったら
+        else if(cam_front.on == 0){  //notゴール前だったら
           back_count++;
           if(back_count % 4 == 0){
             A = 24;  //後ろに下がるやつ
@@ -351,6 +351,7 @@ void Attack::attack(){
       B = A;
       Timer.reset();
     }
+    back_flag = 1;
     if(line.side_flag == 1){
       go_ang = -90;
     }
@@ -376,6 +377,9 @@ void Attack::attack(){
     go_ang = 0;
   
     if((line.LINE_on == 1 && (line.dis_X < -0.75 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
+      A = 23;
+    }
+    if(400 < Timer.read_ms()){
       A = 23;
     }
   }
@@ -496,8 +500,11 @@ void Attack::attack(){
     }
   }
   go_front.enterState(go_front_flag);
-  if(300 < go_front.readStateTimer(1)){
+  if(200 < go_front.readStateTimer(1)){
     max_val -= 30;
+    if(500 < go_front.readStateTimer(1)){
+      max_val -= 30;
+    }
   }
 
   // rake.enterState(rake_flag);

@@ -127,6 +127,10 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
       LINE_change = 1;
       firstDir_flag = switchLineflag(ang);
       vec_first = vec;
+      num_first = num;
+      if(2 < num){
+        vec_first.set(0,0);
+      }
     }
     vec_go = -1 * vec;
     if(vec * vec_first < 0){
@@ -134,6 +138,9 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
     }
     else if(vec * vec_first == 0){
       vec_go = -1 * vec_first;
+      if(2 < num){
+        vec_go = -1 * vec;
+      }
     }
 
     // Serial.print(" 内積 : ");

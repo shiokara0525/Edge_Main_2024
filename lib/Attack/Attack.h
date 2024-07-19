@@ -54,7 +54,7 @@ class Attack{
         timer play_time;
 
         int go_val;
-        int go_val_back = 200;
+        int go_val_back = 255;
 
 
         timer A_24_t;

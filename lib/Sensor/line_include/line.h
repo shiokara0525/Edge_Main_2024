@@ -26,6 +26,8 @@ public:
     float dis_Y;
     int side_flag;  //1は90°で検知、2は-90°で検知、3は0°、4は180°
     int num;
+    int num_first;
+
     int flag;
     int data_on[27];
     uint8_t data_byte[4];
