@@ -116,6 +116,7 @@ void Diffence::defence(){
     go_ang.to_range(180,true);  //進む角度を-180 ~ 180の範囲に収める
 
     int back_F = 0;
+    int gotoSide_flag = 0;
 
     if(150 < abs(go_ang.degree)){       //進む角度が真後ろにあるとき
       // go_ang += 180;
@@ -127,6 +128,7 @@ void Diffence::defence(){
     }
     else if(abs(go_ang.degree) < 60){  //前めに進むとき
       MOTOR.line_val = 2;
+      max_val -= 45;
       if(cam_back.on && cam_back.Size < 20){
         Lside_A = 1;
       }
@@ -136,6 +138,7 @@ void Diffence::defence(){
     }
     else{                              //横に進むとき
       MOTOR.line_val = 0.9;
+      gotoSide_flag = 1;
       if(cam_back.on == 0){
         if(cam_back.ang < 0){
           go_ang = -90;
@@ -155,7 +158,7 @@ void Diffence::defence(){
     // Serial.println(go_ang.degree);
 
     Center_A = 0;
-    ball_fast.enterState(ball.vec_velocity.getMagnitude() > 29);
+    ball_fast.enterState(ball.vec_velocity.getMagnitude() > 24);
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0 && side_stop_flag == 0){  //正面方向にボールがあったら停止するよ
@@ -176,7 +179,7 @@ void Diffence::defence(){
 
     ball_back.enterState(Stop_flag);
 
-    if(ball_back.readStateTimer(1) < 100){
+    if(ball_back.readStateTimer(1) < 750){
       go_ang = last_goang;
     }
 
@@ -233,6 +236,10 @@ void Diffence::defence(){
     }
     // Serial.print(" Lside : ");
     // Serial.print(Lside_A);
+    gotoSide.enterState(gotoSide_flag);
+    if(250 < gotoSide.readStateTimer(1)){
+      max_val -= 60;
+    }
   }
 
 
@@ -370,7 +377,7 @@ void Diffence::defence(){
     }
 
     if(line_F == 4){
-      c = 0;
+      A = 16;
     }
   }
 
@@ -378,9 +385,15 @@ void Diffence::defence(){
   if(A == 16){  //ラインがないときにゴールのほうに向く
     if(A != B){
       B = A;
+      Timer.reset();
     }
-    go_ang = 0;
-    M_flag = 2;
+    if(Timer.read_ms() < 300){
+      go_ang = 0;
+      M_flag = 2;
+    }
+    else{
+      c = 0;
+    }
   }
 
 
@@ -393,7 +406,7 @@ void Diffence::defence(){
     go_ang = line.ang_old;
     M_flag = 2;
 
-    if(300 < Timer.read_ms()){
+    if(500 < Timer.read_ms()){
       if(90 < abs(line.ang_old)){
         A = 15;
         A_15_flag = 7;
