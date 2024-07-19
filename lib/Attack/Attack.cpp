@@ -182,7 +182,7 @@ void Attack::attack(){
       // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
       go_ang = RA_a * pow(abs(ball_ang),3) + RA_b * pow(abs(ball_ang),2) + RA_c * abs(ball_ang) + RA_d;
       if(20 < abs(ball_ang) && abs(ball_ang) < 60){
-        max_val -= 40;
+        max_val -= 60;
       }
     }
     else{
@@ -504,6 +504,9 @@ void Attack::attack(){
     max_val -= 30;
     if(500 < go_front.readStateTimer(1)){
       max_val -= 30;
+    }
+    if(A == 10 && 600 < Timer.read_ms()){
+      max_val -= 10;
     }
   }
 

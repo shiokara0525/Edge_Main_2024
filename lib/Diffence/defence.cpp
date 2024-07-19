@@ -82,6 +82,7 @@ void Diffence::defence(){
       }
       B = A;
       Timer.reset();
+      Center.reset();
     }
     int go_flag = 0;
     int side_stop_flag = 0; //ゴールが後ろにないから横に進むフラグ
@@ -179,7 +180,7 @@ void Diffence::defence(){
       go_ang = last_goang;
     }
 
-    if(abs(abs(go_ang.degree) - 90) < 15){
+    if(60 < abs(abs(go_ang.degree) - 90)){
       if(cam_back.on && cam_back.Size < 20){
         Lside_A = 1;
       }
@@ -327,10 +328,27 @@ void Diffence::defence(){
       if(Lside_A == 1){
         line_F = 1;
       }
+      A_15_front = 0;
     }
     go_ang = -cam_back.ang + 180;
     M_flag = 2;
-    max_val -= 30;
+    max_val -= 45;
+    Serial.print(" A_15_flag : ");
+    Serial.println(A_15_front);
+
+    if(abs(ac.dir) < 30){
+      A_15_front = 1;
+    }
+
+    if(A_15_flag == 0){
+      M_flag = 0;
+      AC_flag = 0;
+    }
+    else{
+      M_flag = 2;
+      AC_flag = 0;
+    }
+
     if(line_F == 1){
       if(line.LINE_on == 0){
         line_F++;

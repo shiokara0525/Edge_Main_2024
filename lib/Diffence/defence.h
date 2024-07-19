@@ -41,6 +41,8 @@ class Diffence{
         State ball_back;
         float last_goang;
 
+        int A_15_front;
+
         int A = 0;
         int B = 999;
         int c = 0;
