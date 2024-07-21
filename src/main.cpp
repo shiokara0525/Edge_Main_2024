@@ -160,10 +160,19 @@ void loop(){
     }
   }
 
+  else if(Mode == 10){
+    if(Mode != Mode_old){
+      Mode_old = Mode;
+      kicker.stop();
+      MOTOR.motor_0();
+    }
+  }
+
   else if(Mode == 99){
     if(Mode != Mode_old){
       Mode_old = Mode;
       kicker.stop();
+
     }
     MOTOR.motor_0();
   }
@@ -189,7 +198,9 @@ void loop(){
   // Serial.print(" setup : ");
   // Serial.print(attack.setplay_flag);
   // ac.print();
-  // Serial.println();
+  Serial.print(" Mode : ");
+  Serial.print(Mode);
+  Serial.println();
   // Main_timer.reset();
 }
 

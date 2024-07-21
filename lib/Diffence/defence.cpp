@@ -128,7 +128,7 @@ void Diffence::defence(){
     }
     else if(abs(go_ang.degree) < 60){  //前めに進むとき
       MOTOR.line_val = 2;
-      max_val -= 45;
+      max_val -= 60;
       if(cam_back.on && cam_back.Size < 20){
         Lside_A = 1;
       }
@@ -137,7 +137,7 @@ void Diffence::defence(){
       }
     }
     else{                              //横に進むとき
-      MOTOR.line_val = 0.9;
+      MOTOR.line_val = 1.05;
       gotoSide_flag = 1;
       if(cam_back.on == 0){
         if(cam_back.ang < 0){
@@ -192,12 +192,12 @@ void Diffence::defence(){
       }
     }
 
-    Lside.enterState(Lside_A);
-    if(300 < Lside.readStateTimer(1) && 2000 < Mode_timer.read_ms()){
-      A = 15;
-      A_15_flag = 2;
-      c = 1;
-    }
+    // Lside.enterState(Lside_A);
+    // if(300 < Lside.readStateTimer(1) && 2000 < Mode_timer.read_ms()){
+    //   A = 15;
+    //   A_15_flag = 2;
+    //   c = 1;
+    // }
 
     if(BALL_MAX_NUM * 1.375 < ball.far && abs(ball.ang) < 30){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
@@ -387,7 +387,7 @@ void Diffence::defence(){
       B = A;
       Timer.reset();
     }
-    if(Timer.read_ms() < 300){
+    if(Timer.read_ms() < 200){
       go_ang = 0;
       M_flag = 2;
     }
@@ -413,11 +413,11 @@ void Diffence::defence(){
         c = 1;
       }
       else{
-        if(1000 < Timer.read_ms()){
-          A = 15;
-          A_15_flag = 8;
-          c = 1;
-        }
+        // if(1000 < Timer.read_ms()){
+        //   A = 15;
+        //   A_15_flag = 8;
+        //   c = 1;
+        // }
       }
     }
   }

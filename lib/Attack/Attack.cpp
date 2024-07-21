@@ -165,8 +165,8 @@ void Attack::attack(){
       // Serial.print(" SEC : 1 ");
       if(23 < cam_front.Size){
         go_ang = abs(ball_ang);
-        if(ball_front.readStateTimer(1) < 700){
-          max_val = 190;
+        if(ball_front.readStateTimer(1) < 400){
+          max_val = 220;
         }
         AC_flag = 1;
         // Serial.print(" NO ");
@@ -181,12 +181,10 @@ void Attack::attack(){
     else if(abs(ball_ang) < 90){
       // go_ang = 0.000122 * pow(abs(ball_ang),3) - 0.0128 * pow(abs(ball_ang),2) + 2.10 * abs(ball_ang) - 9.87;
       go_ang = RA_a * pow(abs(ball_ang),3) + RA_b * pow(abs(ball_ang),2) + RA_c * abs(ball_ang) + RA_d;
-      if(45 < abs(ball_ang) && abs(ball_ang) < 75){
-        max_val -= 70;
-      }
     }
     else{
-      go_ang = abs(ball_ang) + 60;
+      max_val = 175;
+      go_ang = abs(ball_ang) + 50;
     }
 
 
@@ -213,7 +211,7 @@ void Attack::attack(){
     // Serial.print(" ball_ang : ");
     // Serial.print(ball_ang);
     // Serial.print(" ang : ");
-    // Serial.println(go_ang.degree);
+    // Serial.print(go_ang.degree);
     // Serial.print(" conf : ");
     // Serial.print(confidencial_num);
   }
@@ -247,7 +245,6 @@ void Attack::attack(){
 
     CFO.enterState(cam_front_on);
     if(cam_front_on == 1){  //打っていいよフラグ
-      max_val -= 15;
 
       if(200 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
@@ -411,10 +408,13 @@ void Attack::attack(){
     }
     else{
       M_flag = 0;
+      if(abs(ball.ang) < 10 || ball.ball_get){
+        c = 0;
+      }
     }
 
 
-    if(45 < abs(ball.ang) || 7000 < Timer.read_ms() || line.LINE_on){
+    if(30 < abs(ball.ang) || 7000 < Timer.read_ms() || line.LINE_on){
       c = 0;
     }
   }
@@ -498,16 +498,21 @@ void Attack::attack(){
     if(abs(go_ang.degree) < 30){
       go_front_flag = 1;
     }
+    else if(40 < abs(go_ang.degree) && abs(go_ang.degree) < 120){
+      go_front_flag = 2;
+    }
   }
   go_front.enterState(go_front_flag);
   if(200 < go_front.readStateTimer(1)){
-    max_val -= 30;
     if(500 < go_front.readStateTimer(1)){
       max_val -= 30;
     }
     if(A == 10 && 600 < Timer.read_ms()){
       max_val -= 10;
     }
+  }
+  else if(400 < go_front.readStateTimer(2)){
+    max_val = 150;
   }
 
   // rake.enterState(rake_flag);
@@ -526,8 +531,8 @@ void Attack::attack(){
   }
 
   kicker.run(kick_);
-  Serial.print(" A : ");
-  Serial.print(A);
+  // Serial.print(" A : ");
+  // Serial.print(A);
   // ac.print();
   // Serial.print(" maxval : ");
   // Serial.print(max_val);
@@ -545,7 +550,7 @@ void Attack::attack(){
   // Serial.print(setplay_flag);
   // Serial.print(" first_dir : ");
   // Serial.print(first_ang);
-  Serial.println();
+  // Serial.println();
 
   if(back_flag == 1){
     max_val = go_val_back;
