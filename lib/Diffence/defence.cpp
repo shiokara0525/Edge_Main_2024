@@ -223,11 +223,11 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    if(Center_A == 3 && 500 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
-      A = 12;
-      c = 1;
-      Center.enterState(0);
-    }
+    // if(Center_A == 3 && 500 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+    //   A = 12;
+    //   c = 1;
+    //   Center.enterState(0);
+    // }
 
     go_ang.to_range(180,true);  //進む角度を-180 ~ 180の範囲に収める
 

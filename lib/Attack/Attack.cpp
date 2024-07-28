@@ -104,7 +104,7 @@ void Attack::attack(){
 
     if(Timer.read_ms() < 500){
       go_ang = 180;
-      max_val = 200;
+      // max_val = 200;
     }
     else{
       M_flag = 0;
@@ -166,7 +166,6 @@ void Attack::attack(){
       if(23 < cam_front.Size){
         go_ang = abs(ball_ang);
         if(ball_front.readStateTimer(1) < 400){
-          max_val = 220;
         }
         AC_flag = 1;
         // Serial.print(" NO ");
@@ -183,7 +182,6 @@ void Attack::attack(){
       go_ang = RA_a * pow(abs(ball_ang),3) + RA_b * pow(abs(ball_ang),2) + RA_c * abs(ball_ang) + RA_d;
     }
     else{
-      max_val = 175;
       go_ang = abs(ball_ang) + 50;
     }
 
@@ -227,7 +225,7 @@ void Attack::attack(){
     cam_front_on = 0;
 
     if(cam_front.on == 1){  //カメラ見てるとき
-      if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter) && 15 < cam_front.Size){  //正面にゴールあってゴールもある程度近くにある時
+      if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
         cam_front_on = 1;  //打っていいよ
         go_ang = 0;
         AC_flag = 1;
@@ -241,6 +239,9 @@ void Attack::attack(){
     else{
       go_ang = 0;
       // kick_ = 1;
+      if(400 < Timer.read_ms()){
+        kick_ = 1;
+      }
     }
 
     CFO.enterState(cam_front_on);
@@ -370,7 +371,7 @@ void Attack::attack(){
       B = A;
       Timer.reset();
     }
-    max_val = 150;
+    // max_val = 150;
     go_ang = 0;
   
     if((line.LINE_on == 1 && (line.dis_X < -0.75 || (30 <= abs(line.ang) && abs(line.ang) <= 150))) || 5000 < Timer.read_ms() || 60 < abs(ball.ang)){
@@ -404,7 +405,7 @@ void Attack::attack(){
     A_24_t.reset();
     if(Timer.read_ms() < 500){
       go_ang = 180;
-      max_val = 180;
+      // max_val = 180;
     }
     else{
       M_flag = 0;
@@ -512,7 +513,7 @@ void Attack::attack(){
     }
   }
   else if(400 < go_front.readStateTimer(2)){
-    max_val = 150;
+    // max_val = 150;
   }
 
   // rake.enterState(rake_flag);

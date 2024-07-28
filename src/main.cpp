@@ -139,8 +139,9 @@ void loop(){
       kicker.stop();
     }
     if(testMode == 0){
-      angle ang(ball.ang,true);
-      MOTOR.moveMotor_0(ang,200,0,0);
+      angle ang(0,true);
+      float AC_val = ac.getAC_val();
+      MOTOR.moveMotor_0(ang,val_max,AC_val,0);
     }
     else if(testMode == 1){
       for(int i = 0; i < 4; i++){
