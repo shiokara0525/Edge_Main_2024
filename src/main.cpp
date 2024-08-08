@@ -199,9 +199,9 @@ void loop(){
   // Serial.print(" setup : ");
   // Serial.print(attack.setplay_flag);
   // ac.print();
-  Serial.print(" Mode : ");
-  Serial.print(Mode);
-  Serial.println();
+  // Serial.print(" Mode : ");
+  // Serial.print(Mode);
+  // Serial.println();
   // Main_timer.reset();
 }
 

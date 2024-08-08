@@ -138,7 +138,13 @@ void Diffence::defence(){
     }
     else{                              //横に進むとき
       MOTOR.line_val = 1.05;
-      gotoSide_flag = 1;
+      if(go_ang.degree < 0){
+        gotoSide_flag = 1;
+      }
+      else{
+        gotoSide_flag = 2;
+      }
+      
       if(cam_back.on == 0){
         if(cam_back.ang < 0){
           go_ang = -90;
@@ -164,11 +170,13 @@ void Diffence::defence(){
       if(dif_val < stop_range && back_F == 0 && side_stop_flag == 0){  //正面方向にボールがあったら停止するよ
         if(ball_fast.readStateTimer(0) < 100){
           Stop_flag = 2;  //ボールの速度を原因にストップしてないフラグ
+          gotoSide_flag = 0;
         }
         else{
           M_flag = 0;
           max_val = 0;
           Stop_flag = 1;  //普通に止まるフラグ
+          gotoSide_flag = 0;
         }
       }
     }
@@ -199,7 +207,7 @@ void Diffence::defence(){
     //   c = 1;
     // }
 
-    if(BALL_MAX_NUM * 1.375 < ball.far && abs(ball.ang) < 30){  //ぼーるが近くにあったら小突くやつ
+    if(BALL_MAX_NUM * 1.25 < ball.far && abs(ball.ang) < 30){  //ぼーるが近くにあったら小突くやつ
       Center_A = 3;
     }
 
@@ -223,11 +231,11 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    // if(Center_A == 3 && 500 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
-    //   A = 12;
-    //   c = 1;
-    //   Center.enterState(0);
-    // }
+    if(Center_A == 3 && 500 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+      A = 12;
+      c = 1;
+      Center.enterState(0);
+    }
 
     go_ang.to_range(180,true);  //進む角度を-180 ~ 180の範囲に収める
 
@@ -237,8 +245,8 @@ void Diffence::defence(){
     // Serial.print(" Lside : ");
     // Serial.print(Lside_A);
     gotoSide.enterState(gotoSide_flag);
-    if(250 < gotoSide.readStateTimer(1)){
-      max_val -= 60;
+    if(250 < gotoSide.readStateTimer() && gotoSide_flag != 0){
+      Serial.print(" max_val -= 60 ");
     }
   }
 
@@ -382,12 +390,12 @@ void Diffence::defence(){
   }
 
 
-  if(A == 16){  //ラインがないときにゴールのほうに向く
+  if(A == 16){  //ラインに戻るときちょっと前出る
     if(A != B){
       B = A;
       Timer.reset();
     }
-    if(Timer.read_ms() < 200){
+    if(Timer.read_ms() < 50){
       go_ang = 0;
       M_flag = 2;
     }
@@ -465,6 +473,8 @@ void Diffence::defence(){
   // Serial.print(A);
   // Serial.println();
   // M_flag = 3;
+  Serial.print(" max_val : ");
+  Serial.println(max_val);
 
 
   if(M_flag == 1){
