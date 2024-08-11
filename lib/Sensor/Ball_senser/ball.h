@@ -20,8 +20,7 @@ class BALL{
         MA Bang_dif_;
         MA_vec B_dif_;
         MA_vec B_v;
-        MA ball_get_val_1;
-        MA ball_get_val_2;
+        MA ball_catch_MA;
         MA ball_down[4];
         MA Far;
         MA x_MA;

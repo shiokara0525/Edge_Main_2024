@@ -27,7 +27,7 @@ void Cam::begin(){
 int Cam::getCamdata(){
     if(color == BLUE){
         if(data_byte[1] != 0){
-            ang = ang_.demandAve((data_byte[0] - 80)*3/4);
+            ang = ang_.demandAve((data_byte[0] - 67)*3/4);
             Size = data_byte[1];
             senter = data_byte[2];
             on = 1;

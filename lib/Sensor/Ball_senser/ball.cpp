@@ -1,8 +1,7 @@
 #include<Ball_senser\ball.h>
 
 BALL::BALL(){
-    ball_get_val_1.setLenth(50);
-    ball_get_val_2.setLenth(50);
+    ball_catch_MA.setLenth(20);
     for(int i = 0; i < 4; i++){
         ball_down[i].setLenth(10);
     }
@@ -33,7 +32,7 @@ int BALL::getBallposition(){
     float y = y_MA.demandAve(int16_t(contain[2] | contain[3]));
 
 
-    catch_val = analogRead(CATCH_PIN);
+    catch_val = ball_catch_MA.demandAve(analogRead(CATCH_PIN));
 
     float x_down = 0;
     float y_down = 0;

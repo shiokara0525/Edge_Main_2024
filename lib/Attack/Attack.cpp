@@ -2,21 +2,23 @@
 
 
 void Attack::available_set(int *check_val){
-  ang_10 = Values[0];
-  ang_30 = Values[1];
-  ang_45 = Values[2];
-  ang_90 = Values[3];
+  ang_0 = Values[0];
+  ang_20 = Values[1];
+  ang_30 = Values[2];
+  ang_45 = Values[3];
   AC_D = Values[4] / 100.0;
+  RA_e = Values[5];
   A = 0;
   c = 0;
-  float m1 = ang_10 / ((10 - 30) * (10 - 45) * (10 - 90));
-  float m2 = ang_30 / ((30 - 10) * (30 - 45) * (30 - 90));
-  float m3 = ang_45 / ((45 - 10) * (45 - 30) * (45 - 90));
-  float m4 = ang_90 / ((90 - 10) * (90 - 30) * (90 - 45));
+  float ang[4] = {0,20,30,45};
+  float m1 = ang_0 / ((ang[0] - ang[1]) * (ang[0] - ang[2]) * (ang[0] - ang[3]));
+  float m2 = ang_20 / ((ang[1] - ang[0]) * (ang[1] - ang[2]) * (ang[1] - ang[3]));
+  float m3 = ang_30 / ((ang[2] - ang[0]) * (ang[2] - ang[1]) * (ang[2] - ang[3]));
+  float m4 = ang_45 / ((ang[3] - ang[0]) * (ang[3] - ang[1]) * (ang[3] - ang[2]));
   RA_a = m1 + m2 + m3 + m4;
-  RA_b = -(m1 * (30 + 45 + 90) + m2 * (10 + 45 + 90) + m3 * (10 + 30 + 90) + m4 * (10 + 30 + 45));
-  RA_c = m1 * (30 * 45 + 30 * 90 + 45 * 90) + m2 * (10 * 45 + 10 * 90 + 45 * 90) + m3 * (10 * 30 + 10 * 90 + 30 * 90) + m4 * (10 * 30 + 10 * 45 + 30 * 45);
-  RA_d = -(m1 * 30 * 45 * 90 + m2 * 10 * 45 * 90 + m3 * 10 * 30 * 90 + m4 * 10 * 30 * 45);
+  RA_b = -(m1 * (ang[1] + ang[2] + ang[3]) + m2 * (ang[0] + ang[2] + ang[3]) + m3 * (ang[0] + ang[1] + ang[3]) + m4 * (ang[0] + ang[1] + ang[2]));
+  RA_c = m1 * (ang[1] * ang[2] + ang[1] * ang[3] + ang[2] * ang[3]) + m2 * (ang[0] * ang[2] + ang[0] * ang[3] + ang[2] * ang[3]) + m3 * (ang[0] * ang[1] + ang[0] * ang[3] + ang[1] * ang[3]) + m4 * (ang[0] * ang[1] + ang[0] * ang[2] + ang[1] * ang[2]);
+  RA_d = -(m1 * ang[1] * ang[2] * ang[3] + m2 * ang[0] * ang[2] * ang[3] + m3 * ang[0] * ang[1] * ang[3] + m4 * ang[0] * ang[1] * ang[2]);
   Serial.print(" RA_a : ");
   Serial.print(RA_a);
   Serial.print(" RA_b : ");
@@ -29,7 +31,6 @@ void Attack::available_set(int *check_val){
   go_val = val_max;
   play_time.reset();
   first_ang = ac.dir_n;
-  RA_b = Values[0] / 100;
 }
 
 
@@ -140,10 +141,10 @@ void Attack::attack(){
     float confidencial_num = (ball.vec.getMagnitude() - 1.2 * BALL_MAX_NUM) * 0.02;
     int front_flag = 0;
 
-    if(abs(ball.ang) < 15){
+    if(abs(ball.ang) < 20){
       Serial.print(" SEC : 1 ");
       if(23 < cam_front.Size){
-        go_ang = 0.3 * (ball.ang * ball.ang);
+        go_ang = 0.1 * ball.ang * ball.ang;
         if(ball_front.readStateTimer(1) < 400){
           max_val = 220;
         }
@@ -159,13 +160,13 @@ void Attack::attack(){
     }
     else if(abs(ball.ang) < 45){
       Serial.print(" SEC : 2 ");
-      go_ang = -0.000634 * pow(abs(ball.ang),3) + 0.0253 * pow(abs(ball.ang),2) + 2.81 * abs(ball.ang);
+      go_ang = RA_a * pow(abs(ball.ang),3) + RA_b * pow(abs(ball.ang),2) + RA_c * abs(ball.ang) * RA_d;
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
       if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = (confidencial_num * (RA_b - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
+        go_ang = (confidencial_num * (RA_e - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
         Serial.print(" M : 1 ");
       }
       else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
@@ -219,7 +220,7 @@ void Attack::attack(){
     cam_front_on = 0;
 
     if(cam_front.on == 1){  //カメラ見てるとき
-      if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
+      if(cam_front.on == 1 && (abs(cam_front.ang) < 30 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
         cam_front_on = 1;  //打っていいよ
         go_ang = 0;
         AC_flag = 1;

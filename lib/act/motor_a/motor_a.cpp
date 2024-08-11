@@ -77,7 +77,7 @@ void motor_attack::moveMotor_0(angle ang,int val,double ac_val,int flag){
   max_val -= ac_val;  //姿勢制御とその他のモーターの値を別に考えるために姿勢制御の値を引いておく
   
   for(int i = 0; i < 4; i++){
-    Mval[i] = -mSin[i] * mval_x + mCos[i] * mval_y; //モーターの回転速度を計算(行列式で管理)
+    Mval[i] = -mSin[i] * mval_x + mCos[i] * mval_y; //モーターの回転速度を計算(行列で管理)
   }
 
   for(int i = 0; i < 4; i++){
