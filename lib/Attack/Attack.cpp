@@ -7,7 +7,7 @@ void Attack::available_set(int *check_val){
   ang_30 = Values[2];
   ang_45 = Values[3];
   AC_D = Values[4] / 100.0;
-  RA_e = Values[5];
+  RA_e = Values[5] / 100.0;
   A = 0;
   c = 0;
   float ang[4] = {0,20,30,45};
@@ -144,7 +144,7 @@ void Attack::attack(){
     if(abs(ball.ang) < 20){
       Serial.print(" SEC : 1 ");
       if(23 < cam_front.Size){
-        go_ang = 0.1 * ball.ang * ball.ang;
+        go_ang = 0.1 * (ball.ang * ball.ang);
         if(ball_front.readStateTimer(1) < 400){
           max_val = 220;
         }
@@ -160,7 +160,7 @@ void Attack::attack(){
     }
     else if(abs(ball.ang) < 45){
       Serial.print(" SEC : 2 ");
-      go_ang = RA_a * pow(abs(ball.ang),3) + RA_b * pow(abs(ball.ang),2) + RA_c * abs(ball.ang) * RA_d;
+      go_ang = RA_a * pow(abs(ball.ang),3) + RA_b * pow(abs(ball.ang),2) + RA_c * abs(ball.ang) + RA_d;
       max_val = 230;
     }
     else if(abs(ball.ang) < 90){
@@ -174,7 +174,7 @@ void Attack::attack(){
         Serial.print(" M : 2 ");
       }
       else{
-        go_ang = abs(ball.ang) * RA_b;
+        go_ang = abs(ball.ang) * RA_e;
         Serial.print(" M : 2 ");
       }
     }
@@ -220,7 +220,7 @@ void Attack::attack(){
     cam_front_on = 0;
 
     if(cam_front.on == 1){  //カメラ見てるとき
-      if(cam_front.on == 1 && (abs(cam_front.ang) < 30 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
+      if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
         cam_front_on = 1;  //打っていいよ
         go_ang = 0;
         AC_flag = 1;
