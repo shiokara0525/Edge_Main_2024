@@ -41,6 +41,8 @@ class Attack{
         float ang_45 = 135;
 
         int cam_front_on = 0;
+        State Catch;
+
         int back_count = 0;
         int go_flag = 0;
         int back_flag = 0;

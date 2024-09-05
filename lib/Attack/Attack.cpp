@@ -216,6 +216,8 @@ void Attack::attack(){
       B = A;
       Timer.reset();
       CFO.reset();
+      c = 1;
+      Catch.reset();
     }
     cam_front_on = 0;
 
@@ -269,6 +271,10 @@ void Attack::attack(){
     // Serial.print(" kick_ : ");
     // Serial.print(kick_);
     // Serial.println();
+    Catch.enterState(ball.ball_get);
+    if(200 < Catch.readStateTimer(0)){
+      c = 0;
+    }
   }
 
 

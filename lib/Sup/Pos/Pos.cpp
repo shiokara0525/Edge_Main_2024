@@ -7,7 +7,7 @@ Pos::Pos(float X,float Y){
     azimuth = 90 - arg;
 }
 
-Pos::Pos(float Azimuth,float Magnitude){
+Pos::Pos(float Azimuth,float Magnitude,int a){
     this->azimuth = Azimuth;
     this->magnitude = Magnitude;
     arg = 90 - azimuth;

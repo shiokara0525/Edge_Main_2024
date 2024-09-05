@@ -11,7 +11,7 @@ class Pos{
         float magnitude;
     public:
         Pos(float X,float Y);
-        Pos(float Azimuth,float Magnitude);
+        Pos(float Azimuth,float Magnitude,int);
         void set_coodinate(float x,float y);
         void set_polar(float azimuth,float magnitude);
         float return_x();
