@@ -53,6 +53,7 @@ int val_max = 200;
 int PS4_r,PS4_theta;
 int PS4R_r,PS4R_theta;
 int Rotate_flag = 0;
+int PS4_Circle;
 
 int line_on = 0;
 
@@ -158,6 +159,56 @@ void loop(){
     else if(testMode == 4){
       MOTOR.motor_0();
       kicker.TEST_();
+    }
+    else if(testMode == 5){
+      float AC_val = ac.getAC_val();
+      int kick_ = 0;
+      angle go_ang(0,true);
+      if(10 < PS4R_r){
+        ac.dir_target = ac.dir_n + PS4R_theta * 0.25;
+        AC_val = ac.getAC_val() * 2;
+        if(80 < AC_val){
+          AC_val = 80;
+        }
+        else if(AC_val < -80){
+          AC_val = -80;
+        }
+        MOTOR.motor_ac(AC_val);
+      }
+      else if(10 < PS4_r){
+        go_ang = PS4_theta;
+        if(abs(PS4_theta - ball.ang) < 45){
+          go_ang = ball.ang;
+        }
+        MOTOR.moveMotor_0(go_ang,PS4_r * 1.35,AC_val,0);
+      }
+      else{
+        MOTOR.motor_ac(AC_val);
+      }
+
+      Serial.print(" go_ang : ");
+      Serial.print(go_ang.degree);
+      Serial.print(" PS4_theta : ");
+      Serial.print(PS4_theta);
+      Serial.print(" PS4_r : ");
+      Serial.print(PS4_r);
+      Serial.print(" ac : ");
+      Serial.print(AC_val);
+      ac.print();
+      Serial.print(" Circle : ");
+      Serial.print(PS4_Circle);
+      Serial.println();
+
+      // if(PS4_Circle){
+      //   kick_ = 1;
+      //   PS4_Circle = 0;
+      // }
+
+      if(200 < ball.is_get.readStateTimer(1)){
+        kick_ = 1;
+      }
+      
+      kicker.run(kick_);
     }
   }
 
@@ -425,6 +476,10 @@ void serialEvent7(){
     else{
       go_flag = 0;
     }
+    // Serial.print(" PS4_r : ");
+    // Serial.print(PS4_r);
+    // Serial.print(" PS4_theta : ");
+    // Serial.print(PS4_theta);
     // Serial.println();
   }
   else if(data[1] == 10){
@@ -445,7 +500,11 @@ void serialEvent7(){
     else{
       Rotate_flag = 0;
     }
-    // Serial.print("111111");
+    // Serial.print(" PS4R_r : ");
+    // Serial.print(PS4R_r);
+    // Serial.print(" PS4R_theta : ");
+    // Serial.print(PS4R_theta);
+    // Serial.println();
   }
   else if(data[1] == 13){
     sendtoESP("NEOPIXEL_D");
@@ -458,6 +517,9 @@ void serialEvent7(){
   }
   else if(data[1] == 17){
     attack.setplay_flag = data_int;
+  }
+  else if(data[1] == 18){
+    PS4_Circle = 1;
   }
   else{
     for(int i = 0; i < 6; i++){

@@ -63,6 +63,7 @@ int BALL::getBallposition(){
     else{
         ball_get = 0;
     }
+    is_get.enterState(ball_get);
     vec.set(x,y);
     ang = degrees(vec.getAngle());
     far = Far.demandAve(vec.getMagnitude());

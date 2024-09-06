@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include<move_ave\MA.h>
 #include<Vector\myVector.h>
+#include<state\state.h>
 
 class BALL{
     public:
@@ -44,6 +45,7 @@ class BALL{
         int flag = 1;
         int catch_val; //補足センサのアナログの値
         int ball_get;
+        State is_get;
         int get_th = 80;
 
 
