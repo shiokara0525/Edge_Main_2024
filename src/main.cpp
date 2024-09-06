@@ -53,7 +53,7 @@ int val_max = 200;
 int PS4_r,PS4_theta;
 int PS4R_r,PS4R_theta;
 int Rotate_flag = 0;
-int PS4_Circle;
+int PS4_Circle,PS4_Square;
 
 int line_on = 0;
 
@@ -138,6 +138,7 @@ void loop(){
     if(Mode != Mode_old){
       Mode_old = Mode;
       kicker.stop();
+      ac.setup_2();
     }
     if(testMode == 0){
       angle ang(0,true);
@@ -203,6 +204,11 @@ void loop(){
       //   kick_ = 1;
       //   PS4_Circle = 0;
       // }
+
+      if(PS4_Square){
+        ac.dir_target = ac.first;
+        PS4_Square = 0;
+      }
 
       if(200 < ball.is_get.readStateTimer(1)){
         kick_ = 1;
@@ -520,6 +526,9 @@ void serialEvent7(){
   }
   else if(data[1] == 18){
     PS4_Circle = 1;
+  }
+  else if(data[1] == 19){
+    PS4_Square = 1;
   }
   else{
     for(int i = 0; i < 6; i++){
