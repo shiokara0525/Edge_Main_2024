@@ -139,7 +139,12 @@ void loop(){
       Mode_old = Mode;
       kicker.stop();
       ac.setup_2();
+      Serial8.write(38);
+      Serial8.write(10);
+      Serial8.write(1);
+      Serial8.write(37);
     }
+
     if(testMode == 0){
       angle ang(0,true);
       float AC_val = ac.getAC_val();
@@ -166,7 +171,7 @@ void loop(){
       int kick_ = 0;
       angle go_ang(0,true);
       if(10 < PS4R_r){
-        ac.dir_target = ac.dir_n + PS4R_theta * 0.25;
+        ac.dir_target = ac.first + PS4R_theta;
         AC_val = ac.getAC_val() * 2;
         if(80 < AC_val){
           AC_val = 80;
@@ -181,24 +186,29 @@ void loop(){
         if(abs(PS4_theta - ball.ang) < 45){
           go_ang = ball.ang;
         }
-        MOTOR.moveMotor_0(go_ang,PS4_r * 1.35,AC_val,0);
+
+        if(line.LINE_on){
+          go_ang = degrees(line.vec_go.getAngle());
+        }
+        MOTOR.moveMotor_0(go_ang,PS4_r * 1.5,AC_val,0);
       }
       else{
         MOTOR.motor_ac(AC_val);
       }
 
-      Serial.print(" go_ang : ");
-      Serial.print(go_ang.degree);
-      Serial.print(" PS4_theta : ");
-      Serial.print(PS4_theta);
-      Serial.print(" PS4_r : ");
-      Serial.print(PS4_r);
-      Serial.print(" ac : ");
-      Serial.print(AC_val);
-      ac.print();
-      Serial.print(" Circle : ");
-      Serial.print(PS4_Circle);
-      Serial.println();
+      // Serial.print(" go_ang : ");
+      // Serial.print(go_ang.degree);
+      // Serial.print(" PS4_theta : ");
+      // Serial.print(PS4_theta);
+      // Serial.print(" PS4_r : ");
+      // Serial.print(PS4_r);
+      // Serial.print(" ac : ");
+      // Serial.print(AC_val);
+      // ac.print();
+      // Serial.print(" Circle : ");
+      // Serial.print(PS4_Circle);
+      // line.print();
+      // Serial.println();
 
       // if(PS4_Circle){
       //   kick_ = 1;
@@ -245,7 +255,7 @@ void loop(){
   // Serial.print(">ball_A:");
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
-  // line.print();
+  line.print();
   // cam_front.print();
   // cam_back.print();
   // Serial.print(" Timer : ");
@@ -258,7 +268,7 @@ void loop(){
   // ac.print();
   // Serial.print(" Mode : ");
   // Serial.print(Mode);
-  // Serial.println();
+  Serial.println();
   // Main_timer.reset();
 }
 
