@@ -2,18 +2,61 @@
 
 // Default constructor
 
+Vector2D::Vector2D(float x_,float y_){
+    this->x = x_;
+    this->y = y_;
+    arg = degrees(atan2(y_,x_));
+    azimuth = 90 - arg;
+    magnitude = sqrt(x * x + y * y);
+}
+
+Vector2D::Vector2D(float Azimuth,float Magnitude,int a){
+    this->azimuth = Azimuth;
+    this->magnitude = Magnitude;
+    arg = 90 - azimuth;
+    x = magnitude * cos(radians(arg));
+    y = magnitude * sin(radians(arg));
+}
 // Parameterized constructor
 
+void Vector2D::set_coodinate(float X,float Y){
+    this->x = X;
+    this->y = Y;
+    arg = degrees(atan2(Y,X));
+    azimuth = 90 - arg;
+    magnitude = sqrt(x * x + y * y);
+}
+
+void Vector2D::set_polar(float Azimuth,float Magnitude){
+    this->azimuth = Azimuth;
+    this->magnitude = Magnitude;
+    arg = 90 - azimuth;
+    x = magnitude * cos(radians(arg));
+    y = magnitude * sin(radians(arg));
+}
+
+float Vector2D::return_x(){
+    return x;
+}
+
+float Vector2D::return_y(){
+    return y;
+}
+
+float Vector2D::return_azimuth(){
+    return azimuth;
+}
+
+float Vector2D::return_magnitude(){
+    return magnitude;
+}
+
+float Vector2D::return_arg(){
+    return arg;
+}
 // Destructor
 Vector2D::~Vector2D() {}
 
-void Vector2D::setPosition(Pos pos){
-    x = pos.return_x();
-    y = pos.return_y();
-    arg = pos.return_arg();
-    azimuth = pos.return_azimuth();
-    magnitude = pos.return_magnitude();
-}
 
 // Addition of two vectors
 Vector2D Vector2D::add(const Vector2D& other) const {
@@ -71,6 +114,6 @@ Vector2D operator-(const Vector2D& v1, const Vector2D& v2) {  // Vector subtract
     return v1.subtract(v2);
 }
 
-Vector2D operator/(const Vector2D& v1, double scalar){
+Vector2D operator/(Vector2D& v1, double scalar){
     return v1 * (1 / scalar);
 }

@@ -104,7 +104,6 @@ Vector2D MA_vec::returnAve(){
 
 void MA_vec::reset(){
     for(int i = 0; i < lenth; i++){
-        record[i].setX(0);
-        record[i].setY(0);
+        record->set_coodinate(0,0);
     }
 }

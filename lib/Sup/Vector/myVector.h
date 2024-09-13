@@ -9,14 +9,29 @@
 #pragma once
 
 #include<Arduino.h>
-#include<Pos\Pos.h>
 
 // Getter for angle in radians
 
-class Vector2D :public Pos{
+class Vector2D{
+private:
+    float x;
+    float y;
+    float azimuth;
+    float arg;
+    float magnitude;
 public:
     // Constructors
-    using Pos::Pos;
+    Vector2D() {x = 0, y = 0;};
+    Vector2D(float x_, float y_);
+    Vector2D(float azimuth_, float magnitude, int);
+
+    void set_coodinate(float x,float y);
+    void set_polar(float azimuth,float magnitude);
+    float return_x();
+    float return_y();
+    float return_azimuth();
+    float return_magnitude();
+    float return_arg();
 
 
     // Destructor
@@ -26,7 +41,6 @@ public:
     void print();
 
     // Vector operations
-    void setPosition(Pos pos);
     Vector2D add(const Vector2D& other) const;
     Vector2D subtract(const Vector2D& other) const;
     double dotProduct(const Vector2D& other) const;
@@ -37,8 +51,8 @@ public:
 };
 
 double operator*(const Vector2D& v1, const Vector2D& v2);
-Vector2D operator*(const Vector2D& v1, double scalar);
-Vector2D operator*(double scalar, const Vector2D& v1);
+Vector2D operator*(Vector2D& v1, double scalar);
+Vector2D operator*(double scalar, Vector2D& v1);
 Vector2D operator+(const Vector2D& v1, const Vector2D& v2);
 Vector2D operator-(const Vector2D& v1, const Vector2D& v2);
-Vector2D operator/(const Vector2D& v1, double scalar);
+Vector2D operator/(Vector2D& v1, double scalar);

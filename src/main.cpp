@@ -8,6 +8,7 @@
 #include<timer.h>
 #include<Cam\Cam.h>
 #include<Kicker\kicker.h>
+#include<Vector\myVector.h>
 
 #include<Attack.h>
 #include<defence.h>
