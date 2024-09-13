@@ -12,7 +12,7 @@ int Diffence::get_A(){
 }
 
 byte* Diffence::get_flag(){
-  return_num[0] = ball.vec_velocity.getMagnitude();
+  return_num[0] = ball.vec_velocity.return_magnitude();
   return_num[1] = Stop_flag;
   return_num[2] = A;
   return_num[3] = A_15_flag; 
@@ -164,7 +164,7 @@ void Diffence::defence(){
     // Serial.println(go_ang.degree);
 
     Center_A = 0;
-    ball_fast.enterState(ball.vec_velocity.getMagnitude() > 24);
+    ball_fast.enterState(ball.vec_velocity.return_magnitude() > 24);
     for(int i = 0; i < 2; i++){
       int dif_val = abs(ball.ang - go_border[i]);
       if(dif_val < stop_range && back_F == 0 && side_stop_flag == 0){  //正面方向にボールがあったら停止するよ
@@ -316,7 +316,7 @@ void Diffence::defence(){
     }
 
     if(line.LINE_on){
-      if(cam_back.Size < 20 && abs(abs(degrees(line.vec_first.getAngle())) - 90) < 20){
+      if(cam_back.Size < 20 && abs(abs(degrees(line.vec_first.return_arg())) - 90) < 20){
         A = 15;
         A_15_flag = 5;
         Serial.println(" !!! 1 !!! ");

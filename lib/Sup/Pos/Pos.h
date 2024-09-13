@@ -3,13 +3,14 @@
 #include<Arduino.h>
 
 class Pos{
-    private:
+    protected:
         float x;
         float y;
         float azimuth;
         float arg;
         float magnitude;
     public:
+        Pos() {x = 0,y = 0;};
         Pos(float X,float Y);
         Pos(float Azimuth,float Magnitude,int);
         void set_coodinate(float x,float y);

@@ -43,7 +43,7 @@ int BALL::getBallposition(){
         // Serial.print(45 + 90 * i);
         // Serial.print(" ");
     }
-    vec_down.set(x_down,y_down);
+    vec_down.set_coodinate(x_down,y_down);
     // Serial.print(" x : ");
     // Serial.print(x_down);
     // Serial.print(" y : ");
@@ -64,15 +64,14 @@ int BALL::getBallposition(){
         ball_get = 0;
     }
     is_get.enterState(ball_get);
-    vec.set(x,y);
-    ang = degrees(vec.getAngle());
-    far = Far.demandAve(vec.getMagnitude());
+    vec.set_coodinate(x,y);
+    ang = degrees(vec.return_azimuth());
+    far = Far.demandAve(vec.return_magnitude());
     Bang_dif = Bang_dif_.sum(abs(ang) - abs(ang_old));
     ang_old = ang;
 
     world_far = 220 - far;
-    world_vec.setX(world_far * cos(radians(ang)));
-    world_vec.setY(world_far * sin(radians(ang)));
+    world_vec.set_polar(ang,world_far);
     vec_velocity = B_dif_.sum(world_vec - world_vec_old);
     vec_acc = B_v.sum(vec_velocity - vec_velocity_old);
     world_vec_old = world_vec;

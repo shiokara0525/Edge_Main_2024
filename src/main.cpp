@@ -188,7 +188,7 @@ void loop(){
         }
 
         if(line.LINE_on){
-          go_ang = degrees(line.vec_go.getAngle());
+          go_ang = degrees(line.vec_go.return_arg());
         }
         MOTOR.moveMotor_0(go_ang,PS4_r * 1.5,AC_val,0);
       }
@@ -282,14 +282,14 @@ void sendtoESP(const char* message){
   }
   else if(strcmp(message,"BALL") == 0){
     flag = 2;
-    send[0] = ball.vec.getX();
-    send[1] = ball.vec.getY();
+    send[0] = ball.vec.return_x();
+    send[1] = ball.vec.return_y();
   }
   else if(strcmp(message,"LINE") == 0){
     flag = 3;
     if(line.LINE_on){
-      send[0] = line.vec.getX() * 100;
-      send[1] = line.vec.getY() * 100;
+      send[0] = line.vec.return_x() * 100;
+      send[1] = line.vec.return_y() * 100;
     }
     else{
       send[0] = 0;

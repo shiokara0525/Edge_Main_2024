@@ -5,6 +5,7 @@ Pos::Pos(float X,float Y){
     this->y = Y;
     arg = degrees(atan2(Y,X));
     azimuth = 90 - arg;
+    magnitude = sqrt(x * x + y * y);
 }
 
 Pos::Pos(float Azimuth,float Magnitude,int a){
@@ -20,6 +21,7 @@ void Pos::set_coodinate(float X,float Y){
     this->y = Y;
     arg = degrees(atan2(Y,X));
     azimuth = 90 - arg;
+    magnitude = sqrt(x * x + y * y);
 }
 
 void Pos::set_polar(float Azimuth,float Magnitude){

@@ -31,8 +31,7 @@ public:
     int flag;
     int data_on[27];
     uint8_t data_byte[4];
-    double ele_X[27]; //ラインセンサのX座標
-    double ele_Y[27]; //ラインセンサのY座標
+    Vector2D ele[27];
     int LINE_Level;
     Vector2D vec;
     Vector2D vec_first;
