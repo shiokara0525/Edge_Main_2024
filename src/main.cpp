@@ -33,6 +33,8 @@ timer line_Get;
 timer ESP_send;
 
 motor_attack MOTOR; //モーター動作のクラス
+State line_state;
+State test_state;
 
 int Mode = 0;
 int Mode_old = 999;
@@ -45,6 +47,8 @@ int line_send_count = 0;
 int Kick = 0;
 
 int testMode = 0;
+
+int line_on_history = 0;
 
 int color;
 int ac_tirget;
@@ -143,6 +147,10 @@ void loop(){
       Serial8.write(10);
       Serial8.write(1);
       Serial8.write(37);
+      line_on_history = 0;
+      line_state.reset();
+      test_state.reset();
+      line_state.enterState(1);
     }
 
     if(testMode == 0){
@@ -225,6 +233,41 @@ void loop(){
       }
       
       kicker.run(kick_);
+    }
+    else if(testMode == 6){
+      angle go_ang(0,true);
+      float AC_val = ac.getAC_val();
+      if(line_on_history == 0){
+        MOTOR.moveMotor_0(go_ang,200,AC_val,0);
+        if(line.LINE_on){
+          line_on_history = 1;
+        }
+        line_state.enterState(0);
+      }
+      else{
+        line_state.enterState(1);
+        if(line_state.readStateTimer(1) < 350){
+          go_ang = 180;
+          MOTOR.moveMotor_0(go_ang,200,AC_val,0);
+        }
+        else{
+          MOTOR.motor_0();
+        }
+      }      
+    }
+    else if(testMode == 7){
+      angle ang(ball.ang,true);
+      float AC_val = ac.getAC_val();
+      if(line.LINE_on){
+        ang = degrees(line.vec_go.getAngle());
+      }
+      else if(600 > line_state.readStateTimer(1)){
+        ang = 0;
+      }
+      MOTOR.moveMotor_0(ang,val_max,AC_val,0);
+    }
+    else if(testMode == 8){
+      
     }
   }
 

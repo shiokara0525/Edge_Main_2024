@@ -127,14 +127,7 @@ void Diffence::defence(){
       MOTOR.line_val = 1.5;
     }
     else if(abs(go_ang.degree) < 60){  //前めに進むとき
-      MOTOR.line_val = 2;
-      max_val -= 60;
-      if(cam_back.on && cam_back.Size < 20){
-        Lside_A = 1;
-      }
-      else{
-        Lside_A = 0;
-      }
+      M_flag = 3;
     }
     else{                              //横に進むとき
       MOTOR.line_val = 1.05;
@@ -231,7 +224,7 @@ void Diffence::defence(){
 
     Center.enterState(Center_A);
 
-    if(Center_A == 3 && 500 < Center.readStateTimer(3) && 2000 < A_12_t.read_ms()){
+    if(0){
       A = 12;
       c = 1;
       Center.enterState(0);
