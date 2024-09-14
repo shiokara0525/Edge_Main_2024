@@ -65,7 +65,7 @@ int BALL::getBallposition(){
     }
     is_get.enterState(ball_get);
     vec.set_coodinate(x,y);
-    ang = degrees(vec.return_azimuth());
+    ang = vec.return_azimuth();
     far = Far.demandAve(vec.return_magnitude());
     Bang_dif = Bang_dif_.sum(abs(ang) - abs(ang_old));
     ang_old = ang;

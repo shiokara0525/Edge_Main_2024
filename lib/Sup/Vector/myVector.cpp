@@ -6,14 +6,39 @@ Vector2D::Vector2D(float x_,float y_){
     this->x = x_;
     this->y = y_;
     arg = degrees(atan2(y_,x_));
+    if(arg < -180){
+        arg += 360;
+    }
+    if(180 < arg){
+        arg -= 360;
+    }
     azimuth = 90 - arg;
+    if(azimuth < -180){
+        azimuth += 360;
+    }
+    if(180 < azimuth){
+        azimuth -= 360;
+    }
     magnitude = sqrt(x * x + y * y);
 }
 
 Vector2D::Vector2D(float Azimuth,float Magnitude,int a){
     this->azimuth = Azimuth;
+    azimuth = 90 - arg;
+    if(azimuth < -180){
+        azimuth += 360;
+    }
+    if(180 < azimuth){
+        azimuth -= 360;
+    }
     this->magnitude = Magnitude;
     arg = 90 - azimuth;
+    if(arg < -180){
+        arg += 360;
+    }
+    if(180 < arg){
+        arg -= 360;
+    }
     x = magnitude * cos(radians(arg));
     y = magnitude * sin(radians(arg));
 }
@@ -23,14 +48,39 @@ void Vector2D::set_coodinate(float X,float Y){
     this->x = X;
     this->y = Y;
     arg = degrees(atan2(Y,X));
+    if(arg < -180){
+        arg += 360;
+    }
+    if(180 < arg){
+        arg -= 360;
+    }
+
     azimuth = 90 - arg;
+    if(azimuth < -180){
+        azimuth += 360;
+    }
+    if(180 < azimuth){
+        azimuth -= 360;
+    }
     magnitude = sqrt(x * x + y * y);
 }
 
 void Vector2D::set_polar(float Azimuth,float Magnitude){
     this->azimuth = Azimuth;
+    if(azimuth < -180){
+        azimuth += 360;
+    }
+    if(180 < azimuth){
+        azimuth -= 360;
+    }
     this->magnitude = Magnitude;
     arg = 90 - azimuth;
+    if(arg < -180){
+        arg += 360;
+    }
+    if(180 < arg){
+        arg -= 360;
+    }
     x = magnitude * cos(radians(arg));
     y = magnitude * sin(radians(arg));
 }
@@ -89,7 +139,7 @@ Vector2D Vector2D::differentiate(const Vector2D& previous) const {
 
 
 void Vector2D::print() {
-    Serial.printf(" (θ,r) = (%.2f,%.2f)", degrees(return_arg()),return_magnitude());
+    Serial.printf(" (θ,r) = (%.2f, %.2f) (x,y) = (%.2f, %.2f)", return_azimuth(),return_magnitude(), return_x(), return_y());
 }
 
 

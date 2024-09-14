@@ -216,10 +216,10 @@ void loop(){
       //   PS4_Circle = 0;
       // }
 
-      if(PS4_Square){
-        ac.dir_target = ac.first;
-        PS4_Square = 0;
-      }
+      // if(PS4_Square){
+      //   ac.dir_target = ac.first;
+      //   PS4_Square = 0;
+      // }
 
       if(200 < ball.is_get.readStateTimer(1)){
         kick_ = 1;
@@ -245,7 +245,7 @@ void loop(){
     }
     MOTOR.motor_0();
   }
-  // ball.print();
+  ball.print();
   // Serial.print(" V : ");
   // ball.vec_velocity.print();
   // Serial.print(" | A : ");
@@ -256,7 +256,7 @@ void loop(){
   // Serial.print(">ball_A:");
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
-  line.print();
+  // line.print();
   // cam_front.print();
   // cam_back.print();
   // Serial.print(" Timer : ");

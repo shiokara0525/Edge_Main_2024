@@ -7,7 +7,7 @@ LINE::LINE(){
 void LINE::begin(){
   Serial6.begin(115200);
   for(int i = 0; i < 24; i++){
-    ele[i].set_polar(22.5 * i, 1.0);
+    ele[i].set_polar(15.0 * i - 180, 1.0);
   }
 }
 
@@ -89,12 +89,12 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
 
 
   for(int i = 0; i <= block_num; i++){
-    block[i] = ele[block_first[i]];
+    block[i] = ele[block_first[i]] + ele[block_last[i]];
     vec_sum = vec_sum + block[i];
   }
   block_num++;
 
-  vec_ave = vec_sum / block_num;
+  vec_ave = vec_sum / float(block_num);
   num = block_num;
   ang = vec_ave.return_arg();
   if(num == 0){
