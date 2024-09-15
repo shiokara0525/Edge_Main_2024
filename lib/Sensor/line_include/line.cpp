@@ -96,7 +96,7 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
 
   vec_ave = vec_sum / float(block_num);
   num = block_num;
-  ang = vec_ave.return_arg();
+  ang = vec_ave.return_azimuth();
   if(num == 0){
     LINE_on = 0;
   }
@@ -209,17 +209,18 @@ void LINE::print(){
   // Serial.print(" 距離 : ");
   // Serial.print(dis); //ラインのベクトルを表示
   vec.print();
+  Serial.print(" go : ");
   vec_go.print();
   // Serial.print("  X : ");
   // Serial.print(dis_X); //ラインのベクトルを表示
   // Serial.print("  Y : ");
   // Serial.print(dis_Y); //ラインのベクトルを表示
   Serial.print(" side : ");
-  Serial.print(side_flag);
-  Serial.print(" flag : ");
-  Serial.print(line_flag);
-  Serial.print(" A_ : ");
-  Serial.print(A);
+  // Serial.print(side_flag);
+  // Serial.print(" flag : ");
+  // Serial.print(line_flag);
+  // Serial.print(" A_ : ");
+  // Serial.print(A);
 }
 
 

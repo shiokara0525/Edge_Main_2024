@@ -245,7 +245,7 @@ void loop(){
     }
     MOTOR.motor_0();
   }
-  ball.print();
+  // ball.print();
   // Serial.print(" V : ");
   // ball.vec_velocity.print();
   // Serial.print(" | A : ");
@@ -256,7 +256,7 @@ void loop(){
   // Serial.print(">ball_A:");
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
-  // line.print();
+  line.print();
   // cam_front.print();
   // cam_back.print();
   // Serial.print(" Timer : ");
