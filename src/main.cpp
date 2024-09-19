@@ -255,7 +255,7 @@ void loop(){
   // Serial.print(">ball_A:");
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
-  line.print();
+  // line.print();
   // cam_front.print();
   // cam_back.print();
   // Serial.print(" Timer : ");
@@ -266,8 +266,8 @@ void loop(){
   // Serial.print(" setup : ");
   // Serial.print(attack.setplay_flag);
   // ac.print();
-  // Serial.print(" Mode : ");
-  // Serial.print(Mode);
+  Serial.print(" Mode : ");
+  Serial.print(Mode);
   Serial.println();
   // Main_timer.reset();
 }

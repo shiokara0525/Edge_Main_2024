@@ -275,6 +275,10 @@ void Attack::attack(){
     if(200 < Catch.readStateTimer(0)){
       c = 0;
     }
+    if(line.LINE_on){
+      c = 0;
+      A = 20;
+    }
   }
 
 
