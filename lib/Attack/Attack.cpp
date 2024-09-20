@@ -138,7 +138,7 @@ void Attack::attack(){
       go_flag = 0;
     }
 
-    float confidencial_num = (ball.vec.getMagnitude() - 1.2 * BALL_MAX_NUM) * 0.02;
+    float confidencial_num = (ball.vec.return_magnitude() - 1.2 * BALL_MAX_NUM) * 0.02;
     int front_flag = 0;
 
     if(abs(ball.ang) < 20){
@@ -165,11 +165,11 @@ void Attack::attack(){
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
-      if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
+      if(BALL_MAX_NUM * 1.2 <= ball.vec.return_magnitude() && ball.vec.return_magnitude() < BALL_MAX_NUM * 2.25){
         go_ang = (confidencial_num * (RA_e - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
         Serial.print(" M : 1 ");
       }
-      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
+      else if(ball.vec.return_magnitude() < BALL_MAX_NUM * 1.375){
         go_ang = abs(ball.ang) + 45;
         Serial.print(" M : 2 ");
       }
@@ -180,11 +180,11 @@ void Attack::attack(){
     }
     else{
       Serial.print(" SEC : 4");
-      if(BALL_MAX_NUM * 1.2 <= ball.vec.getMagnitude() && ball.vec.getMagnitude() < BALL_MAX_NUM * 2.25){
+      if(BALL_MAX_NUM * 1.2 <= ball.vec.return_magnitude() && ball.vec.return_magnitude() < BALL_MAX_NUM * 2.25){
         go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
         Serial.print(" M : 1 ");
       }
-      else if(ball.vec.getMagnitude() < BALL_MAX_NUM * 1.375){
+      else if(ball.vec.return_magnitude() < BALL_MAX_NUM * 1.375){
         go_ang = abs(ball.ang) + 45;
         Serial.print(" M : 2 ");
       }
@@ -272,7 +272,7 @@ void Attack::attack(){
     // Serial.print(kick_);
     // Serial.println();
     Catch.enterState(ball.ball_get);
-    if(200 < Catch.readStateTimer(0)){
+    if(200 < Catch.readStateTimer(0) || line.LINE_on){
       c = 0;
     }
     if(line.LINE_on){
@@ -301,11 +301,11 @@ void Attack::attack(){
     }
     back_flag = 1;
     // target = Line_target_dir;
-    go_ang = degrees(line.vec_go.getAngle());
+    go_ang = degrees(line.vec_go.return_azimuth());
 
 
     if(line.LINE_change == -1){  //踏んでない状態から踏んでる状態になった時
-      if(150 < abs(degrees(line.vec_first.getAngle()))){  //後ろにラインがあったら
+      if(150 < abs(degrees(line.vec_first.return_azimuth()))){  //後ろにラインがあったら
         if(30 < abs(ball.ang) && abs(ball.ang) <= 85){
           c = 1;
           A = 25;  //前に行く
@@ -315,19 +315,19 @@ void Attack::attack(){
           A = 26;  //横に行く
         }
       }
-      else if(45 < (degrees(line.vec_first.getAngle())) && (degrees(line.vec_first.getAngle())) < 135){
+      else if(45 < (degrees(line.vec_first.return_azimuth())) && (degrees(line.vec_first.return_azimuth())) < 135){
         if(0 <= cam_back.ang){
           A = 25;
           c = 1;
         }
       }
-      else if(-135 < (degrees(line.vec_first.getAngle())) && (degrees(line.vec_first.getAngle())) < -45){
+      else if(-135 < (degrees(line.vec_first.return_azimuth())) && (degrees(line.vec_first.return_azimuth())) < -45){
         if(cam_back.ang <= 0){
           A = 25;
           c = 1;
         }
       }
-      else if(abs(degrees(line.vec_first.getAngle())) < 45){  //前にラインがあったら
+      else if(abs(degrees(line.vec_first.return_azimuth())) < 45){  //前にラインがあったら
         if(cam_front.on && cam_front.senter){  //ゴール前だったら
           back_count++;
           if(back_count % 4 == 0 && abs(ball.ang) < 45 && !ball.ball_get){

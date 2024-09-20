@@ -7,23 +7,21 @@ LINE::LINE(){
 void LINE::begin(){
   Serial6.begin(115200);
   for(int i = 0; i < 24; i++){
-    ele_Y[i] = sin(radians(15 * i));
-    ele_X[i] = cos(radians(15 * i));
+    ele[i].set_polar(15.0 * i - 180, 1.0);
   }
 }
 
 
 int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得する関数
-  float X = 0;
-  float Y = 0;
+  Vector2D vec_sum;
+  Vector2D vec_ave;
   uint8_t Line_byte[4] = {data_byte[0],data_byte[1],data_byte[2],data_byte[3]};
 
   int flag = 0;
   int block_first[Long];
   int block_last[Long];
   int block_num = -1;
-  float block_X[Long];
-  float block_Y[Long];
+  Vector2D block[Long];
 
   for(int i = 0; i < 4; i++){
     for(int j = 0; j < 8; j++){
@@ -91,19 +89,14 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
 
 
   for(int i = 0; i <= block_num; i++){
-    block_X[i] = ele_X[block_first[i]] + ele_X[block_last[i]];
-    block_Y[i] = ele_Y[block_first[i]] + ele_Y[block_last[i]];
-    X += block_X[i];
-    Y += block_Y[i];
+    block[i] = ele[block_first[i]] + ele[block_last[i]];
+    vec_sum = vec_sum + block[i];
   }
   block_num++;
 
-  X /= block_num;
-  Y /= block_num;
-  dis_X = -X;
-  dis_Y = -Y;
+  vec_ave = vec_sum / float(block_num);
   num = block_num;
-  ang = degrees(atan2(dis_Y,dis_X));
+  ang = vec_ave.return_azimuth();
   if(num == 0){
     LINE_on = 0;
   }
@@ -119,9 +112,10 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
       LINE_change = -1;
     }
     line_state.enterState(0);
+    vec.set_polar(0,0);
   }
   else if(LINE_on == 1){
-    vec.set(dis_X,dis_Y);
+    vec = vec_ave;
     if(LINE_on != LINE_on_old){
       LINE_on_old = LINE_on;
       LINE_change = 1;
@@ -129,7 +123,7 @@ int LINE::getLINE_Vec() { //ラインのベクトル(距離,角度)を取得す�
       vec_first = vec;
       num_first = num;
       if(2 < num){
-        vec_first.set(0,0);
+        vec_first.set_coodinate(0,0);
       }
     }
     vec_go = -1 * vec;
@@ -215,17 +209,18 @@ void LINE::print(){
   // Serial.print(" 距離 : ");
   // Serial.print(dis); //ラインのベクトルを表示
   vec.print();
+  Serial.print(" go : ");
   vec_go.print();
   // Serial.print("  X : ");
   // Serial.print(dis_X); //ラインのベクトルを表示
   // Serial.print("  Y : ");
   // Serial.print(dis_Y); //ラインのベクトルを表示
   Serial.print(" side : ");
-  Serial.print(side_flag);
-  Serial.print(" flag : ");
-  Serial.print(line_flag);
-  Serial.print(" A_ : ");
-  Serial.print(A);
+  // Serial.print(side_flag);
+  // Serial.print(" flag : ");
+  // Serial.print(line_flag);
+  // Serial.print(" A_ : ");
+  // Serial.print(A);
 }
 
 
