@@ -30,7 +30,7 @@ void motor_attack::moveMotor_L(angle ang,int val,double ac_val,LINE line){  //�
   max_val -= ac_val;  //姿勢制御とその他のモーターの値を別に考えるために姿勢制御の値を引いておく
   
   for(int i = 0; i < 4; i++){
-    Mval[i] = -mSin[i] *(mval_x + (1.0 + line.vec.return_magnitude() * cos(radians(line.vec.return_arg()))) * line_val)  + mCos[i] *(mval_y +line.vec.return_magnitude() *  sin(radians(line.vec.return_arg())) * line_val);
+    Mval[i] = -mSin[i] *(mval_x + (1.0 + line.vec.return_magnitude() * cos(radians(line.vec.return_azimuth()))) * line_val)  + mCos[i] *(mval_y +line.vec.return_magnitude() * sin(radians(line.vec.return_azimuth())) * line_val);
 
     if(abs(Mval[i]) > g){  //絶対値が一番高い値だったら
       g = abs(Mval[i]);    //一番大きい値を代入

@@ -272,7 +272,7 @@ void Attack::attack(){
     // Serial.print(kick_);
     // Serial.println();
     Catch.enterState(ball.ball_get);
-    if(200 < Catch.readStateTimer(0)){
+    if(200 < Catch.readStateTimer(0) || line.LINE_on){
       c = 0;
     }
   }

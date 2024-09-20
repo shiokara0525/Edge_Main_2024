@@ -24,12 +24,12 @@ Vector2D::Vector2D(float x_,float y_){
 
 Vector2D::Vector2D(float Azimuth,float Magnitude,int a){
     this->azimuth = Azimuth;
-    azimuth = 90 - arg;
-    if(azimuth < -180){
-        azimuth += 360;
+    arg = 90 - Azimuth;
+    if(arg < -180){
+        arg += 360;
     }
-    if(180 < azimuth){
-        azimuth -= 360;
+    if(180 < arg){
+        arg -= 360;
     }
     this->magnitude = Magnitude;
     arg = 90 - azimuth;
