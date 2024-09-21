@@ -161,7 +161,7 @@ void Attack::attack(){
     else if(abs(ball.ang) < 45){
       Serial.print(" SEC : 2 ");
       go_ang = RA_a * pow(abs(ball.ang),3) + RA_b * pow(abs(ball.ang),2) + RA_c * abs(ball.ang) + RA_d;
-      max_val = 230;
+      max_val = 200;
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
@@ -181,15 +181,15 @@ void Attack::attack(){
     else{
       Serial.print(" SEC : 4");
       if(BALL_MAX_NUM * 1.2 <= ball.vec.return_magnitude() && ball.vec.return_magnitude() < BALL_MAX_NUM * 2.25){
-        go_ang = abs(ball.ang) + (confidencial_num + 1) * 45.0;
+        go_ang = abs(ball.ang) + (confidencial_num + 1) * 40.0;
         Serial.print(" M : 1 ");
       }
       else if(ball.vec.return_magnitude() < BALL_MAX_NUM * 1.375){
-        go_ang = abs(ball.ang) + 45;
+        go_ang = abs(ball.ang) + 40;
         Serial.print(" M : 2 ");
       }
       else{
-        go_ang = abs(ball.ang) + 90;
+        go_ang = abs(ball.ang) + 80;
         Serial.print(" M : 3 ");
       }
     }
@@ -301,7 +301,7 @@ void Attack::attack(){
     }
     back_flag = 1;
     // target = Line_target_dir;
-    go_ang = degrees(line.vec_go.return_azimuth());
+    go_ang = line.vec_go.return_azimuth();
 
 
     if(line.LINE_change == -1){  //踏んでない状態から踏んでる状態になった時

@@ -137,7 +137,7 @@ void Diffence::defence(){
       }
     }
     else{                              //横に進むとき
-      MOTOR.line_val = 1.05;
+      MOTOR.line_val = 1.0;
       if(go_ang.degree < 0){
         gotoSide_flag = 1;
       }
