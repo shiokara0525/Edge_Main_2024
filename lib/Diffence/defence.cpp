@@ -125,6 +125,7 @@ void Diffence::defence(){
     }
     else if(115 < abs(go_ang.degree)){
       MOTOR.line_val = 1.5;
+      max_val -= 60;
     }
     else if(abs(go_ang.degree) < 60){  //前めに進むとき
       MOTOR.line_val = 2;
@@ -265,6 +266,7 @@ void Diffence::defence(){
 
     go_ang = go_ang.degree * (ball.ang < 0 ? -1 : 1);
     M_flag = 2;
+    max_val -= 30;
 
     if(!line.LINE_on){
       line_none_flag = 1;
