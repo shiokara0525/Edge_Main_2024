@@ -138,12 +138,12 @@ void Attack::attack(){
       go_flag = 0;
     }
 
-    float confidencial_num = (ball.vec.return_magnitude() - BALL_MAX_NUM * 0.8) * 0.025;
+    // float confidencial_num = (ball.vec.return_magnitude() - BALL_MAX_NUM * 0.8) * 0.025;
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
       Serial.print(" SEC : 1 ");
-      go_ang = 0;
+      go_ang = abs(ball.ang) * 2;
       Serial.print(" YES ");
       
       cam_front.print();
@@ -151,40 +151,18 @@ void Attack::attack(){
     else if(abs(ball.ang) < 45){
       Serial.print(" SEC : 2 ");
       go_ang = RA_a * pow(abs(ball.ang),3) + RA_b * pow(abs(ball.ang),2) + RA_c * abs(ball.ang) + RA_d;
-      max_val = 200;
+      max_val = 220;
     }
     else if(abs(ball.ang) < 90){
       Serial.print(" SEC : 3");
-      if(BALL_MAX_NUM * 0.8 <= ball.vec.return_magnitude() && ball.vec.return_magnitude() < BALL_MAX_NUM * 1.2){
-        go_ang = (confidencial_num * (RA_e - 1) + 1) * abs(ball.ang) + (1 - confidencial_num) * 45;
-        Serial.print(" M : 1 ");
-      }
-      else if(ball.vec.return_magnitude() < BALL_MAX_NUM * 0.8){
-        go_ang = abs(ball.ang) + 45;
-        Serial.print(" M : 2 ");
-      }
-      else{
-        go_ang = abs(ball.ang) * RA_e;
-        Serial.print(" M : 2 ");
-      }
+      go_ang = abs(ball.ang) * RA_e;
     }
     else{
       Serial.print(" SEC : 4");
-      if(BALL_MAX_NUM * 0.8 <= ball.vec.return_magnitude() && ball.vec.return_magnitude() < BALL_MAX_NUM * 1.2){
-        go_ang = abs(ball.ang) + (confidencial_num + 1) * 30.0;
-        Serial.print(" M : 1 ");
-      }
-      else if(ball.vec.return_magnitude() < BALL_MAX_NUM * 0.8){
-        go_ang = abs(ball.ang) + 30;
-        Serial.print(" M : 2 ");
-      }
-      else{
-        go_ang = abs(ball.ang) + 60;
-        Serial.print(" M : 3 ");
-      }
+      go_ang = abs(ball.ang) + 60;
     }
 
-    if(23 < cam_front.Size && (abs(ball.ang) < 20 || (ball_front.getCurrentState() == 1 && abs(ball.ang) < 40))){
+    if(23 < cam_front.Size && abs(ball.ang) < 20){
       go_ang = 0.1 * (ball.ang * ball.ang);
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;

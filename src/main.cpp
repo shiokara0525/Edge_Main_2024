@@ -395,9 +395,10 @@ void serialEvent7(){
   }
   for(int i = 1; i < 5; i++){
     data[i] = Serial7.read();
-    // Serial.print(data[i]);
-    // Serial.print(" ");
+    Serial.print(data[i]);
+    Serial.print(" ");
   }
+  Serial.println();
 
   contain[0] = uint16_t(data[2]) << 8;
   contain[1] = uint16_t(data[3]);
@@ -406,8 +407,9 @@ void serialEvent7(){
 
   if(data[1] == 1){
     Mode = data_int;
-    // Serial.print(" Mode : ");
-    // Serial.print(Mode);
+    Serial.print(" Mode : ");
+    Serial.print(Mode);
+    Serial.print(" | ");
   }
   else if(data[1] == 2){
     if(data_int == 15){
