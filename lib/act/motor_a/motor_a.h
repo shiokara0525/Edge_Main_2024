@@ -3,6 +3,7 @@
 #include<Angle\angle.h>
 #include<move_ave\MA.h>
 #include<line_include\line.h>
+#include<vector.h>
 #define motor_max 3     //移動平均で使う配列の大きさ
 
 class motor_attack{
@@ -11,6 +12,7 @@ class motor_attack{
         motor_attack();
         void moveMotor_L(angle ang,int val,double ac_val,LINE line);
         void moveMotor_0(angle ang,int val,double ac_val,int flag);
+        void moveMotor(Vector2D vec_,int speed,double ac_val,int flag);
         void motor_0();
         void motor_ac(float);
         int line_val = 2;

@@ -18,6 +18,47 @@ motor_attack::motor_attack(){
 
 
 
+void motor_attack::moveMotor(Vector2D vec_,int speed,double ac_val,int flag){
+  Vector2D vec(vec_.normalize());
+  double h = 0;
+  double Mval[4] = {0,0,0,0};  //モーターの値×4
+  double max_val = speed;        //モーターの値の上限値
+  double mval_x = vec.return_y();  //進みたいベクトルのx成分
+  double mval_y = vec.return_x();  //進みたいベクトルのy成分
+
+  if(flag == 1){
+    mval_y = 0;
+  }
+  else if(flag == 2){
+    mval_x = 0;
+  }
+
+  max_val -= ac_val;  //姿勢制御とその他のモーターの値を別に考えるために姿勢制御の値を引いておく
+  
+  for(int i = 0; i < 4; i++){
+    Mval[i] = -mSin[i] * mval_x + mCos[i] * mval_y; //モーターの回転速度を計算(行列で管理)
+  }
+
+  for(int i = 0; i < 4; i++){
+    Mval[i] = Mval[i] * max_val + ac_val;
+    if(abs(Mval[i]) > h){  //絶対値が一番高い値だったら
+      h = abs(Mval[i]);    //一番大きい値を代入
+    }
+  }
+
+  for(int i = 0; i < 4; i++){  //モーターの値を計算するところだよ
+    if(i == 0 || i == 3){
+      Mval[i] = Mval[i] / h * max_val;  //モーターの値を計算(進みたいベクトルの値と姿勢制御の値を合わせる)
+    }
+    else{
+      Mval[i] = Mval[i] / h * max_val + ac_val * 1.3;  //モーターの値を計算(進みたいベクトルの値と姿勢制御の値を合わせる)
+    }
+    Moutput(i,Mval[i]);
+  }
+}
+
+
+
 
 void motor_attack::moveMotor_L(angle ang,int val,double ac_val,LINE line){  //モーター制御する関数
   double g = 0;                //モーターの最終的に出る最終的な値の比の基準になる値
