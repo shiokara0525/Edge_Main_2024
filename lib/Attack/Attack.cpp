@@ -147,6 +147,7 @@ void Attack::attack(){
       Serial.print(" YES ");
       
       cam_front.print();
+      max_val = 230;
     }
     else if(abs(ball.ang) < 45){
       Serial.print(" SEC : 2 ");
@@ -164,6 +165,7 @@ void Attack::attack(){
 
     if(23 < cam_front.Size && abs(ball.ang) < 15){
       go_ang = 0.1 * (ball.ang * ball.ang);
+      max_val = 230;
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;
       }
