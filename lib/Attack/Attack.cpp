@@ -306,7 +306,7 @@ void Attack::attack(){
         }
       }
       else if(abs(degrees(line.vec_first.return_azimuth())) < 45){  //前にラインがあったら
-        if(cam_front.on && cam_front.senter){  //ゴール前だったら
+        if(cam_front.on){  //ゴール前だったら
           back_count++;
           if(back_count % 4 == 0 && abs(ball.ang) < 45 && !ball.ball_get){
             A = 22;  //ボールを押し込むやつ
