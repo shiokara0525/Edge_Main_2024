@@ -65,30 +65,30 @@ void Attack::attack(){
   rake_flag = 0;
 
 
-  if(ball.flag == 0){
+  if(ball.flag == 0){  //ボールがなかったら止まる
     c = 0;
   }
 
 
   if(c == 0){
     if(line.LINE_on == 1 || line.LINE_change == -1){
-      A = 20;
+      A = 20;  //ライン踏んでるときの処理
     }
     else{
       if(line.side_flag != 0){
-        A = 21;
+        A = 21;  //サイドライン読んでるときの処理
       }
       else{
-        if(ball.flag == 1){
+        if(ball.flag == 1){  //ボールがあるときの処理
           if(1 <= ball.ball_get && abs(ball.ang) < 45){
-            A = 11;
+            A = 11;  //ボール持ってるときの処理
           }
           else{
-            A = 10;
+            A = 10;  //ボール持ってないときの処理
           }
         }
         else{
-          A = 5;
+          A = 5;  //ボールがないときの処理
         }
       }
     }
