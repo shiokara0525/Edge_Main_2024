@@ -303,7 +303,7 @@ void sendtoESP(const char* message){
   else if(strcmp(message,"CAM_FRONT") == 0){
     flag = 4;
     if(cam_front.on){
-      send[0] = cam_front.ang;
+      send[0] = cam_front.ang + 40;
       send[1] = cam_front.Size;
     }
     else{
