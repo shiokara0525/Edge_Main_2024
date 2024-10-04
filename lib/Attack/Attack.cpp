@@ -142,35 +142,27 @@ void Attack::attack(){
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
-      Serial.print(" SEC : 1 ");
-      go_ang = abs(ball.ang) * 2;
-      Serial.print(" YES ");
-      
-      cam_front.print();
-      max_val = 230;
+      go_ang = abs(ball.ang) * 3;
+      max_val = 245;
     }
     else if(abs(ball.ang) < 45){
-      Serial.print(" SEC : 2 ");
-      go_ang = RA_a * pow(abs(ball.ang),3) + RA_b * pow(abs(ball.ang),2) + RA_c * abs(ball.ang) + RA_d;
-      max_val = 220;
+      go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
+      max_val = 225;
     }
     else if(abs(ball.ang) < 90){
-      Serial.print(" SEC : 3");
       go_ang = abs(ball.ang) * RA_e;
     }
     else{
-      Serial.print(" SEC : 4");
       go_ang = abs(ball.ang) + 60;
     }
 
     if(23 < cam_front.Size && abs(ball.ang) < 15){
-      go_ang = 0.1 * (ball.ang * ball.ang);
+      go_ang = ball.ang * 3;
       max_val = 230;
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;
       }
       AC_flag = 1;
-      Serial.print(" NO ");
       front_flag = 1;
     }
 
@@ -226,11 +218,9 @@ void Attack::attack(){
 
       if(200 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
-        Serial.print(" kick_1 ");
       }
       if(40 < cam_front.Size){
         kick_ = 1;  //ゴールが近い時は問答無用で打つ
-        Serial.print(" kick_2 ");
       }
     }
 
@@ -536,6 +526,8 @@ void Attack::attack(){
   // Serial.print(setplay_flag);
   // Serial.print(" first_dir : ");
   // Serial.print(first_ang);
+  Serial.print(" go_ang : ");
+  Serial.print(go_ang.degree);
   // Serial.println();
 
   if(back_flag == 1){
