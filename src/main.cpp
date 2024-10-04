@@ -594,8 +594,8 @@ void serialEvent3(){
 
 
 void serialEvent4(){
-  uint8_t reBuf[8];
-  if(Serial4.available() < 8){
+  uint8_t reBuf[12];
+  if(Serial4.available() < 12){
     return;
   }
   reBuf[0] = Serial4.read();
@@ -604,12 +604,12 @@ void serialEvent4(){
     return;
   }
 
-  for(int i = 1; i < 8; i++){
+  for(int i = 1; i < 12; i++){
     reBuf[i] = Serial4.read();
   }
 
-  if(reBuf[0] == 38 && reBuf[7] == 37){
-    for(int i = 0; i < 6; i++){
+  if(reBuf[0] == 38 && reBuf[11] == 37){
+    for(int i = 0; i < 10; i++){
       cam_front.data_byte[i] = reBuf[i+1];
     }
     // Serial.print("sawa1");
