@@ -25,16 +25,16 @@ void Cam::begin(){
 
 
 int Cam::getCamdata(){
-    Yellow_x1 = data_byte[1];
-    Yellow_y1 = data_byte[2];
-    Yellow_x2 = data_byte[1] + data_byte[3];
-    Yellow_y2 = data_byte[2] + data_byte[4];
-    yellow_h = data_byte[4];
-    blue_x1 = data_byte[6];
-    blue_y1 = data_byte[7];
-    blue_x2 = data_byte[6] + data_byte[8];
-    blue_y2 = data_byte[7] + data_byte[9];
-    blue_h = data_byte[9];
+    blue_x1 = data_byte[1];
+    blue_y1 = data_byte[2];
+    blue_x2 = data_byte[1] + data_byte[3];
+    blue_y2 = data_byte[2] + data_byte[4];
+    blue_h = data_byte[4];
+    Yellow_x1 = data_byte[6];
+    Yellow_y1 = data_byte[7];
+    Yellow_x2 = data_byte[6] + data_byte[8];
+    Yellow_y2 = data_byte[7] + data_byte[9];
+    yellow_h = data_byte[9];
     if(color == BLUE){
         if(blue_h != 0){
             ang = ang_.demandAve((data_byte[0] - 67)*3/4);

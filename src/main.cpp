@@ -352,6 +352,36 @@ void sendtoESP(const char* message){
     flag = 11;
     send_num = attack.getCheckval();
   }
+  else if(strcmp(message,"CAM_FRONT_1") == 0){
+    flag = 12;
+    if(cam_front.color == BLUE){
+      send_num[0] = cam_front.data_byte[1];
+      send_num[1] = cam_front.data_byte[2];
+      send_num[2] = cam_front.data_byte[3];
+      send_num[3] = cam_front.data_byte[4];
+    }
+    else{
+      send_num[0] = cam_front.data_byte[6];
+      send_num[1] = cam_front.data_byte[7];
+      send_num[2] = cam_front.data_byte[8];
+      send_num[3] = cam_front.data_byte[9];
+    }
+  }
+  else if(strcmp(message,"CAM_BACK_1") == 0){
+    flag = 13;
+    if(cam_back.color == BLUE){
+      send_num[0] = cam_back.data_byte[1];
+      send_num[1] = cam_back.data_byte[2];
+      send_num[2] = cam_back.data_byte[3];
+      send_num[3] = cam_back.data_byte[4];
+    }
+    else{
+      send_num[0] = cam_back.data_byte[6];
+      send_num[1] = cam_back.data_byte[7];
+      send_num[2] = cam_back.data_byte[8];
+      send_num[3] = cam_back.data_byte[9];
+    }
+  }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
   if(flag != 9 && flag != 7 && flag != 11){
@@ -441,10 +471,12 @@ void serialEvent7(){
     else if(data_int == 80){
       if(goal_send_count == 0){
         sendtoESP("CAM_FRONT");
+        sendtoESP("CAM_FRONT_1");
         goal_send_count = 1;
       }
       else{
         sendtoESP("CAM_BACK");
+        sendtoESP("CAM_BACK_1");
         goal_send_count = 0;
       }
       // sendtoESP("CAM_BACK");
