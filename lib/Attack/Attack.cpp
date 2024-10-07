@@ -1,7 +1,7 @@
 #include<Attack.h>
 
 
-void Attack::available_set(int *check_val){
+void Attack::available_set(int *check_val){ //変数を受け取ったり三次関数を求める関数
   ang_0 = Values[0];
   ang_20 = Values[1];
   ang_30 = Values[2];
