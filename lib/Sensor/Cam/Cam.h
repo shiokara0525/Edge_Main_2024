@@ -24,7 +24,8 @@ class Cam{
         int F = 0;
     public:
         Cam(int);
-        int data_byte[10];
+        int data_byte_b[7];
+        int data_byte_y[7];
         int getCamdata();
         float ang;
         float Size;

@@ -257,8 +257,9 @@ void loop(){
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
   // line.print();
-  // cam_front.print();
-  // cam_back.print();
+  cam_front.print();
+  Serial.print(" | ");
+  cam_back.print();
   // Serial.print(" Timer : ");
   // Serial.print(Main_timer.read_us());
   // line.print_2();
@@ -269,7 +270,7 @@ void loop(){
   // ac.print();
   // Serial.print(" Mode : ");
   // Serial.print(Mode);
-  // Serial.println();
+  Serial.println();
   // Main_timer.reset();
 }
 
@@ -355,31 +356,31 @@ void sendtoESP(const char* message){
   else if(strcmp(message,"CAM_FRONT_1") == 0){
     flag = 12;
     if(cam_front.color == BLUE){
-      send_num[0] = cam_front.data_byte[1];
-      send_num[1] = cam_front.data_byte[2];
-      send_num[2] = cam_front.data_byte[3];
-      send_num[3] = cam_front.data_byte[4];
+      send_num[0] = cam_front.data_byte_b[1];
+      send_num[1] = cam_front.data_byte_b[2];
+      send_num[2] = cam_front.data_byte_b[3];
+      send_num[3] = cam_front.data_byte_b[4];
     }
     else{
-      send_num[0] = cam_front.data_byte[6];
-      send_num[1] = cam_front.data_byte[7];
-      send_num[2] = cam_front.data_byte[8];
-      send_num[3] = cam_front.data_byte[9];
+      send_num[0] = cam_front.data_byte_y[1];
+      send_num[1] = cam_front.data_byte_y[2];
+      send_num[2] = cam_front.data_byte_y[3];
+      send_num[3] = cam_front.data_byte_y[4];
     }
   }
   else if(strcmp(message,"CAM_BACK_1") == 0){
     flag = 13;
     if(cam_back.color == BLUE){
-      send_num[0] = cam_back.data_byte[1];
-      send_num[1] = cam_back.data_byte[2];
-      send_num[2] = cam_back.data_byte[3];
-      send_num[3] = cam_back.data_byte[4];
+      send_num[0] = cam_back.data_byte_b[1];
+      send_num[1] = cam_back.data_byte_b[2];
+      send_num[2] = cam_back.data_byte_b[3];
+      send_num[3] = cam_back.data_byte_b[4];
     }
     else{
-      send_num[0] = cam_back.data_byte[6];
-      send_num[1] = cam_back.data_byte[7];
-      send_num[2] = cam_back.data_byte[8];
-      send_num[3] = cam_back.data_byte[9];
+      send_num[0] = cam_back.data_byte_y[1];
+      send_num[1] = cam_back.data_byte_y[2];
+      send_num[2] = cam_back.data_byte_y[3];
+      send_num[3] = cam_back.data_byte_y[4];
     }
   }
 
@@ -596,7 +597,7 @@ void serialEvent7(){
 
 void serialEvent3(){
   uint8_t reBuf[8];
-  if(Serial3.available() < 8){
+  if(Serial4.available() < 8){
     return;
   }
   reBuf[0] = Serial3.read();
@@ -609,10 +610,18 @@ void serialEvent3(){
     reBuf[i] = Serial3.read();
   }
 
-  if(reBuf[0] == 38 && reBuf[7] == 37){
-    for(int i = 0; i < 6; i++){
-      cam_back.data_byte[i] = reBuf[i+1];
+  if(reBuf[0] == 255 && reBuf[7] == 254){
+    if(reBuf[1] == BLUE){
+      for(int i = 0; i < 5; i++){
+        cam_front.data_byte_b[i] = reBuf[i+2];
+      }
     }
+    else{
+      for(int i = 0; i < 5; i++){
+        cam_front.data_byte_y[i] = reBuf[i+2];
+      }
+    }
+
     // Serial.print("sawa1");
   }
 
@@ -626,24 +635,36 @@ void serialEvent3(){
 
 
 void serialEvent4(){
-  uint8_t reBuf[12];
-  if(Serial4.available() < 12){
+  uint8_t reBuf[8];
+  if(Serial4.available() < 8){
     return;
   }
   reBuf[0] = Serial4.read();
 
-  if(reBuf[0] != 38){
+  if(reBuf[0] != 255){
     return;
   }
 
-  for(int i = 1; i < 12; i++){
+  for(int i = 1; i < 8; i++){
     reBuf[i] = Serial4.read();
   }
 
-  if(reBuf[0] == 38 && reBuf[11] == 37){
-    for(int i = 0; i < 10; i++){
-      cam_front.data_byte[i] = reBuf[i+1];
+  if(reBuf[0] == 255 && reBuf[7] == 254){
+    if(reBuf[1] == BLUE){
+      for(int i = 0; i < 5; i++){
+        cam_front.data_byte_b[i] = reBuf[i+2];
+        // Serial.print(" ");
+        // Serial.print(cam_front.data_byte_b[i]);
+      }
     }
+    else{
+      for(int i = 0; i < 5; i++){
+        cam_front.data_byte_y[i] = reBuf[i+2];
+        // Serial.print(" ");
+        // Serial.print(cam_front.data_byte_y[i]);
+      }
+    }
+
     // Serial.print("sawa1");
   }
 
@@ -663,7 +684,7 @@ void serialEvent8(){
     return;
   }
   read[0] = Serial8.read();
-  if(read[0] != 38){
+  if(read[0] != 255){
     return;
   } 
 

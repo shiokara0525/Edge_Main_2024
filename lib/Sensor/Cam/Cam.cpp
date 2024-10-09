@@ -25,19 +25,19 @@ void Cam::begin(){
 
 
 int Cam::getCamdata(){
-    blue_x1 = data_byte[1];
-    blue_y1 = data_byte[2];
-    blue_x2 = data_byte[1] + data_byte[3];
-    blue_y2 = data_byte[2] + data_byte[4];
-    blue_h = data_byte[4];
-    Yellow_x1 = data_byte[6];
-    Yellow_y1 = data_byte[7];
-    Yellow_x2 = data_byte[6] + data_byte[8];
-    Yellow_y2 = data_byte[7] + data_byte[9];
-    yellow_h = data_byte[9];
+    blue_x1 = data_byte_b[1];
+    blue_y1 = data_byte_b[2];
+    blue_x2 = data_byte_b[1] + data_byte_b[3];
+    blue_y2 = data_byte_b[2] + data_byte_b[4];
+    blue_h = data_byte_b[4];
+    Yellow_x1 = data_byte_y[1];
+    Yellow_y1 = data_byte_y[2];
+    Yellow_x2 = data_byte_y[1] + data_byte_y[3];
+    Yellow_y2 = data_byte_y[2] + data_byte_y[4];
+    yellow_h = data_byte_y[4];
     if(color == BLUE){
         if(blue_h != 0){
-            ang = ang_.demandAve((data_byte[0] - 67)*3/4);
+            ang = ang_.demandAve((data_byte_b[0] - 67)*3/4);
             Size = blue_h;
             if(blue_x1 < 80 && 80 < blue_x2){
                 senter = 1;
@@ -50,8 +50,8 @@ int Cam::getCamdata(){
         }
     }
     else if(color == YELLOW){
-        if(data_byte[9] != 0){
-            ang = ang_.demandAve((data_byte[5] - 67)*3/4);
+        if(yellow_h != 0){
+            ang = ang_.demandAve((data_byte_y[0] - 67)*3/4);
             Size = yellow_h;
             if(Yellow_x1 < 80 && 80 < Yellow_x2){
                 senter = 1;
