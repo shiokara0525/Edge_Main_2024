@@ -257,9 +257,9 @@ void loop(){
   // Serial.println(ball.vec_acc.getMagnitude());
   // Serial.print(" | ");
   // line.print();
-  cam_front.print();
-  Serial.print(" | ");
-  cam_back.print();
+  // cam_front.print();
+  // Serial.print(" | ");
+  // cam_back.print();
   // Serial.print(" Timer : ");
   // Serial.print(Main_timer.read_us());
   // line.print_2();
@@ -270,7 +270,7 @@ void loop(){
   // ac.print();
   // Serial.print(" Mode : ");
   // Serial.print(Mode);
-  Serial.println();
+  // Serial.println();
   // Main_timer.reset();
 }
 
@@ -278,7 +278,7 @@ void loop(){
 void sendtoESP(const char* message){
   byte flag = 0;
   int send[2] = {0,0};
-  byte *send_num;
+  byte send_num[4];
   if(strcmp(message,"START") == 0){
     flag = 1;
   }
@@ -323,7 +323,10 @@ void sendtoESP(const char* message){
   }
   else if(strcmp(message,"NEOPIXEL_D") == 0){
     flag = 7;
-    send_num = defence.get_flag();
+    byte *defence_ = defence.get_flag();
+    for(int i = 0; i < 4; i++){
+      send_num[i] = defence_[i];
+    }
   }
   else if(strcmp(message,"CAM_BACK") == 0){
     flag = 8;
@@ -338,7 +341,9 @@ void sendtoESP(const char* message){
   }
   else if(strcmp(message,"LINE_ALL") == 0){
     flag = 9;
-    send_num = line.data_byte;
+    for(int i = 0; i < 4; i++){
+      send_num[i] = line.data_byte[i];
+    }
     // for(int i = 0; i < 4; i++){
     //   Serial.print(" ");
     //   Serial.print(send_num[i]);
@@ -351,7 +356,10 @@ void sendtoESP(const char* message){
   }
   else if(strcmp(message,"NEOPIXEL_A") == 0){
     flag = 11;
-    send_num = attack.getCheckval();
+    byte *attack_ = attack.getCheckval();
+    for(int i = 0; i < 4; i++){
+      send_num[i] = attack_[i];
+    }
   }
   else if(strcmp(message,"CAM_FRONT_1") == 0){
     flag = 12;
@@ -366,6 +374,11 @@ void sendtoESP(const char* message){
       send_num[1] = cam_front.data_byte_y[2];
       send_num[2] = cam_front.data_byte_y[3];
       send_num[3] = cam_front.data_byte_y[4];
+    }
+    Serial.print(" cam_block ");
+    for(int i = 0; i < 4; i++){
+      Serial.print(send_num[i]);
+      Serial.print(" ");
     }
   }
   else if(strcmp(message,"CAM_BACK_1") == 0){
@@ -385,7 +398,7 @@ void sendtoESP(const char* message){
   }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
-  if(flag != 9 && flag != 7 && flag != 11){
+  if(flag != 9 && flag != 7 && flag != 11 && flag != 12 && flag != 13){
     send_byte[2] = byte(send[0] >> 8);
     send_byte[3] = byte(send[0] & 0xFF);
     send_byte[4] = byte(send[1] >> 8);
@@ -402,7 +415,7 @@ void sendtoESP(const char* message){
   //   Serial.print(" ");
   //   Serial.print(send_byte[i]);
   // }
-  // Serial.println();
+  Serial.println();
 }
 
 
@@ -426,10 +439,10 @@ void serialEvent7(){
   }
   for(int i = 1; i < 5; i++){
     data[i] = Serial7.read();
-    Serial.print(data[i]);
-    Serial.print(" ");
+    // Serial.print(data[i]);
+    // Serial.print(" ");
   }
-  Serial.println();
+  // Serial.println();
 
   contain[0] = uint16_t(data[2]) << 8;
   contain[1] = uint16_t(data[3]);
@@ -473,6 +486,7 @@ void serialEvent7(){
       if(goal_send_count == 0){
         sendtoESP("CAM_FRONT");
         sendtoESP("CAM_FRONT_1");
+        // Serial.print(" !!!! cam_____________");
         goal_send_count = 1;
       }
       else{
@@ -597,12 +611,12 @@ void serialEvent7(){
 
 void serialEvent3(){
   uint8_t reBuf[8];
-  if(Serial4.available() < 8){
+  if(Serial3.available() < 8){
     return;
   }
   reBuf[0] = Serial3.read();
 
-  if(reBuf[0] != 38){
+  if(reBuf[0] != 255){
     return;
   }
 
@@ -613,17 +627,19 @@ void serialEvent3(){
   if(reBuf[0] == 255 && reBuf[7] == 254){
     if(reBuf[1] == BLUE){
       for(int i = 0; i < 5; i++){
-        cam_front.data_byte_b[i] = reBuf[i+2];
+        cam_back.data_byte_b[i] = reBuf[i+2];
       }
     }
     else{
       for(int i = 0; i < 5; i++){
-        cam_front.data_byte_y[i] = reBuf[i+2];
+        cam_back.data_byte_y[i] = reBuf[i+2];
       }
     }
 
     // Serial.print("sawa1");
   }
+
+  // Serial.print(" cam_3 ");
 
   // for(int i = 0; i < 8; i++){
   //   Serial.print(" ");
@@ -668,6 +684,7 @@ void serialEvent4(){
     // Serial.print("sawa1");
   }
 
+  // Serial.print(" cam_4 ");
   // for(int i = 0; i < 8; i++){
   //   Serial.print(" ");
   //   Serial.print(reBuf[i]);
@@ -684,7 +701,7 @@ void serialEvent8(){
     return;
   }
   read[0] = Serial8.read();
-  if(read[0] != 255){
+  if(read[0] != 38){
     return;
   } 
 
