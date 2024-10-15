@@ -296,9 +296,9 @@ void sendtoESP(const char* message){
       send[0] = 0;
       send[1] = 0;
     }
-    Serial.print(" LINE send ");
+    // Serial.print(" LINE send ");
     // line.print();
-    line.vec.print();
+    // line.vec.print();
   }
   else if(strcmp(message,"CAM_FRONT") == 0){
     flag = 4;
@@ -327,7 +327,7 @@ void sendtoESP(const char* message){
   else if(strcmp(message,"CAM_BACK") == 0){
     flag = 8;
     if(cam_back.on){
-      send[0] = cam_back.ang;
+      send[0] = cam_back.ang + 40;
       send[1] = cam_back.Size;
     }
     else{
@@ -350,7 +350,50 @@ void sendtoESP(const char* message){
   }
   else if(strcmp(message,"NEOPIXEL_A") == 0){
     flag = 11;
-    send_num = attack.getCheckval();
+    byte *attack_ = attack.getCheckval();
+    for(int i = 0; i < 4; i++){
+      send_num[i] = attack_[i];
+    }
+  }
+  else if(strcmp(message,"CAM_FRONT_1") == 0){
+    flag = 12;
+    if(cam_front.color == BLUE){
+      send_num[0] = cam_front.data_byte_b[1];
+      send_num[1] = cam_front.data_byte_b[2];
+      send_num[2] = cam_front.data_byte_b[3];
+      send_num[3] = cam_front.data_byte_b[4];
+    }
+    else{
+      send_num[0] = cam_front.data_byte_y[1];
+      send_num[1] = cam_front.data_byte_y[2];
+      send_num[2] = cam_front.data_byte_y[3];
+      send_num[3] = cam_front.data_byte_y[4];
+    }
+    // Serial.print(" cam_block ");
+    // for(int i = 0; i < 4; i++){
+    //   Serial.print(send_num[i]);
+    //   Serial.print(" ");
+    // }
+  }
+  else if(strcmp(message,"CAM_BACK_1") == 0){
+    flag = 13;
+    if(cam_back.color == BLUE){
+      send_num[0] = cam_back.data_byte_b[1];
+      send_num[1] = cam_back.data_byte_b[2];
+      send_num[2] = cam_back.data_byte_b[3];
+      send_num[3] = cam_back.data_byte_b[4];
+    }
+    else{
+      send_num[0] = cam_back.data_byte_y[1];
+      send_num[1] = cam_back.data_byte_y[2];
+      send_num[2] = cam_back.data_byte_y[3];
+      send_num[3] = cam_back.data_byte_y[4];
+    }
+    // Serial.print(" cam_block_back ");
+    // for(int i = 0; i < 4; i++){
+    //   Serial.print(send_num[i]);
+    //   Serial.print(" ");
+    // }
   }
 
   uint8_t send_byte[7] = {38,flag,0,0,0,0,37};
