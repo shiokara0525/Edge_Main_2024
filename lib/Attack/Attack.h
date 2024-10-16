@@ -68,6 +68,8 @@ class Attack{
 
         State ball_front;
         State go_front;
+
+        MA goang_ma;
     public:
         void attack();
         void available_set(int*);

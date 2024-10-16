@@ -31,6 +31,7 @@ void Attack::available_set(int *check_val){
   go_val = val_max;
   play_time.reset();
   first_ang = ac.dir_n;
+  goang_ma.setLenth(100);
 }
 
 
@@ -138,6 +139,8 @@ void Attack::attack(){
       go_flag = 0;
     }
 
+    int goang_deff = abs(goang_ma.sum(go_ang.degree));
+
     // float confidencial_num = (ball.vec.return_magnitude() - BALL_MAX_NUM * 0.8) * 0.025;
     int front_flag = 0;
 
@@ -156,8 +159,8 @@ void Attack::attack(){
       go_ang = abs(ball.ang) + 60;
     }
 
-    if((23 < cam_front.Size && abs(ball.ang) < 15) || abs(cam_front.ang - ball.ang) < 10){
-      go_ang = 0.1 * (ball.ang * ball.ang);
+    if(23 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){
+      // go_ang = 0.1 * (ball.ang * ball.ang);
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;
       }
@@ -165,10 +168,13 @@ void Attack::attack(){
       front_flag = 1;
     }
 
+
     Serial.print(" ball_ang : ");
     Serial.print(ball.ang);
     Serial.print(" ang : ");
-    Serial.println(go_ang.degree);
+    Serial.print(go_ang.degree);
+    Serial.print(" deff : ");
+    Serial.println(goang_deff);
 
     ball_front.enterState(front_flag);
 
