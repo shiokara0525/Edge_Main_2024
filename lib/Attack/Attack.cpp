@@ -145,21 +145,22 @@ void Attack::attack(){
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
-      go_ang = abs(ball.ang) * 3;
-      max_val = 245;
+      go_ang = abs(ball.ang) * 2;
+      max_val = 255;
     }
-    else if(abs(ball.ang) < 45){
+    else if(abs(ball.ang) < 30){
       go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
-      max_val = 225;
+      max_val = 240;
     }
     else if(abs(ball.ang) < 90){
       go_ang = abs(ball.ang) * RA_e;
+      max_val = 220;
     }
     else{
       go_ang = abs(ball.ang) + 60;
     }
 
-    if(23 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){
+    if(30 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){
       // go_ang = 0.1 * (ball.ang * ball.ang);
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;
@@ -197,6 +198,8 @@ void Attack::attack(){
       Catch.reset();
     }
     cam_front_on = 0;
+    cam_front.print();
+    Serial.println();
 
     if(cam_front.on == 1){  //カメラ見てるとき
       if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
@@ -221,11 +224,11 @@ void Attack::attack(){
     CFO.enterState(cam_front_on);
     if(cam_front_on == 1){  //打っていいよフラグ
 
-      if(200 < CFO.readStateTimer()){
+      if(400 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
         Serial.print(" kick_1 ");
       }
-      if(40 < cam_front.Size){
+      if(50 < cam_front.Size){
         kick_ = 1;  //ゴールが近い時は問答無用で打つ
         Serial.print(" kick_2 ");
       }
