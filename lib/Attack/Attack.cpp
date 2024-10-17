@@ -139,7 +139,6 @@ void Attack::attack(){
       go_flag = 0;
     }
 
-    int goang_deff = abs(goang_ma.sum(go_ang.degree));
 
     // float confidencial_num = (ball.vec.return_magnitude() - BALL_MAX_NUM * 0.8) * 0.025;
     int front_flag = 0;
@@ -161,12 +160,19 @@ void Attack::attack(){
     }
 
     if(30 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){
-      // go_ang = 0.1 * (ball.ang * ball.ang);
+      go_ang = 0.1 * (ball.ang * ball.ang);
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;
       }
       AC_flag = 1;
       front_flag = 1;
+    }
+
+    ang_now = go_ang.degree;
+    int goang_deff = abs(goang_ma.sum(abs(ang_now - ang_old)));
+
+    if(goang_deff < 30){
+      go_ang.degree += 30;
     }
 
 
@@ -185,6 +191,7 @@ void Attack::attack(){
     if(go_flag == 1){
       go_ang = ball.ang;
     }
+    ang_old = ang_now;
   }
 
 

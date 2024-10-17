@@ -40,6 +40,9 @@ class Attack{
         float ang_30 = 72;
         float ang_45 = 135;
 
+        float ang_old = 0;
+        float ang_now = 0;
+
         int cam_front_on = 0;
         State Catch;
 
