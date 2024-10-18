@@ -45,7 +45,7 @@ byte* Attack::getCheckval(){
   if(!cam_back.on){
     return_byte[2] = 240;
   }
-  return_byte[3] = 99;
+  return_byte[3] = goang_ma.returnSum();
   return return_byte;
 }
 
@@ -144,12 +144,11 @@ void Attack::attack(){
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
-      go_ang = abs(ball.ang) * 2;
-      max_val = 255;
-    }
-    else if(abs(ball.ang) < 30){
       go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
-      max_val = 240;
+      max_val = 230;
+      if(abs(ball.ang) < 10){
+        max_val = go_val;
+      }
     }
     else if(abs(ball.ang) < 90){
       go_ang = abs(ball.ang) * RA_e;
@@ -169,10 +168,10 @@ void Attack::attack(){
     }
 
     ang_now = go_ang.degree;
-    int goang_deff = abs(goang_ma.sum(abs(ang_now - ang_old)));
+    int goang_deff = abs(goang_ma.sum(ang_now - ang_old));
 
-    if(goang_deff < 30){
-      go_ang.degree += 30;
+    if(goang_deff < 20 && 10 < abs(ball.ang) && abs(ball.ang) < 90){
+      go_ang.degree += 20;
     }
 
 

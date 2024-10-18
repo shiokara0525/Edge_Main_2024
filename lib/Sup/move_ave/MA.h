@@ -12,6 +12,7 @@ class MA{
         float demandAve(float);
         float sum(float);
         float returnAve();
+        float returnSum();
         void reset();
 };
 
