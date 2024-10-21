@@ -31,6 +31,7 @@ void Attack::available_set(int *check_val){ //変数を受け取ったり三次�
   go_val = val_max;
   play_time.reset();
   first_ang = ac.dir_n;
+  goang_ma.setLenth(100);
 }
 
 
@@ -44,7 +45,7 @@ byte* Attack::getCheckval(){
   if(!cam_back.on){
     return_byte[2] = 240;
   }
-  return_byte[3] = 99;
+  return_byte[3] = goang_ma.returnSum();
   return return_byte;
 }
 
@@ -138,27 +139,27 @@ void Attack::attack(){
       go_flag = 0;
     }
 
+
     // float confidencial_num = (ball.vec.return_magnitude() - BALL_MAX_NUM * 0.8) * 0.025;
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
-      go_ang = abs(ball.ang) * 3;
-      max_val = 245;
-    }
-    else if(abs(ball.ang) < 45){
       go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
-      max_val = 225;
+      max_val = 230;
+      if(abs(ball.ang) < 10){
+        max_val = go_val;
+      }
     }
     else if(abs(ball.ang) < 90){
       go_ang = abs(ball.ang) * RA_e;
+      max_val = 220;
     }
     else{
       go_ang = abs(ball.ang) + 60;
     }
 
-    if(23 < cam_front.Size && abs(ball.ang) < 15){
-      go_ang = ball.ang * 3;
-      max_val = 230;
+    if(30 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){
+      go_ang = 0.1 * (ball.ang * ball.ang);
       if(ball_front.readStateTimer(1) < 400){
         max_val = 220;
       }
@@ -166,10 +167,20 @@ void Attack::attack(){
       front_flag = 1;
     }
 
+    ang_now = go_ang.degree;
+    int goang_deff = abs(goang_ma.sum(ang_now - ang_old));
+
+    if(goang_deff < 20 && 10 < abs(ball.ang) && abs(ball.ang) < 90){
+      go_ang.degree += 20;
+    }
+
+
     Serial.print(" ball_ang : ");
     Serial.print(ball.ang);
     Serial.print(" ang : ");
-    Serial.println(go_ang.degree);
+    Serial.print(go_ang.degree);
+    Serial.print(" deff : ");
+    Serial.println(goang_deff);
 
     ball_front.enterState(front_flag);
 
@@ -179,6 +190,7 @@ void Attack::attack(){
     if(go_flag == 1){
       go_ang = ball.ang;
     }
+    ang_old = ang_now;
   }
 
 
@@ -192,6 +204,8 @@ void Attack::attack(){
       Catch.reset();
     }
     cam_front_on = 0;
+    cam_front.print();
+    Serial.println();
 
     if(cam_front.on == 1){  //カメラ見てるとき
       if(cam_front.on == 1 && (abs(cam_front.ang) < 20 || cam_front.senter)){  //正面にゴールあってゴールもある程度近くにある時
@@ -216,10 +230,10 @@ void Attack::attack(){
     CFO.enterState(cam_front_on);
     if(cam_front_on == 1){  //打っていいよフラグ
 
-      if(200 < CFO.readStateTimer()){
+      if(400 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
       }
-      if(40 < cam_front.Size){
+      if(50 < cam_front.Size){
         kick_ = 1;  //ゴールが近い時は問答無用で打つ
       }
     }
@@ -298,7 +312,7 @@ void Attack::attack(){
         }
       }
       else if(abs(degrees(line.vec_first.return_azimuth())) < 45){  //前にラインがあったら
-        if(cam_front.on && cam_front.senter){  //ゴール前だったら
+        if(cam_front.on){  //ゴール前だったら
           back_count++;
           if(back_count % 4 == 0 && abs(ball.ang) < 45 && !ball.ball_get){
             A = 22;  //ボールを押し込むやつ
