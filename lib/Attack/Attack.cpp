@@ -45,7 +45,7 @@ byte* Attack::getCheckval(){
   if(!cam_back.on){
     return_byte[2] = 240;
   }
-  return_byte[3] = goang_ma.returnSum();
+  return_byte[3] = goang_ma.returnSum();  //変えるといいよ
   return return_byte;
 }
 
