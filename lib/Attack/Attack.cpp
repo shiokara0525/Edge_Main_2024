@@ -45,7 +45,7 @@ byte* Attack::getCheckval(){
   if(!cam_back.on){
     return_byte[2] = 240;
   }
-  return_byte[3] = goang_ma.returnSum();  //変えるといいよ
+  return_byte[3] = ball.world_far;  //変えるといいよ
   return return_byte;
 }
 
@@ -153,9 +153,15 @@ void Attack::attack(){
     else if(abs(ball.ang) < 90){
       go_ang = abs(ball.ang) * RA_e;
       max_val = 220;
+      if(abs(ball.world_far) < 90){
+        go_ang = abs(ball.ang) * (RA_e + 0.5);
+      }
     }
     else{
       go_ang = abs(ball.ang) + 60;
+      if(abs(ball.world_far) < 90){
+        go_ang = abs(ball.ang) + 90;
+      }
     }
 
     if(30 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){

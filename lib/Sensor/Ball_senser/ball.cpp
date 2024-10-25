@@ -86,7 +86,7 @@ void BALL::print(){
     Serial.print(" ang : ");
     Serial.print(ang);
     Serial.print(" far : ");
-    Serial.print(far);
+    Serial.print(world_far);
     // Serial.print(" x : ");
     // Serial.print(x_pos);
     // Serial.print(" y : ");
