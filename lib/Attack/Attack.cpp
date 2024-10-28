@@ -144,8 +144,9 @@ void Attack::attack(){
     int front_flag = 0;
 
     if(abs(ball.ang) < 10){
-      go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
-      max_val = 230;
+      // go_ang = -0.0015 * pow(abs(ball.ang),3) + 0.090 * pow(abs(ball.ang),2) - 0.20 * abs(ball.ang);
+      go_ang = abs(ball.ang);
+      max_val = 240;
       if(abs(ball.ang) < 10){
         max_val = go_val;
       }
@@ -153,16 +154,26 @@ void Attack::attack(){
     else if(abs(ball.ang) < 90){
       go_ang = abs(ball.ang) * RA_e;
       max_val = 220;
-      if(abs(ball.world_far) < 90){
-        go_ang = abs(ball.ang) * (RA_e + 0.5);
-      }
     }
     else{
-      go_ang = abs(ball.ang) + 60;
-      if(abs(ball.world_far) < 90){
+      go_ang = abs(ball.ang) + 45;
+    }
+
+    if(abs(ball.world_far) < 90){
+      if(abs(ball.ang) < 20){
+        go_ang = ball.ang * ball.ang * 0.2;
+      }
+      else if(abs(ball.ang) < 60){
+        go_ang = abs(ball.ang) * (RA_e + 0.3);
+      }
+      else if(abs(ball.ang) < 90){
+        go_ang = abs(ball.ang) + 90;
+      }
+      else{
         go_ang = abs(ball.ang) + 90;
       }
     }
+
 
     if(30 < cam_front.Size && (abs(ball.ang) < 15 || abs(cam_front.ang - ball.ang) < 10)){
       go_ang = 0.1 * (ball.ang * ball.ang);
