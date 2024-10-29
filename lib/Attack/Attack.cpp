@@ -247,7 +247,7 @@ void Attack::attack(){
     CFO.enterState(cam_front_on);
     if(cam_front_on == 1){  //打っていいよフラグ
 
-      if(400 < CFO.readStateTimer()){
+      if(250 < CFO.readStateTimer()){
         kick_ = 1;  //打っていいよフラグが0.2秒立ってたら打つ
       }
       if(50 < cam_front.Size){
