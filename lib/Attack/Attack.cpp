@@ -151,26 +151,29 @@ void Attack::attack(){
         max_val = go_val;
       }
     }
+    else if(abs(ball.ang) < 45){
+      go_ang = abs(ball.ang) * (RA_e + 0.25);
+    }
     else if(abs(ball.ang) < 90){
       go_ang = abs(ball.ang) * RA_e;
       max_val = 220;
     }
     else{
-      go_ang = abs(ball.ang) + 45;
+      go_ang = abs(ball.ang) + 50;
     }
 
     if(abs(ball.world_far) < 90){
-      if(abs(ball.ang) < 20){
-        go_ang = ball.ang * ball.ang * 0.2;
+      if(abs(ball.ang) < 30){
+        go_ang = abs(ball.ang) * RA_e;
       }
       else if(abs(ball.ang) < 60){
-        go_ang = abs(ball.ang) * (RA_e + 0.3);
+        go_ang = abs(ball.ang) * (RA_e + 0.5);
       }
       else if(abs(ball.ang) < 90){
-        go_ang = abs(ball.ang) + 90;
+        go_ang = abs(ball.ang) + 100;
       }
       else{
-        go_ang = abs(ball.ang) + 90;
+        go_ang = abs(ball.ang) + 120;
       }
     }
 
